@@ -18,7 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 package CacheWolf.database;
 
 import CacheWolf.navi.GeodeticCalculator;
@@ -107,56 +107,73 @@ public class CWPoint extends CoordinatePoint {
         //System.out.println(wert);
         String strBear = "";
         double stVal = -11.25;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "N";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "NNE";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "NE";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "ENE";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "E";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "ESE";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "SE";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "SSE";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "S";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "SSW";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "SW";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "WSW";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "W";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "WNW";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "NW";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "NNW";
+        }
         stVal += 22.5;
-        if (wert >= stVal)
+        if (wert >= stVal) {
             strBear = "N";
+        }
         stVal += 22.5;
         return strBear;
     } //getBearing
@@ -228,7 +245,7 @@ public class CWPoint extends CoordinatePoint {
     public void set(String coord) {
         //replace non-breaking-spaces by normal spaces
         coord = coord.replace((char) 0xA0, ' ');
-	/*		(?:
+        /*		(?:
 				([NSns])\s*([0-9]{1,2})[\s°]+([0-9]{1,2})(?:\s+([0-9]{1,2}))?[,.]([0-9]{1,8})\s*
 				([EWewOo])\s*([0-9]{1,3})[\s°]+([0-9]{1,2})(?:\s+([0-9]{1,2}))?[,.]([0-9]{1,8})
 				)|(?:
@@ -236,7 +253,7 @@ public class CWPoint extends CoordinatePoint {
 				)|(?:
 				   ([0-9]{1,2}[C-HJ-PQ-X])\s*[EeOo]?\s*([0-9]{1,7})\s+[Nn]?\s*([0-9]{1,7})
 				)
-	*/
+         */
         String crsid = null;
         if ((coord.length() >= 2) && (coord.charAt(2) == '.') && (coord.indexOf(' ') >= 0)) {
             // first 2 letters = Internet domain of projected area (ex: "dk utm <koords>" wird zu "utm <koords>", Implemented since se and dk EPSGs)
@@ -246,7 +263,7 @@ public class CWPoint extends CoordinatePoint {
                 coord = coord.substring(coord.indexOf(' ') + 1, coord.length());
             }
         }
-        Regex rex = new Regex("(?:" + "([NSns])\\s*([0-9]{1,2})(?:[°\uC2B0]\\s*|\\s+[°\uC2B0]?\\s*)([0-9]{1,2})(?:(?:[']\\s*|\\s+['\u2019]?\\s*)([0-9]{1,2}))?(?:[,.]([0-9]{1,8}))?\\s*['02019\"]?\\s*"
+        Regex rex = new Regex("(?:" + "([NSns])\\s*([0-9]{1,2})(?:[°\uC2B0]\\s*|\\s+[°\uC2B0]?\\s*)([0-9]{1,2})(?:(?:['\u2019]\\s*|\\s+['\u2019]?\\s*)([0-9]{1,2}))?(?:[,.]([0-9]{1,8}))?\\s*['\u2019\"]?\\s*"
                 + "[,./_;+:-]*\\s*"
                 + // allow N xx xx.xxx / E xxx xx.xxx
                 "([EWewOo])\\s*([0-9]{1,3})(?:[°\uC2B0]\\s*|\\s+[°\uC2B0]?\\s*)([0-9]{1,2})(?:(?:['\u2019]\\s*|\\s+['\u2019]?\\s*)([0-9]{1,2}))?(?:[,.]([0-9]{1,8}))?\\s*['\u2019\"]?" + ")|(?:" + "(?:([NnSs])\\s*(?![+-]))?"
@@ -258,8 +275,9 @@ public class CWPoint extends CoordinatePoint {
         if (rex.stringMatched(1) != null) { // Std format
             // Handle "E" or "O" for longitiude
             String strEW = rex.stringMatched(6).toUpperCase();
-            if (!strEW.equals("W"))
+            if (!strEW.equals("W")) {
                 strEW = "E";
+            }
             if (rex.stringMatched(4) != null) { //Seconds available
                 set(rex.stringMatched(1).toUpperCase(), rex.stringMatched(2), rex.stringMatched(3), rex.stringMatched(4) + "." + rex.stringMatched(5), strEW, rex.stringMatched(7), rex.stringMatched(8),
                         rex.stringMatched(9) + "." + rex.stringMatched(10), TransformCoordinates.DMS);
@@ -277,10 +295,12 @@ public class CWPoint extends CoordinatePoint {
         } else if (rex.stringMatched(22) != null) { // general projected coordinate reference system
             if (crsid != null) {
                 int ls = TransformCoordinates.getLocalSystemCode(crsid);
-                if (ls == -1)
+                if (ls == -1) {
                     makeInvalid();
-                else
+                }
+                else {
                     set(rex.stringMatched(23), rex.stringMatched(22), ls);
+                }
             }
         }
     }
@@ -319,10 +339,12 @@ public class CWPoint extends CoordinatePoint {
         }
         //makeValid();
         // To avoid changing sign twice if we have something like W -34.2345
-        if (strLatNS.trim().equals("S") && this.latDec > 0)
+        if (strLatNS.trim().equals("S") && this.latDec > 0) {
             this.latDec *= -1;
-        if (strLonEW.trim().equals("W") && this.lonDec > 0)
+        }
+        if (strLonEW.trim().equals("W") && this.lonDec > 0) {
             this.lonDec *= -1;
+        }
     }
 
     /**
@@ -575,8 +597,9 @@ public class CWPoint extends CoordinatePoint {
      * @return bearing of waypoint 361 if this or dest is not valid
      */
     public double getBearing(CWPoint dest) {
-        if (!this.isValid() || dest == null || !dest.isValid())
+        if (!this.isValid() || dest == null || !dest.isValid()) {
             return 361;
+        }
 
         return GeodeticCalculator.calculateBearing(TransformCoordinates.WGS84, this, dest);
     }
@@ -641,6 +664,7 @@ public class CWPoint extends CoordinatePoint {
      *
      * @return string like N 49° 33.167 E 011° 21.608
      */
+    @Override
     public String toString() {
         return toString(TransformCoordinates.DMM);
 
@@ -653,8 +677,9 @@ public class CWPoint extends CoordinatePoint {
      * @return string representation of CWPoint
      */
     public String toString(int format) {
-        if (!isValid())
+        if (!isValid()) {
             return MyLocale.getMsg(999, "not set");
+        }
         switch (format) {
             case TransformCoordinates.DD:
                 return getNSLetter() + " " + STRreplace.replace(getLatDeg(format), "-", "") + "° " + getEWLetter() + " " + STRreplace.replace(getLonDeg(format), "-", "") + "°";
@@ -666,10 +691,10 @@ public class CWPoint extends CoordinatePoint {
                 return getLatDeg(TransformCoordinates.DD) + "," + getLonDeg(TransformCoordinates.DD);
             case TransformCoordinates.LON_LAT:
                 return getLonDeg(TransformCoordinates.DD) + "," + getLatDeg(TransformCoordinates.DD);
-            //case TransformCoordinates.CUSTOM:	return getGermanGkCoordinates();
+                //case TransformCoordinates.CUSTOM:	return getGermanGkCoordinates();
             default:
                 return TransformCoordinates.getLocalSystem(format).id + " " + TransformCoordinates.wgs84ToLocalsystem(this, format).toHumanReadableString();
-            //return "Unknown Format: " + format;
+                //return "Unknown Format: " + format;
 
         }
 

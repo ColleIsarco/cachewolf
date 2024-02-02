@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="build/" kind="src" path="src"/>
-	<classpathentry kind="lib" path="Libraries/bouncycastle.jar"/>
-	<classpathentry kind="lib" path="Libraries/GPS.jar"/>
-	<classpathentry kind="lib" path="Libraries/json.jar"/>
-	<classpathentry kind="lib" path="Libraries/jzlib.jar"/>
-	<classpathentry kind="lib" path="Libraries/stevesoft.jar"/>
-	<classpathentry kind="lib" path="Libraries/Template.jar"/>
-	<classpathentry kind="lib" path="Libraries/xml.jar"/>
-	<classpathentry kind="lib" path="Libraries/CompiledEwe.jar"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/GPS.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/json.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/jzlib.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/stevesoft.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Template.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/xml.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="Libraries/JavaEwe.jar"/>
+	<classpathentry kind="lib" path="Libraries/jsoup-1.15.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

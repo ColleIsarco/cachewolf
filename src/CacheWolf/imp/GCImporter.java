@@ -44,6 +44,7 @@ import ewesoft.xml.sax.AttributeList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 /**
  * Class to spider caches from gc.com
@@ -1368,11 +1369,14 @@ public class GCImporter {
         try {
             var ocId = ch.getIdOC();
             var trackableUrl = "https://www.geocaching.com/track/search.aspx?wid=" + ocId;
-        String response = UrlFetcher.fetch(trackableUrl);
-    }
-    catch (Exception e) {
-        Preferences.itself().log("Error while loading the details: ", e, true);
-    }
+            var response = UrlFetcher.fetch(trackableUrl);
+            Preferences.itself().log(response);
+            var parsed = Jsoup.parse(response);
+            var table = parsed.select("//table[@class='Table']");
+        }
+        catch (Exception e) {
+            Preferences.itself().log("Error while loading the details: ", e, true);
+        }
         final String detailUrl = "https://www.geocaching.com/api/proxy/web/v1/geocache/" + ch.getCode();
         try{
             String response = UrlFetcher.fetch(detailUrl);
@@ -1745,7 +1749,6 @@ public class GCImporter {
                     Preferences.itself().log("Could not parse expires-date of auth-cookie " + e);
                     Preferences.itself().log("From preferences: " + expires);
                 }
-                Preferences.itself().log("[BEL:]  Auth-Cookie" + cookie.length() + ',' + expires + ','+isExpired);
             }
 
             if (isExpired) {

@@ -102,9 +102,9 @@ public class CoordsInput extends Form {
     private void InitCoordsInput() {
         this.setTitle("");
         // Radiobuttons for format
-        topLinePanel.addNext(chkDD = new mCheckBox("d.d°"), DONTSTRETCH, LEFT);
-        topLinePanel.addNext(chkDMM = new mCheckBox("d°m.m\'"), DONTSTRETCH, LEFT);
-        topLinePanel.addNext(chkDMS = new mCheckBox("d°m\'s\""), DONTSTRETCH, LEFT);
+        topLinePanel.addNext(chkDD = new mCheckBox("d.dÂ°"), DONTSTRETCH, LEFT);
+        topLinePanel.addNext(chkDMM = new mCheckBox("dÂ°m.m\'"), DONTSTRETCH, LEFT);
+        topLinePanel.addNext(chkDMS = new mCheckBox("dÂ°m\'s\""), DONTSTRETCH, LEFT);
         // topLinePanel.addNext(chkUTM =new mCheckBox("UTM"),DONTSTRETCH, LEFT);
         topLinePanel.addNext(chkCustom = new mCheckBox(""), DONTSTRETCH, LEFT);
 
@@ -245,7 +245,7 @@ public class CoordsInput extends Form {
     public void setFields(CWPoint coords, int format) {
         int formatsel = localSystemToformatSel(format);
         if (formatsel >= formatSelToLocalSystem.length) {
-            // projected point = neither dd, dd° mm.mm nor dd° mm' ss.s"
+            // projected point = neither dd, ddÂ° mm.mm nor ddÂ° mm' ss.s"
             if (coords.isValid()) {
                 localCooSystem.setInt(formatsel - formatSelToLocalSystem.length);
                 ProjectedPoint pp = TransformCoordinates.wgs84ToLocalsystem(coords, format);
@@ -422,7 +422,7 @@ class GeoCodeGui extends Form {
         topLinePanel.addNext(new mLabel(MyLocale.getMsg(7300, "Street/POI")), CellConstants.DONTSTRETCH, CellConstants.WEST);
         topLinePanel.addLast(streetInp = new mInput(MyLocale.getMsg(7305, "Hauptbahnhof")), CellConstants.STRETCH, CellConstants.FILL | CellConstants.WEST);
         topLinePanel.addNext(new mLabel(MyLocale.getMsg(7301, "City")), CellConstants.DONTSTRETCH, CellConstants.WEST);
-        topLinePanel.addNext(cityInp = new mInput(MyLocale.getMsg(7304, "München, Deutschland")), CellConstants.HSTRETCH, CellConstants.HFILL | CellConstants.WEST);
+        topLinePanel.addNext(cityInp = new mInput(MyLocale.getMsg(7304, "MÃ¼nchen, Deutschland")), CellConstants.HSTRETCH, CellConstants.HFILL | CellConstants.WEST);
         topLinePanel.addNext(searchBtn = new mButton(MyLocale.getMsg(7302, "Search")), CellConstants.DONTSTRETCH, CellConstants.WEST);
         topLinePanel.addLast(searchCancelBtn = new mButton(MyLocale.getMsg(7303, "Cancel")), CellConstants.DONTSTRETCH, CellConstants.WEST);
         // inpText.toolTip=MyLocale.getMsg(1406,"Enter coordinates in any format or GCxxxxx");
