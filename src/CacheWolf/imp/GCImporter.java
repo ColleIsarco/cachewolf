@@ -1365,6 +1365,14 @@ public class GCImporter {
     }
 
     private void getPmCacheCoordinates (CacheHolder ch) {
+        try {
+            var ocId = ch.getIdOC();
+            var trackableUrl = "https://www.geocaching.com/track/search.aspx?wid=" + ocId;
+        String response = UrlFetcher.fetch(trackableUrl);
+    }
+    catch (Exception e) {
+        Preferences.itself().log("Error while loading the details: ", e, true);
+    }
         final String detailUrl = "https://www.geocaching.com/api/proxy/web/v1/geocache/" + ch.getCode();
         try{
             String response = UrlFetcher.fetch(detailUrl);
@@ -1697,7 +1705,6 @@ public class GCImporter {
      */
     public boolean login() {
         if (loggedIn) {
-            Preferences.itself().log("[BEL:]  already logged in");
             return true;
         }
 
