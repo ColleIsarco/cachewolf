@@ -659,7 +659,7 @@ class mySerialThread extends mThread {
 /**
  * Thread for reading data from gpsd and simply displaying it to the user.
  * <p>
- * This is a modified version of {@link CacheWolf.navi.GpsdThread}.
+ * This is a modified version of {@link Cachewolf.navi.GpsdThread}.
  *
  * @author Tilman Blumenbach
  */

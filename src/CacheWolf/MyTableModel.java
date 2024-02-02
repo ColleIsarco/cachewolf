@@ -678,10 +678,10 @@ public class MyTableModel extends TableModel {
  * @see DistComparer
  */
 class MyComparer implements Comparer {
-    Vector cacheDB;
+    // Vector cacheDB;
 
     //Mysterious, qualified import is required here, otherwise Java tries to load the class Cachewolf.database
-    public MyComparer(CacheWolf.database.CacheDB cacheDB, int colToCompare, int visibleSize) {
+    public MyComparer(CacheDB cacheDB, int colToCompare, int visibleSize) {
         if (visibleSize < 2){
             return;
         }

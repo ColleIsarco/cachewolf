@@ -26,7 +26,7 @@ import CacheWolf.utils.MyLocale;
 import ewe.sys.Device;
 import ewe.ui.FormBase;
 
-public class CacheWolf {
+public class Cachewolf {
     public static void main(String args[]) {
         ewe.sys.Vm.startEwe(args);
 
