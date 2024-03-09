@@ -49,7 +49,6 @@ import ewe.sys.Vm;
 import ewe.ui.FormBase;
 import ewe.util.Hashtable;
 
-import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
 
 import org.json.JSONArray;
