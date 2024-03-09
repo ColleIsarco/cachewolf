@@ -44,6 +44,8 @@ import ewesoft.xml.sax.AttributeList;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
+import java.util.random.RandomGeneratorFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1376,7 +1378,11 @@ public class GCImporter {
             var response = UrlFetcher.fetch(trackableUrl);
             Preferences.itself().log(response);
             var parsed = Jsoup.parse(response);
-            var table = parsed.select("table.Table");
+            var table = parsed.select("table.Table > tbody > tr");
+            var rg = RandomGeneratorFactory.getDefault().create();
+            var elementNumber = Random.from(rg)
+                    .ints(0, table.size())
+                    .findFirst();
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
