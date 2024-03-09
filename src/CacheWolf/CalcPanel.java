@@ -82,12 +82,12 @@ public final class CalcPanel extends CellPanel {
         // Format selection for coords context menu
         MenuItem miCooformat[] = new MenuItem[TransformCoordinates.localSystems.length + 3];
         mnuContextFormt = new Menu();
-        currFormat = 1; // default to d� m.m
-        mnuContextFormt.addItem(miCooformat[0] = new MenuItem("d.d�"));
+        currFormat = 1; // default to d째 m.m
+        mnuContextFormt.addItem(miCooformat[0] = new MenuItem("d.d째"));
         miCooformat[0].modifiers &= ~MenuItem.Checked;
-        mnuContextFormt.addItem(miCooformat[1] = new MenuItem("d컈.m\'"));
+        mnuContextFormt.addItem(miCooformat[1] = new MenuItem("d째m.m\'"));
         miCooformat[1].modifiers |= MenuItem.Checked; // default
-        mnuContextFormt.addItem(miCooformat[2] = new MenuItem("d컈\'s\""));
+        mnuContextFormt.addItem(miCooformat[2] = new MenuItem("d째m\'s\""));
         miCooformat[2].modifiers &= ~MenuItem.Checked;
         mnuContextFormt.addItems(TransformCoordinates.localSystemsFriendlyShortname());
 
