@@ -14,5 +14,6 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="Libraries/JavaEwe.jar"/>
 	<classpathentry kind="lib" path="Libraries/jsoup-1.15.3.jar"/>
+	<classpathentry kind="lib" path="Libraries/bcprov-ext-jdk18on-177.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

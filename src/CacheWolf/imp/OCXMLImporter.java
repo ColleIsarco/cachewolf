@@ -48,9 +48,6 @@ import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
 import ewe.util.Hashtable;
-import ewe.util.zip.ZipEntry;
-import ewe.util.zip.ZipException;
-import ewe.util.zip.ZipFile;
 
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;

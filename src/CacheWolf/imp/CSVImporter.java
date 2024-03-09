@@ -92,7 +92,7 @@ public class CSVImporter {
                 r.codec = new AsciiCodec();
                 // first line -- Heading number of ,
                 s = r.readLine();
-                if (s.startsWith("﻿")) {
+                if (s.startsWith("ï»¿")) {
                     r.close();
                     r = new ewe.io.TextReader(file);
                     r.codec = new JavaUtf8Codec();
@@ -128,7 +128,7 @@ public class CSVImporter {
                 int nr_of_elements = header.length;
 
                 String[] l = null;
-                // Ber�cksichtige so gut es geht mehrzeiligen Text
+                // Berücksichtige so gut es geht mehrzeiligen Text
                 do {
                     s = "";
                     do {
@@ -253,7 +253,7 @@ public class CSVImporter {
                 l[LOCATION] = ds[i]; // 10.
             } else if (header[i].equalsIgnoreCase("CODE")) {
                 l[CODE] = ds[i]; // 11.
-            } else if (header[i].equalsIgnoreCase("SIZE") || header[i].toUpperCase().indexOf("GROE") > -1 || header[i].toUpperCase().indexOf("GR�") > -1) {
+            } else if (header[i].equalsIgnoreCase("SIZE") || header[i].toUpperCase().indexOf("GROE") > -1 || header[i].toUpperCase().indexOf("GRÖ") > -1) {
                 l[SIZE] = ds[i]; // 12.
                 if (l[SIZE].length() == 0)
                     l[SIZE] = "1";
@@ -329,7 +329,7 @@ public class CSVImporter {
                 }
             }
         }
-        // neu oder �ndern
+        // neu oder ändern
         CacheHolder ch = cacheDB.get(wayPoint);
         if (ch == null) {
             ch = new CacheHolder(wayPoint);

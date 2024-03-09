@@ -1383,6 +1383,7 @@ public class GCImporter {
             var elementNumber = Random.from(rg)
                     .ints(0, table.size())
                     .findFirst();
+            var tableRow = table.get(elementNumber.getAsInt());
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);

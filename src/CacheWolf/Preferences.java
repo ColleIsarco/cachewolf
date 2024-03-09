@@ -1351,7 +1351,6 @@ public class Preferences extends MinML {
 		    else{
 			value2 = value;
 		    }
-		    Preferences.itself().log ("[BEL:] Writing GCLogins " + key + '=' + value2);
                 }
                 outp.print("/>\n");
             }
