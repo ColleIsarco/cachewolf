@@ -45,10 +45,12 @@ public class UrlFetcher {
     static Time webZeitStart;
 
     public static PropertyList getDocumentProperties() {
-        if (conn != null)
+        if (conn != null) {
             return conn.responseFields;
-        else
+        }
+        else {
             return null;
+        }
     }
 
     public static void setMaxRedirections(int value) {
@@ -64,8 +66,9 @@ public class UrlFetcher {
     }
 
     public static void setRequestorProperty(String name, String value) {
-        if (requestorProperties == null)
+        if (requestorProperties == null) {
             requestorProperties = new PropertyList();
+        }
         requestorProperties.set(name, value);
     }
 
@@ -76,32 +79,38 @@ public class UrlFetcher {
     }
 
     public static void setPermanentRequestorProperty(String name, String value) {
-        if (permanentRequestorProperties == null)
+        if (permanentRequestorProperties == null) {
             initPermanentRequestorProperty();
-        if (value != null)
+        }
+        if (value != null) {
             permanentRequestorProperties.set(name, value);
+        }
         else {
             int index = permanentRequestorProperties.find(name);
-            if (index >= 0)
+            if (index >= 0) {
                 permanentRequestorProperties.del(index);
+            }
         }
     }
 
     public static void clearCookies() {
         if (cookies == null) {
             cookies = new PropertyList();
-        } else
+        }
+        else {
             cookies.clear();
+        }
     }
 
     public static void setCookie(String name, String value) {
         if (cookies == null) {
             cookies = new PropertyList();
         }
-        if (name != null)
+        if (name != null) {
             if (value != null) {
                 cookies.set(name, value);
             }
+        }
     }
 
     public static void delCookie(String name) {
@@ -110,8 +119,9 @@ public class UrlFetcher {
         }
         if (name != null) {
             int index = cookies.find(name);
-            if (index >= 0)
+            if (index >= 0) {
                 cookies.del(index);
+            }
         }
     }
 
@@ -119,12 +129,14 @@ public class UrlFetcher {
         Property p = cookies.get(name);
         if (p != null) {
             return (String) p.value;
-        } else
+        }
+        else {
             return null;
+        }
     }
 
     public static String getCookieValue(String SetValue) {
-        String[] theCookie = mString.split((String) SetValue, ';');
+        String[] theCookie = mString.split(SetValue, ';');
         if (theCookie.length > 1) {
             String[] rp = mString.split(theCookie[0], '=');
             if (rp.length == 2) {
@@ -143,7 +155,7 @@ public class UrlFetcher {
             final Property cookie = (Property) cookies.get(i);
             // so war es
             String cd[] = mString.split(cookie.name, ';');
-            // ist das cookie für diesen host?
+            // ist das cookie fï¿½r diesen host?
             if (cd[1].equalsIgnoreCase(conn.getHost())) {
                 value = value + cd[0] + "=" + getCookieValue((String) cookie.value) + "; ";
             }
@@ -155,14 +167,16 @@ public class UrlFetcher {
     }
 
     private static void addPermanent2RequestFields() {
-        if (permanentRequestorProperties == null)
+        if (permanentRequestorProperties == null) {
             initPermanentRequestorProperty();
+        }
         conn.setRequestFields(permanentRequestorProperties);
     }
 
     private static void add2RequestFields() {
-        if (requestorProperties != null)
+        if (requestorProperties != null) {
             conn.setRequestFields(requestorProperties);
+        }
     }
 
     ;
@@ -206,7 +220,7 @@ public class UrlFetcher {
                     Vm.arraycopy(nextChunk, 0, extendedBuffer, newBuffer.length, bytesRead);
                     newBuffer = extendedBuffer;
                 }
-                 result = new BetterUTF8Codec().decodeUTF8(newBuffer, 0, allBytes).toString();
+                result = new BetterUTF8Codec().decodeUTF8(newBuffer, 0, allBytes).toString();
             } else {
                 result = new BetterUTF8Codec().decodeUTF8(daten.data, 0, daten.length).toString();
             }
@@ -223,8 +237,9 @@ public class UrlFetcher {
             outp = new FileOutputStream(f);
             outp.write(buffer);
         } finally {
-            if (outp != null)
+            if (outp != null) {
                 outp.close();
+            }
         }
     }
 
@@ -246,10 +261,12 @@ public class UrlFetcher {
 
         if (postData != null) {
             conn.setPostData(postData);
-            if (postData.startsWith("{"))
+            if (postData.startsWith("{")) {
                 conn.setRequestField("Content-Type", "application/json; charset=UTF-8");
-            else
+            }
+            else {
                 conn.setRequestField("Content-Type", "application/x-www-form-urlencoded");
+            }
         }
 
         int redirectionCounter = 0;
@@ -266,9 +283,9 @@ public class UrlFetcher {
                     requestorProperties = null;
                     postData = null;
                     forceRedirect = false;
-		    throw new IOException("URL: " + urltmp + "\nhttp response code: " + conn.responseCode);
+                    throw new IOException("URL: " + urltmp + "\nhttp response code: " + conn.responseCode);
                 }
-		else {
+                else {
                     if (forceRedirect) {
                         // hack for expedia, doing the original url again. (forceRedirect == true)
                         // expedia always must redirect >=1 time, but sometimes that is missed
@@ -282,7 +299,7 @@ public class UrlFetcher {
                     }
                 }
             }
-	    else {
+            else {
                 //  redirection
                 urltmp = conn.getRedirectTo();
                 // Preferences.itself().log("Url Redirected to " + urltmp);
@@ -290,8 +307,9 @@ public class UrlFetcher {
                 addCookies2RequestFields();
                 conn.disconnect();
                 conn = conn.getRedirectedConnection(urltmp);
-                if (redirectionCounter > maxRedirections)
+                if (redirectionCounter > maxRedirections) {
                     throw new IOException("too many http redirections while trying to fetch: " + url + " only " + maxRedirections + " are allowed");
+                }
             }
         } while (urltmp != null);
 
@@ -300,8 +318,9 @@ public class UrlFetcher {
             daten = conn.readData();
             conn.disconnect();
         }
-	else
+        else {
             daten = null;
+        }
         maxRedirections = 5;
         requestorProperties = null;
         postData = null;
@@ -339,10 +358,12 @@ public class UrlFetcher {
         char c;
         for (int i = 0; i < src.length; i++) {
             c = src[i];
-            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || (allowed.indexOf(c) >= 0))
+            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || (allowed.indexOf(c) >= 0)) {
                 continue;
-            else
+            }
+            else {
                 return false;
+            }
         }
         return true;
     }
@@ -389,8 +410,9 @@ public class UrlFetcher {
             }
             char c = what[i];
             // added || c == '$' || c == '/' || c == ','
-            if (spaceToPlus && c == ' ')
+            if (spaceToPlus && c == ' ') {
                 c = '+';
+            }
             else if (c <= ' ' || c >= 127 || c == '+' || c == '&' || c == '%' || c == '=' || c == '|' || c == '{' || c == '}' || c == '$' || c == '/' || c == ',') {
                 dest[d++] = '%';
                 dest[d++] = hex.charAt((c >> 4) & 0xf);

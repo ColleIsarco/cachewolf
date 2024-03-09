@@ -39,7 +39,6 @@ import CacheWolf.utils.*;
 
 import com.stevesoft.ewe_pat.Regex;
 
-import ewe.io.BufferedReader;
 import ewe.io.File;
 import ewe.io.IOException;
 import ewe.io.TextReader;

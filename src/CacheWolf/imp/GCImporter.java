@@ -41,6 +41,10 @@ import ewe.ui.FormBase;
 import ewe.util.*;
 import ewesoft.xml.MinML;
 import ewesoft.xml.sax.AttributeList;
+
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1730,11 +1734,8 @@ public class GCImporter {
                     if (cookie != null && cookie.length() > 0) {
                         if (expires != null && expires.length() > 0) {
                             withoutExpiration = false;
-                            // check expires
-                            String[] sExpires = mString.split(expires, ' ');
-                            Time tExpires = DateFormat.toDate(sExpires[1], "dd-MMM-yyyy");
-                            Time now = new Time();
-                            if (tExpires.after(now)) {
+                            var expiresInstant = Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(expires.replace('-', ' ')));
+                            if (expiresInstant.isAfter(Instant.now())) {
                                 UrlFetcher.setCookie("gspkauth;www.geocaching.com", "gspkauth=" + cookie + ";");
                                 isExpired = false;
                             }
