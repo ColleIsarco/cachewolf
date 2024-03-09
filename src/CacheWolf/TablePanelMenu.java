@@ -306,7 +306,7 @@ public class TablePanelMenu extends MenuBar {
                 // should work even if only the wayPoint is created
                 if (ch.isGC() || ch.isOC())
                 // Notiz: Wenn es ein addi Wpt ist, sollte eigentlich der Maincache gespidert werden
-                // Alter code prüft aber nur ob ein Maincache von GC existiert und versucht dann den addi direkt zu spidern, was nicht funktioniert
+                // Alter code prÃ¼ft aber nur ob ein Maincache von GC existiert und versucht dann den addi direkt zu spidern, was nicht funktioniert
                 {
                     cachesToUpdate.add(new Integer(i));
                 } else {
@@ -407,7 +407,7 @@ public class TablePanelMenu extends MenuBar {
             return; // no select
         // check selection
         if (Preferences.itself().lastProfile.equals(f.newSelectedProfile)) {
-            // aktives Profil kann nicht gelöscht / umbenannt werden;
+            // aktives Profil kann nicht gelÃ¶scht / umbenannt werden;
             new InfoBox(MyLocale.getMsg(5500, "Error"), MyLocale.getMsg(ErrorMsgActive, "[Profile active...]")).wait(FormBase.OKB);
         } else {
             boolean err = true;
@@ -754,7 +754,7 @@ public class TablePanelMenu extends MenuBar {
                 boolean useBigIcons = Preferences.itself().useBigIcons;
                 PreferencesScreen preferencesScreen = new PreferencesScreen();
                 preferencesScreen.execute(MainForm.itself.getFrame(), Gui.CENTER_FRAME);
-                // überflüssig, wurde ja gerade gespeichert und auch bei Abbruch wurde keine Preferences Variable gesetzt ! Preferences.itself().readPrefFile();
+                // Ã¼berflÃ¼ssig, wurde ja gerade gespeichert und auch bei Abbruch wurde keine Preferences Variable gesetzt ! Preferences.itself().readPrefFile();
                 if (Preferences.itself().fontSize != fontsize || Preferences.itself().useBigIcons != useBigIcons) {
                         MainTab.itself.saveUnsavedChanges(true);
                 }

@@ -95,7 +95,7 @@ public class OCXMLImporter {
      */
     double longitude;
     /**
-     * Temporarly save the values from XML: set to the language of the description which is currently parsed
+     * Temporarily save the values from XML: set to the language of the description which is currently parsed
      */
     String processingDescLang;
     boolean isHTML;
