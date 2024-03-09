@@ -41,7 +41,6 @@ import com.stevesoft.ewe_pat.Regex;
 
 import ewe.io.File;
 import ewe.io.IOException;
-import ewe.io.TextReader;
 import ewe.net.MalformedURLException;
 import ewe.net.URL;
 import ewe.sys.Convert;
