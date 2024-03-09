@@ -87,7 +87,7 @@ public class Attribute {
             {"41", "2584", "wheelchair", "0", "24", "Wheelchair accessible"},//
             {"42", "2586", "winter", "A47", "15", "Available during winter"},//
             {"43", "2588", "firstaid", "0", "42", "Firstaid"},// GC: Cachewartung notwendig (Auto Attribut) , OC: erste Hilfe
-            {"44", "2590", "flashlight", "48", "44", "Flashlight required"},//
+            {"44", "2590", "flashlight", "A52", "44", "Flashlight required"},//
             {"45", "2592", "aircraft", "53", "153", "Aircraft"},// OC special
             {"46", "2594", "animals", "17", "0", ""},// OC ?
             {"47", "2596", "arith_prob", "56", "156", "Arithmetical problem"}, // OC special
@@ -220,10 +220,12 @@ public class Attribute {
         if (cw_Id < 0 || cw_Id >= maxAttRef) {
             return MyLocale.getMsg(2500, "error attribute");
         }
-        if (cw_Inc == 0)
+        if (cw_Inc == 0) {
             return MyLocale.getMsg(Common.parseInt(attRef[cw_Id][MSG_NR]) - 1, "");
-        else
+        }
+        else {
             return MyLocale.getMsg(Common.parseInt(attRef[cw_Id][MSG_NR]), "");
+        }
     }
 
     /**
@@ -315,12 +317,15 @@ public class Attribute {
             _ImageName = "error.gif";
         } else {
             _ImageName = attRef(_Id, PIC_NAME);
-            if (inc == 0)
+            if (inc == 0) {
                 _ImageName += "-no.gif";
-            else if (inc == 1)
+            }
+            else if (inc == 1) {
                 _ImageName += "-yes.gif";
-            else
+            }
+            else {
                 _ImageName += "-non.gif";
+            }
         }
     }
 

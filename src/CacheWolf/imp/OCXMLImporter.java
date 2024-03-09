@@ -49,7 +49,6 @@ import ewe.sys.Convert;
 import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
-import ewe.util.Enumeration;
 import ewe.util.Hashtable;
 import ewe.util.zip.ZipEntry;
 import ewe.util.zip.ZipException;

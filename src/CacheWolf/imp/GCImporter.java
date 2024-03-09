@@ -1372,7 +1372,7 @@ public class GCImporter {
             var response = UrlFetcher.fetch(trackableUrl);
             Preferences.itself().log(response);
             var parsed = Jsoup.parse(response);
-            var table = parsed.select("//table[@class='Table']");
+            var table = parsed.select("table.Table");
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
@@ -1722,7 +1722,6 @@ public class GCImporter {
             retrycount = retrycount + 1;
             boolean isExpired = true;
             if (Preferences.itself().hasGCLogin()) {
-                Preferences.itself().log("[BEL:]  hasGCLogin");
                 Hashtable ht = Preferences.itself().getGCLogin(Preferences.itself().gcLogin);
                 String expires = (String) ht.get("expires");
                 String cookie = (String) ht.get("auth");
