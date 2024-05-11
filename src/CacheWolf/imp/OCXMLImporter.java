@@ -49,8 +49,6 @@ import ewe.sys.Vm;
 import ewe.ui.FormBase;
 import ewe.util.Hashtable;
 
-import ewesoft.xml.sax.AttributeList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
