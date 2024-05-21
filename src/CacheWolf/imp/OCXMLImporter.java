@@ -61,7 +61,6 @@ public class OCXMLImporter {
     // static protected final int STAT_CACHE = 1;
     // static protected final int STAT_CACHE_DESC = 2;
     // static protected final int STAT_CACHE_LOG = 3;
-    // static protected final int STAT_PICTURE = 4;
 
     String hostname;
 
