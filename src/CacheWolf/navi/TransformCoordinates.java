@@ -41,7 +41,7 @@ import CacheWolf.utils.Matrix;
  * http://www.lverma.nrw.de/produkte/raumbezug/koordinatentransformation/Koordinatentransformation.htm<br>
  * <br>
  * Now, that this is completed:<br>
- * There is a much more precise method right now published by the Bundesamt für Kartographie und Geodäsie for whole Germany:<br>
+ * There is a much more precise method right now published by the Bundesamt fÃ¼r Kartographie und GeodÃ¤sie for whole Germany:<br>
  * see:<br>
  * http://crs.bkg.bund.de/crseu/crs/descrtrans/BeTA/BETA2007dokumentation.pdf<br>
  * http://crs.bkg.bund.de/crs-eu/ click on "national CRS" -> germany -> DE_DHDN / GK_3 -> DE_DHDN (BeTA, 2007) to ETRS89<br>
@@ -54,14 +54,14 @@ public final class TransformCoordinates {
 
     public static final int EPSG_WGS84 = 4326;
     /**
-     * Gauß-Krüger, Bessel 1841, Potsdam (DHDN)
+     * GauÃŸ-KrÃ¼ger, Bessel 1841, Potsdam (DHDN)
      */
     public static final int EPSG_GERMAN_GK2 = 31466;
     public static final int EPSG_GERMAN_GK3 = 31467;
     public static final int EPSG_GERMAN_GK4 = 31468;
     public static final int EPSG_GERMAN_GK5 = 31469;
     /**
-     * Gauß-Boaga, Monte Mario, Roma 1940, IT_ROMA1940
+     * GauÃŸ-Boaga, Monte Mario, Roma 1940, IT_ROMA1940
      */
     public static final int EPSG_ITALIAN_GB_EW1 = 3003;
     public static final int EPSG_ITALIAN_GB_EW2 = 3004;
@@ -131,15 +131,15 @@ public final class TransformCoordinates {
     public static final Ellipsoid CLARKE1866 = new Ellipsoid(6378206.4, 294.97870, false);
     public static final Ellipsoid KRASSOWSKY1940 = new Ellipsoid(6378245, 298.3, false);
     public static final LocalSystem[] localSystems = {new LocalSystem(TransformCoordinates.LOCALSYSTEM_UTM_WGS84, "UTM", "utm", ProjectedPoint.PJ_UTM_WGS84.zoneSeperately),
-            new LocalSystem(TransformCoordinates.LOCALSYSTEM_GERMAN_GK, "de Gauß-K.", "de.gk", ProjectedPoint.PJ_GERMAN_GK.zoneSeperately),
+            new LocalSystem(TransformCoordinates.LOCALSYSTEM_GERMAN_GK, "de GauÃŸ-K.", "de.gk", ProjectedPoint.PJ_GERMAN_GK.zoneSeperately),
             new LocalSystem(TransformCoordinates.LOCALSYSTEM_AUSTRIAN_LAMBERT_OLD, "at Lamb.", "at.lb", ProjectedPoint.PJ_AUSTRIAN_LAMBERT_OLD.zoneSeperately),
-            new LocalSystem(TransformCoordinates.LOCALSYSTEM_ITALIAN_GB, "it Gauß-B.", "it.gb", ProjectedPoint.PJ_ITALIAN_GB.zoneSeperately),
+            new LocalSystem(TransformCoordinates.LOCALSYSTEM_ITALIAN_GB, "it GauÃŸ-B.", "it.gb", ProjectedPoint.PJ_ITALIAN_GB.zoneSeperately),
             new LocalSystem(TransformCoordinates.LOCALSYSTEM_FRANCE_LAMBERT_IIE, "fr Lamb-IIe", "fr.l2", ProjectedPoint.PJ_FRENCH_LAMBERT_NTF_II.zoneSeperately),};
     static final TransformParameters NO_DATUM_SHIFT = new TransformParameters(0, 0, 0, 0, 0, 0, 0, WGS84);
 
     ;
     /**
-     * use this for nord Germany, maximum deviation sub meter, valid in the former BRD (west germany) in 52°20' N ... 55°00' N
+     * use this for nord Germany, maximum deviation sub meter, valid in the former BRD (west germany) in 52Â°20' N ... 55Â°00' N
      */
     private static final TransformParameters GK_NORD_GERMANY_TO_WGS84 = new TransformParameters(590.5, 69.5, 411.6, 0.796, 0.052, 3.601, 8.300, BESSEL);
     //new LocalSystem(TransformCoordinates.LOCALSYSTEM_SWEDEN, "se UTM", "se.utm", ProjectedPoint.PJ_UTM_WGS84FZ.zoneSeperately),
@@ -148,13 +148,13 @@ public final class TransformCoordinates {
     //	 taken from http://www.crs-geo.eu/crseu/EN/Home/homepage__node.html?__nnn=true click on "national CRS" -> germany -> DE_DHDN / GK_3 -> DE_DHDN (North) to ETRS89
     //	 they are the same as http://www.geoclub.de/files/GK_nach_GPS.xls "Parametersatz 4 = Deutschland Nord" (rotation *-1)
     /**
-     * use this for mid-Germany, maximum deviation sub meter, valid in the former BRD (west germany) in 50°20' N ... 52°20' N
+     * use this for mid-Germany, maximum deviation sub meter, valid in the former BRD (west germany) in 50Â°20' N ... 52Â°20' N
      */
     private static final TransformParameters GK_MID_GERMANY_TO_WGS84 = new TransformParameters(584.8, 67.0, 400.3, -0.105, -0.013, 2.378, 10.290, BESSEL);
 
     //	 taken from http://crs.bkg.bund.de/crs-eu/ click on "national CRS" -> germany -> DE_DHDN / GK_3 -> DE_DHDN (Middle) to ETRS89 (rotation *-1)
     /**
-     * use this for south Germany, maximum deviation sub meter, valid in the former BRD (west germany) in 47°00' N ... 50°20' N
+     * use this for south Germany, maximum deviation sub meter, valid in the former BRD (west germany) in 47Â°00' N ... 50Â°20' N
      */
     private static final TransformParameters GK_SOUTH_GERMANY_TO_WGS84 = new TransformParameters(597.1, 71.4, 412.1, -0.894, -0.068, 1.563, -7.580, BESSEL);
 
@@ -164,7 +164,7 @@ public final class TransformCoordinates {
      */
     private static final TransformParameters GK_GERMANY_2001_TO_WGS84 = new TransformParameters(598.1, 73.7, 418.2, -0.202, -0.045, 2.455, 6.700, BESSEL);
     /**
-     * The italian variant of Gauß-Krüger (Gauß-Boaga)
+     * The italian variant of GauÃŸ-KrÃ¼ger (GauÃŸ-Boaga)
      */
     private static final TransformParameters GB_ITALIAN_PENINSULAR_TO_WGS84 = new TransformParameters(-104.1, -49.1, -9.9, -0.971, 2.917, -0.714, -11.68, HAYFORD1909);
 
@@ -179,7 +179,7 @@ public final class TransformCoordinates {
 
     // taken from http://www.geodatenzentrum.de/geodaten/gdz_home1.gdz_home_start?gdz_home_para1=Technische%A0Hinweise&gdz_home_para2=Technische%A0Hinweise&gdz_home_menu_nr=10&gdz_home_menu_nr2=1&gdz_home_para3=/auftrag/html/gdz_tech_geo_deu.htm&gdz_home_spr=deu&gdz_home_para0=0
     /**
-     * Use this for Germany if there is no more specific available. Deviations unknown. Data source: Bundesamt für Kartographie und Geodäsie, taken from website on: 1-11-2007
+     * Use this for Germany if there is no more specific available. Deviations unknown. Data source: Bundesamt fÃ¼r Kartographie und GeodÃ¤sie, taken from website on: 1-11-2007
      */
     // private static final TransformParameters GK_GERMANY_BKG_TO_WGS84 = new TransformParameters(586, 87, 409, -0.52, -0.15, 2.82, -9, BESSEL);
 
@@ -198,7 +198,7 @@ public final class TransformCoordinates {
      * Austria Datum Hermannskogel, AT_MGI accuracy about 1.5m
      */
     private static final TransformParameters LAMBERT_AUSTRIAN_OLD_TO_WGS84 = new TransformParameters(577.326, 90.129, 463.919, -5.136599, -1.4742, -5.297044, 2.4232, BESSEL);
-    // Übersicht über alle Transformparameter und EPSG-Codes und Projektionenm (PORJ4):
+    // Ãœbersicht Ã¼ber alle Transformparameter und EPSG-Codes und Projektionenm (PORJ4):
     // http://svn.osgeo.org/metacrs/proj/trunk/proj/nad/epsg
     //public static final TransformParameters WGS72_TO_WGS84 =  new TransformParameters(0, 0, 4.5, 0, 0, -0.554, 0.219);
     private static final TransformParameters LAMBERT_FRENCH_NTF_TO_WGS84 = new TransformParameters(-168, -60, 320, 0, 0, 0, 0, CLARKE1880IGN);
@@ -269,7 +269,7 @@ public final class TransformCoordinates {
 
     /**
      * @param epsgcode
-     * @return region code as needed for GkPoint, -1 if not Gauß-Krüger or not supported
+     * @return region code as needed for GkPoint, -1 if not GauÃŸ-KrÃ¼ger or not supported
      * Inside one ProjectedRegion the epsg-code (zone / stripe) can be automatically choosen
      * depending on lat / lon.
      */
@@ -396,7 +396,7 @@ public final class TransformCoordinates {
     }
 
     /**
-     * this routine gives the correct Gauß-Krüger coordinates
+     * this routine gives the correct GauÃŸ-KrÃ¼ger coordinates
      * in the stripe specified by EPSG-Code
      *
      * @param wgs84

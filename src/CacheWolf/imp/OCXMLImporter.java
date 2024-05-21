@@ -58,7 +58,6 @@ import org.json.JSONObject;
  * http://develforum.opencaching.de/viewtopic.php?t=135&postdays=0&postorder=asc&start=0 for more information.
  */
 public class OCXMLImporter {
-    // static protected final int STAT_INIT = 0;
     // static protected final int STAT_CACHE = 1;
     // static protected final int STAT_CACHE_DESC = 2;
     // static protected final int STAT_CACHE_LOG = 3;
@@ -86,7 +85,7 @@ public class OCXMLImporter {
     /**
      * Temporarly save the values from XML
      */
-    double longitude;
+    double            longitude;
     /**
      * Temporarily save the values from XML: set to the language of the description which is currently parsed
      */

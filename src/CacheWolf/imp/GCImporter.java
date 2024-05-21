@@ -1389,6 +1389,8 @@ public class GCImporter {
                     .getFirst()
                     .attr("href");
             Preferences.itself().log("" + url);
+            int index = url.lastIndexOf('=');
+            var trackableId = url.substring(index + 1);
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
