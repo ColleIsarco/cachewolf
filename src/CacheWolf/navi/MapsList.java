@@ -234,9 +234,9 @@ public final class MapsList extends Vector {
         Preferences.itself().log("building mapslist finished " + mapsListDir);
     }
 
-    /* diese Routine wird gegenwärtig für 3 ZWecke verwendet:
-     * a) normal - keep given resolution --> Lösung: übergebene scale nutzen für screen
-     * b) highest res: Ziel: Karte mit höchster Auflösung, die im screen ist und möglichst nah an lat/lon -> ich muss auflösung noch in Dateinamen schreiben
+    /* diese Routine wird gegenwÃ¤rtig fÃ¼r 3 ZWecke verwendet:
+     * a) normal - keep given resolution --> LÃ¶sung: Ã¼bergebene scale nutzen fÃ¼r screen
+     * b) highest res: Ziel: Karte mit hÃ¶chster AuflÃ¶sung, die im screen ist und mÃ¶glichst nah an lat/lon -> ich muss auflÃ¶sung noch in Dateinamen schreiben
      * c) gegenteil von b)
      */
 

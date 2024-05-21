@@ -68,7 +68,6 @@ public class OCXMLImporter {
     int numCacheImported, numDescImported, numLogImported = 0;
     int numCacheUpdated, numDescUpdated, numLogUpdated = 0;
 
-    // boolean debugGPX = false;
     CacheDB cacheDB;
     InfoBox inf;
     CacheHolder holder;
@@ -81,7 +80,7 @@ public class OCXMLImporter {
     String user;
 
     /**
-     * Temporarly save the values from XML
+     * Temporarily save the values from XML
      */
     double            longitude;
     /**
