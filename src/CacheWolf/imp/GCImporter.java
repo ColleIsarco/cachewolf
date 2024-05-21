@@ -1376,7 +1376,6 @@ public class GCImporter {
             var ocId = ch.getIdOC();
             var trackableUrl = "https://www.geocaching.com/track/search.aspx?wid=" + ocId;
             var response = UrlFetcher.fetch(trackableUrl);
-            Preferences.itself().log(response);
             var parsed = Jsoup.parse(response);
             var table = parsed.select("table.Table > tbody > tr");
             var rg = RandomGeneratorFactory.getDefault().create();
@@ -1384,6 +1383,7 @@ public class GCImporter {
                     .ints(0, table.size())
                     .findFirst();
             var tableRow = table.get(elementNumber.getAsInt());
+            Preferences.itself().log(tableRow.toString());
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
@@ -2021,7 +2021,6 @@ public class GCImporter {
                 retrycount++;
             }
         }
-
     }
 
     /**

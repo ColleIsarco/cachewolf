@@ -92,7 +92,6 @@ public class OCXMLImporter {
      * Temporarily save the values from XML: set to the language of the description which is currently parsed
      */
     String processingDescLang;
-    boolean isHTML;
     boolean isSyncSingle; // to load archieved
     boolean downloadPics = true;
 
