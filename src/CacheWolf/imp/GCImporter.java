@@ -1384,6 +1384,11 @@ public class GCImporter {
                     .findFirst();
             var tableRow = table.get(elementNumber.getAsInt());
             Preferences.itself().log(tableRow.toString());
+            var url = tableRow.getElementsByTag("td")
+                    .get(1).getElementsByTag("a")
+                    .getFirst()
+                    .attr("href");
+            Preferences.itself().log("" + url);
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);

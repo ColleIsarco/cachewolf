@@ -58,25 +58,24 @@ import org.json.JSONObject;
  * http://develforum.opencaching.de/viewtopic.php?t=135&postdays=0&postorder=asc&start=0 for more information.
  */
 public class OCXMLImporter {
-    static protected final int STAT_INIT = 0;
-    static protected final int STAT_CACHE = 1;
-    static protected final int STAT_CACHE_DESC = 2;
-    static protected final int STAT_CACHE_LOG = 3;
-    static protected final int STAT_PICTURE = 4;
+    // static protected final int STAT_INIT = 0;
+    // static protected final int STAT_CACHE = 1;
+    // static protected final int STAT_CACHE_DESC = 2;
+    // static protected final int STAT_CACHE_LOG = 3;
+    // static protected final int STAT_PICTURE = 4;
 
     String hostname;
 
-    int state = STAT_INIT;
     int numCacheImported, numDescImported, numLogImported = 0;
     int numCacheUpdated, numDescUpdated, numLogUpdated = 0;
 
-    boolean debugGPX = false;
+    // boolean debugGPX = false;
     CacheDB cacheDB;
     InfoBox inf;
     // CacheHolder ch;
     CacheHolder holder;
     Time dateOfthisSync;
-    String strData = "";
+    // String strData = "";
     int picCnt;
     boolean incUpdate = true; // complete or incremental Update
     boolean incFinds = true;
@@ -106,8 +105,9 @@ public class OCXMLImporter {
         CacheHolder ch;
         for (int i = 0; i < cacheDB.size(); i++) {
             ch = cacheDB.get(i);
-            if (!ch.getIdOC().equals(""))
+            if (!ch.getIdOC().equals("")) {
                 DBindexID.put(ch.getIdOC(), ch.getCode());
+            }
         }
 
     }
@@ -137,11 +137,13 @@ public class OCXMLImporter {
          * Preferences.itself().downloadmissingOC = true, if not the last syncdate shall be used, but the caches shall be reloaded only used in syncSingle
          */
         incUpdate = false;
-        if (Preferences.itself().downloadAllOC)
+        if (Preferences.itself().downloadAllOC) {
             lastS = "20050801000000";
+        }
         else {
-            if (ch.getLastSync().length() < 14)
+            if (ch.getLastSync().length() < 14) {
                 lastS = "20050801000000";
+            }
             else {
                 lastS = ch.getLastSync();
                 incUpdate = true;
@@ -178,13 +180,13 @@ public class OCXMLImporter {
             return;
         }
         final ImportGui importGui = new ImportGui(MyLocale.getMsg(130, "Download from opencaching"),
-						  ImportGui.ALL | ImportGui.DIST | ImportGui.INCLUDEFOUND | ImportGui.HOST | ImportGui.MAXNUMBER | ImportGui.MAXUPDATE,
-						  ImportGui.DESCRIPTIONIMAGE | ImportGui.SPOILERIMAGE | ImportGui.LOGIMAGE);
+                ImportGui.ALL | ImportGui.DIST | ImportGui.INCLUDEFOUND | ImportGui.HOST | ImportGui.MAXNUMBER | ImportGui.MAXUPDATE,
+                ImportGui.DESCRIPTIONIMAGE | ImportGui.SPOILERIMAGE | ImportGui.LOGIMAGE);
         if (importGui.execute() == FormBase.IDCANCEL) {
             return;
         }
-	final int maxImport = importGui.getIntFromInput(importGui.maxNumberInput, Integer.MAX_VALUE);
-	final int  maxUpdate = importGui.getIntFromInput(importGui.maxNumberUpdates, Integer.MAX_VALUE);
+        final int maxImport = importGui.getIntFromInput(importGui.maxNumberInput, Integer.MAX_VALUE);
+        final int  maxUpdate = importGui.getIntFromInput(importGui.maxNumberUpdates, Integer.MAX_VALUE);
 
         downloadPics = importGui.downloadDescriptionImages;
         Vm.showWait(true);
@@ -194,8 +196,9 @@ public class OCXMLImporter {
             hostname = (String) importGui.domains.getSelectedItem();
             Preferences.itself().lastOCSite = hostname;
         }
-        if (dist.length() == 0)
+        if (dist.length() == 0) {
             return;
+        }
         dist = Common.DoubleToString(Common.parseDouble(dist), 0, 1);
         // check, if distance is greater than before
         incUpdate = true;
@@ -224,7 +227,7 @@ public class OCXMLImporter {
         isSyncSingle = false;
         success = syncOkapi(okapiUrl, maxUpdate, maxImport);
         //TODO: lastSync setzen und beim importieren zum Abgleich verwenden:
- 
+
         MainForm.profile.saveIndex(Profile.SHOW_PROGRESS_BAR, Profile.FORCESAVE);
         Vm.showWait(false);
         if (success) {
@@ -235,7 +238,7 @@ public class OCXMLImporter {
             inf.setInfo(finalMessage);
         }
         inf.setButtonText(MyLocale.getMsg(4107, "Done"), FormBase.CANCELB);
-	//         inf.showButton(FormBase.YESB);
+        //         inf.showButton(FormBase.YESB);
     }
 
     private String getUserUuid () throws JSONException, IOException{
@@ -254,25 +257,25 @@ public class OCXMLImporter {
             Preferences.itself().log ("The result from cachesearch: \n" + listOfAllCaches + "\n\n");
             final JSONObject response = new JSONObject(listOfAllCaches);
             final JSONArray results = response.getJSONArray("results");
-	    int numUpdated = 0;
-	    int numImported = 0;
+            int numUpdated = 0;
+            int numImported = 0;
 
             for (int index = 0; index < results.length(); index++) {
                 //einzelnen Cache einlesen
                 final Object ocCode = results.get(index);
                 int updated = updateOkapi (ocCode.toString(), numUpdated < maxUpdate, numImported < maxImport);
-		switch(updated){
-		case 1:
-		    numUpdated++;
-		    break;
-		case 2:
-		    numImported++;
-		    break;
-		default:
-		    return true;
-		}
+                switch(updated){
+                    case 1:
+                        numUpdated++;
+                        break;
+                    case 2:
+                        numImported++;
+                        break;
+                    default:
+                        return true;
+                }
             }
-            
+
             return true;
         }
         catch (IOException e){
@@ -292,19 +295,19 @@ public class OCXMLImporter {
      * return true if a cache has been updated, false if it has been imported as new
      */
     private int updateOkapi(final String ocCode, final boolean canUpdate, final boolean canImport) throws IOException, JSONException{
-	if (!(canUpdate || canImport)){
-	    return 0;
-	}
-	
+        if (!(canUpdate || canImport)){
+            return 0;
+        }
+
         //TODO: is_found mit User-Id und Anzahl logs.
-	final String userId = getUserUuid();
+        final String userId = getUserUuid();
         final String detailUrl = ("https://www.opencaching.de/okapi/services/caches/geocache?"+
-                                  "cache_code="+ocCode+
-                                  "&langpref=de&"+
-                                  "fields=name|location|type|status|owner|gc_code|size2|difficulty|terrain|short_description|description|hints2|images|trackables|alt_wpts|attr_acodes|date_hidden|internal_id|code|recommendations|latest_logs|is_found&"+
-                                  "user_uuid="+(URL.encodeURL (userId, true))+
-                                  "&consumer_key=EgcYTe8ZZsWd4PqGXNu6"+
-                                  "&lpc=all").replaceAll("\\|","%7C");
+                "cache_code="+ocCode+
+                "&langpref=de&"+
+                "fields=name|location|type|status|owner|gc_code|size2|difficulty|terrain|short_description|description|hints2|images|trackables|alt_wpts|attr_acodes|date_hidden|internal_id|code|recommendations|latest_logs|is_found&"+
+                "user_uuid="+(URL.encodeURL (userId, true))+
+                "&consumer_key=EgcYTe8ZZsWd4PqGXNu6"+
+                "&lpc=all").replaceAll("\\|","%7C");
         Preferences.itself().log ("CacheDetail-URL: [" + detailUrl + "]");
         final String cacheAsJsonString = UrlFetcher.fetch(detailUrl,true);
         Preferences.itself().log ("CacheDetails: " + cacheAsJsonString);
@@ -312,25 +315,25 @@ public class OCXMLImporter {
         //------------
         final int index = cacheDB.getIndex(ocCode);
         final CacheHolder syncHolder;
-	final int updated;
+        final int updated;
         if (index == -1) {
-	    if (!canImport){
-		return 2;
-	    }
+            if (!canImport){
+                return 2;
+            }
             syncHolder = new CacheHolder();
-	    syncHolder.setCode (ocCode);
+            syncHolder.setCode (ocCode);
             Preferences.itself().log("Importing new Cache!");
             numCacheImported++;
             syncHolder.setNew(true);
             cacheDB.add(syncHolder);
             DBindexID.put(syncHolder.getIdOC(), syncHolder.getCode());
-	    updated = 2;
+            updated = 2;
         }
         // update (overwrite) data
         else {
-	    if (!canUpdate){
-		return 1;
-	    }
+            if (!canUpdate){
+                return 1;
+            }
             syncHolder = cacheDB.get(index);
             Preferences.itself().log("Updating existing Cache!");
             numCacheUpdated++;
@@ -338,16 +341,16 @@ public class OCXMLImporter {
             syncHolder.setIncomplete(false);
             cacheDB.get(index).update(syncHolder);
             DBindexID.put(syncHolder.getIdOC(), syncHolder.getCode());
-	    updated = 1;
+            updated = 1;
         }
-	syncHolder.getDetails().setURL("https://opencaching.de/" + ocCode.toUpperCase());
+        syncHolder.getDetails().setURL("https://opencaching.de/" + ocCode.toUpperCase());
         // clear data (picture, logs) if we do a complete Update
         if (!incUpdate) {
             syncHolder.getDetails().getCacheLogs().clear();
         }
-	//Images will always be (re)loaded
-	syncHolder.getDetails().getImages().clear();
-	//TODO: Delete existing images from filesystem
+        //Images will always be (re)loaded
+        syncHolder.getDetails().getImages().clear();
+        //TODO: Delete existing images from filesystem
 
         JSONObject cacheAsJson = new JSONObject(cacheAsJsonString);
         syncHolder.setName(cacheAsJson.getString("name"));
@@ -381,8 +384,8 @@ public class OCXMLImporter {
         //Attributes setzen:
         setAttribute (syncHolder, cacheAsJson.getJSONArray("attr_acodes"));
 
-	String description=cacheAsJson.getString("description");
-	description=replaceEntitiesWithCharacters(description);
+        String description=cacheAsJson.getString("description");
+        description=replaceEntitiesWithCharacters(description);
         syncHolder.getDetails().setLongDescription(description);
         final JSONObject hintsObject = cacheAsJson.getJSONObject("hints2");
         if (hintsObject.has("de")){
@@ -393,35 +396,35 @@ public class OCXMLImporter {
         LogList cacheLogs = readLogList(cacheAsJson.getJSONArray("latest_logs"));
         syncHolder.getDetails().getCacheLogs().purgeLogs();
         for (int i=0; i < cacheLogs.size(); i++){
-	    Log log = cacheLogs.getLog(i);
-	    Preferences.itself().log ("Finder-Id: " + log.getFinderID());
-	    if (log.getFinderID().equalsIgnoreCase (userId)){
-		syncHolder.getDetails().setOwnLog(log);
-	    }
+            Log log = cacheLogs.getLog(i);
+            Preferences.itself().log ("Finder-Id: " + log.getFinderID());
+            if (log.getFinderID().equalsIgnoreCase (userId)){
+                syncHolder.getDetails().setOwnLog(log);
+            }
             syncHolder.getDetails().getCacheLogs().merge(log);
         }
         CacheImages imageList = readImageList(cacheAsJson.getJSONArray("images"));
         loadPictures (syncHolder, imageList);
 
-	loadAdditionalWaypoints(cacheAsJson.getJSONArray ("alt_wpts"));
+        loadAdditionalWaypoints(cacheAsJson.getJSONArray ("alt_wpts"));
 
         // save all
         syncHolder.getDetails().saveCacheXML(MainForm.profile.dataDir);
         syncHolder.getDetails().setUnsaved(true); // this makes CachHolder save the details in case that they are unloaded from memory
 
         return updated;
-	}
+    }
 
     private String replaceEntitiesWithCharacters(String input){
-	input=STRreplace.replace(input, "&auml;","\u00e4");
-	input=STRreplace.replace(input, "&ouml;","\u00f6");
-	input=STRreplace.replace(input, "&uuml;","\u00fc");
-	input=STRreplace.replace(input, "&Auml;","\u00c4");
-	input=STRreplace.replace(input, "&Ouml;","\u00d4");
-	input=STRreplace.replace(input, "&Uuml;","\u00dc");
-	input=STRreplace.replace(input, "&szlig;","\u00df");
+        input=STRreplace.replace(input, "&auml;","\u00e4");
+        input=STRreplace.replace(input, "&ouml;","\u00f6");
+        input=STRreplace.replace(input, "&uuml;","\u00fc");
+        input=STRreplace.replace(input, "&Auml;","\u00c4");
+        input=STRreplace.replace(input, "&Ouml;","\u00d4");
+        input=STRreplace.replace(input, "&Uuml;","\u00dc");
+        input=STRreplace.replace(input, "&szlig;","\u00df");
 
-	return input;
+        return input;
     }
 
     private void loadPictures (final CacheHolder cacheHolder, final CacheImages cacheImages){
@@ -446,7 +449,7 @@ public class OCXMLImporter {
         }
         return result;
     }
-    
+
     private LogList readLogList (final JSONArray listOfJsonLogs) throws JSONException{
         final LogList result = new LogList();
         for (int i=0; i < listOfJsonLogs.length(); i++){
@@ -467,13 +470,13 @@ public class OCXMLImporter {
 
     private String translateIcon(final String input){
         if (input.equals("Found it")){
-                return Log.typeText2Image("Found");
+            return Log.typeText2Image("Found");
         }
         else if(input.equals("Didn't find it")){
-                    return Log.typeText2Image("Not Found");
+            return Log.typeText2Image("Not Found");
         }
         else{
-             return Log.typeText2Image("Note");
+            return Log.typeText2Image("Note");
         }
     }
 
@@ -496,8 +499,8 @@ public class OCXMLImporter {
         for (int i=0; i < attributes.length();i++){
             final String attributeName = attributes.getString(i);
             holder.getDetails()
-                .getAttributes()
-                .addByOcId (attributeName);
+            .getAttributes()
+            .addByOcId (attributeName);
         }
     }
 
@@ -526,8 +529,10 @@ public class OCXMLImporter {
             if (imgRegexAlt.search(imgTag)) {
                 imgAltText = imgRegexAlt.stringMatched(1);
                 if (imgAltText == null)
+                {
                     imgAltText = imgRegexAlt.stringMatched(2);
-                // no alternative text as image title -> use filename
+                    // no alternative text as image title -> use filename
+                }
             }
             else {
                 if (fetchUrl.toLowerCase().indexOf("opencaching.") > 0 || fetchUrl.toLowerCase().indexOf("geocaching.com") > 0){
@@ -590,27 +595,33 @@ public class OCXMLImporter {
         catch (final IOException e) {
             String ErrMessage;
             String wp, n;
-            if (cacheHolder != null && cacheHolder.getCode() != null)
+            if (cacheHolder != null && cacheHolder.getCode() != null) {
                 wp = cacheHolder.getCode();
-            else
+            }
+            else {
                 wp = "WP???";
-            if (cacheHolder != null && cacheHolder.getName() != null)
+            }
+            if (cacheHolder != null && cacheHolder.getName() != null) {
                 n = cacheHolder.getName();
-            else
+            }
+            else {
                 n = "name???";
+            }
 
             String m;
             try {
                 m = e.getMessage();
-                if (m == null)
+                if (m == null) {
                     m = "";
+                }
             }
             catch (Exception e2) {
                 m = "";
             }
 
-            if (m.length() == 0)
+            if (m.length() == 0) {
                 ErrMessage = "Ignoring error: OCXMLImporter.getPic: IOExeption == null, while downloading picture: " + fileName + " from URL:" + imageInfo.getURL();
+            }
             else {
                 if (m.equalsIgnoreCase("could not connect") || m.equalsIgnoreCase("unkown host")) {
                     // is there a better way to find out what happened?
@@ -626,48 +637,48 @@ public class OCXMLImporter {
     }
 
     private void loadAdditionalWaypoints(final JSONArray altWptList) throws JSONException{
-	if (altWptList == null){
-	    return;
-	}
-       
-	//TODO: Clean-Code: Seems to be duplicated from above. Check and extract methods for the same:
-	for (int i = 0; i < altWptList.length (); i++){
-	    JSONObject altWaypoint = (JSONObject) altWptList.get(i);
-	    Preferences.itself().log("Additional waypoint " +altWaypoint);
-	    final String ocCode = altWaypoint.getString("name");
-	    //--
-	    final int index = cacheDB.getIndex(ocCode);
-	    final CacheHolder syncHolder;
-	    if (index == -1) {
-		syncHolder = new CacheHolder();
-		syncHolder.setCode (ocCode);
-		Preferences.itself().log("Importing new additional waypoint!");
-		syncHolder.setNew(true);
-		cacheDB.add(syncHolder);
-		DBindexID.put(syncHolder.getIdOC(), syncHolder.getCode());
-	    }
-	    // update (overwrite) data
-	    else {
-		syncHolder = cacheDB.get(index);
-		Preferences.itself().log("Updating existing additional waypoint!");
-		syncHolder.setNew(false);
-		syncHolder.setIncomplete(false);
-		cacheDB.get(index).update(syncHolder);
-		DBindexID.put(syncHolder.getIdOC(), syncHolder.getCode());
-	    }
-	    //-- TODO: Duplicated code: The same has been implemented above
-	    final String locationText = altWaypoint.getString("location");
-	    syncHolder.getWpt().latDec = Common.parseDouble(locationText.substring(0, locationText.indexOf('|')));
-	    syncHolder.getWpt().lonDec = Common.parseDouble(locationText.substring(locationText.indexOf('|')+1));
-	    
+        if (altWptList == null){
+            return;
+        }
 
-	    syncHolder.setType (translateType(altWaypoint.getString("gc_type")));
-	    syncHolder.setName (altWaypoint.getString("type_name"));
-	    syncHolder.getDetails().saveCacheXML(MainForm.profile.dataDir);
-	    syncHolder.getDetails().setUnsaved(true); // this makes CachHolder save the details in case that they are unloaded from memory
+        //TODO: Clean-Code: Seems to be duplicated from above. Check and extract methods for the same:
+        for (int i = 0; i < altWptList.length (); i++){
+            JSONObject altWaypoint = (JSONObject) altWptList.get(i);
+            Preferences.itself().log("Additional waypoint " +altWaypoint);
+            final String ocCode = altWaypoint.getString("name");
+            //--
+            final int index = cacheDB.getIndex(ocCode);
+            final CacheHolder syncHolder;
+            if (index == -1) {
+                syncHolder = new CacheHolder();
+                syncHolder.setCode (ocCode);
+                Preferences.itself().log("Importing new additional waypoint!");
+                syncHolder.setNew(true);
+                cacheDB.add(syncHolder);
+                DBindexID.put(syncHolder.getIdOC(), syncHolder.getCode());
+            }
+            // update (overwrite) data
+            else {
+                syncHolder = cacheDB.get(index);
+                Preferences.itself().log("Updating existing additional waypoint!");
+                syncHolder.setNew(false);
+                syncHolder.setIncomplete(false);
+                cacheDB.get(index).update(syncHolder);
+                DBindexID.put(syncHolder.getIdOC(), syncHolder.getCode());
+            }
+            //-- TODO: Duplicated code: The same has been implemented above
+            final String locationText = altWaypoint.getString("location");
+            syncHolder.getWpt().latDec = Common.parseDouble(locationText.substring(0, locationText.indexOf('|')));
+            syncHolder.getWpt().lonDec = Common.parseDouble(locationText.substring(locationText.indexOf('|')+1));
 
-	}
-	    /*
+
+            syncHolder.setType (translateType(altWaypoint.getString("gc_type")));
+            syncHolder.setName (altWaypoint.getString("type_name"));
+            syncHolder.getDetails().saveCacheXML(MainForm.profile.dataDir);
+            syncHolder.getDetails().setUnsaved(true); // this makes CachHolder save the details in case that they are unloaded from memory
+
+        }
+        /*
 	      name	"OC13356-2"
 	      location	"50.23245|8.543917"
 	      type	"parking"
@@ -675,6 +686,6 @@ public class OCXMLImporter {
 	      gc_type	"Parking Area"
 	      sym	"Parking Area"
 	      description	"Forellengut"
-	    */
+         */
     }
 }

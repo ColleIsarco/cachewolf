@@ -949,7 +949,7 @@ class WebMapService extends OnlineMapService {
     }
 
     /**
-     * This method gives the number in the array of coordinateReferenceSystems, which should be used a) if only one is in the array 0 is returned b) if there are more, find out which one matches the correct zone (e.g. Gauß-Krüger stripe)
+     * This method gives the number in the array of coordinateReferenceSystems, which should be used a) if only one is in the array 0 is returned b) if there are more, find out which one matches the correct zone (e.g. GauÃŸ-KrÃ¼ger stripe)
      * <p>
      * Call this routine with center of the area (use BoundingBox.getcenter())
      *
@@ -960,7 +960,7 @@ class WebMapService extends OnlineMapService {
         int crsindex = 0;
         if (coordinateReferenceSystem.length > 1) {
             ProjectedPoint gkbl = TransformCoordinates.wgs84ToLocalsystem(p, TransformCoordinates.getLocalProjectionSystem(coordinateReferenceSystem[0]));
-            // TODO: think / read about what to do if bottom left and top right are not in the same Gauss-Krüger stripe?
+            // TODO: think / read about what to do if bottom left and top right are not in the same Gauss-KrÃ¼ger stripe?
             int wantepsg = gkbl.getEpsgCode();
             for (crsindex = 0; crsindex < coordinateReferenceSystem.length; crsindex++) {
                 if (coordinateReferenceSystem[crsindex] == wantepsg)
@@ -977,8 +977,8 @@ class WebMapService extends OnlineMapService {
 
             }
             if (crsindex < 0) {
-                Preferences.itself().log(MyLocale.getMsg(4829, "getUrlForBoundingBox: Point:") + " " + gkbl.toString() + MyLocale.getMsg(4830, "no matching Gauß-Krüger-Stripe in the EPSG-code list in the .wms"));
-                throw new IllegalArgumentException(MyLocale.getMsg(4829, "getUrlForBoundingBox: Point:") + " " + gkbl.toString() + MyLocale.getMsg(4830, "no matching Gauß-Krüger-Stripe in the EPSG-code list in the .wms"));
+                Preferences.itself().log(MyLocale.getMsg(4829, "getUrlForBoundingBox: Point:") + " " + gkbl.toString() + MyLocale.getMsg(4830, "no matching GauÃŸ-KrÃ¼ger-Stripe in the EPSG-code list in the .wms"));
+                throw new IllegalArgumentException(MyLocale.getMsg(4829, "getUrlForBoundingBox: Point:") + " " + gkbl.toString() + MyLocale.getMsg(4830, "no matching GauÃŸ-KrÃ¼ger-Stripe in the EPSG-code list in the .wms"));
             }
         }
         return crsindex;
