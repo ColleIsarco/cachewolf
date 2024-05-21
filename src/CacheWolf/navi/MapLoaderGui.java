@@ -320,7 +320,7 @@ public class MapLoaderGui extends Form {
                 if (!progressBox.isClosed()) {
                     ch = cacheDB.get(i);
                     if (!this.onlySelected || ch.isChecked) {
-                        // TODO != 0 sollte verschwinden, sobald das handling von nicht gesetzten Koos überall korrekt ist
+                        // TODO != 0 sollte verschwinden, sobald das handling von nicht gesetzten Koos Ã¼berall korrekt ist
                         if (ch.getWpt().isValid() && ch.getWpt().latDec != 0 && ch.getWpt().lonDec != 0) {
                             numdownloaded++;
                             progressBox.setInfo(MyLocale.getMsg(1820, "Downloading map '") + mapLoader.getCurrentOnlineMapService().getName() + "'\n" + numdownloaded + " / " + numCaches + MyLocale.getMsg(1821, "\n for cache:\n") + ch.getName());
@@ -444,7 +444,7 @@ public class MapLoaderGui extends Form {
                     // es gibt keinen anderen mehr (bis ihn jemand wieder einbaut)
                     WebMapService wms = (WebMapService) mapLoader.getCurrentOnlineMapService();
                     if (wms.requestUrlPart.equalsIgnoreCase("Tile")) {
-                        // Text nach Zoom ändern
+                        // Text nach Zoom Ã¤ndern
                         this.scaleLbl.text = "Zoom";
                         this.scaleLblPerCache.text = "Zoom";
                     } else {

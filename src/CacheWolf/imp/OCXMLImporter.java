@@ -71,10 +71,8 @@ public class OCXMLImporter {
     // boolean debugGPX = false;
     CacheDB cacheDB;
     InfoBox inf;
-    // CacheHolder ch;
     CacheHolder holder;
     Time dateOfthisSync;
-    // String strData = "";
     int picCnt;
     boolean incUpdate = true; // complete or incremental Update
     boolean incFinds = true;
