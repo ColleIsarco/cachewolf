@@ -34,6 +34,7 @@ import ewe.io.AsciiCodec;
 import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.io.FileInputStream;
+import ewe.io.IOException;
 import ewe.net.URL;
 import ewe.sys.Time;
 import ewe.sys.Vm;
@@ -1373,29 +1374,9 @@ public class GCImporter {
 
     private void getPmCacheCoordinates (CacheHolder ch) {
         try {
-            var ocId = ch.getIdOC();
-            var trackableUrl = "https://www.geocaching.com/track/search.aspx?wid=" + ocId;
-            var response = UrlFetcher.fetch(trackableUrl);
-            var parsed = Jsoup.parse(response);
-            var table = parsed.select("table.Table > tbody > tr");
-            var rg = RandomGeneratorFactory.getDefault().create();
-            var elementNumber = Random.from(rg)
-                    .ints(0, table.size())
-                    .findFirst();
-            var tableRow = table.get(elementNumber.getAsInt());
-            Preferences.itself().log(tableRow.toString());
-            var url = tableRow.getElementsByTag("td")
-                    .get(1).getElementsByTag("a")
-                    .getFirst()
-                    .attr("href");
-            Preferences.itself().log("" + url);
-            int index = url.lastIndexOf('=');
-            var trackableId = url.substring(index + 1);
-            var mapUrl = "https://www.geocaching.com/track/map_gm.aspx?ID=" + trackableId;
-            Preferences.itself().log("" + mapUrl);
-            //// -------
-            var mapText = UrlFetcher.fetch(mapUrl);
-
+            getMapUrl(ch);
+            // parsed = Jsoup.parse(mapText);
+            // table = parsed.select("/html/body/form[1]/main/div/div/table");
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
@@ -1416,6 +1397,32 @@ public class GCImporter {
             Preferences.itself().log ("Error while loading the details: ",e, true);
         }
 
+    }
+
+    private void getMapUrl(CacheHolder ch) throws IOException {
+        var ocId = ch.getIdOC();
+        var trackableUrl = "https://www.geocaching.com/track/search.aspx?wid=" + ocId;
+        var response = UrlFetcher.fetch(trackableUrl);
+        var parsed = Jsoup.parse(response);
+        var table = parsed.select("table.Table > tbody > tr");
+        var rg = RandomGeneratorFactory.getDefault().create();
+        var elementNumber = Random.from(rg)
+                .ints(0, table.size())
+                .findFirst();
+        var tableRow = table.get(elementNumber.getAsInt());
+        Preferences.itself().log(tableRow.toString());
+        var url = tableRow.getElementsByTag("td")
+                .get(1).getElementsByTag("a")
+                .getFirst()
+                .attr("href");
+        Preferences.itself().log("" + url);
+        int index = url.lastIndexOf('=');
+        var trackableId = url.substring(index + 1);
+        var mapUrl = "https://www.geocaching.com/track/map_gm.aspx?ID=" + trackableId;
+        Preferences.itself().log("" + mapUrl);
+        //// -------
+        var mapText = UrlFetcher.fetch(mapUrl);
+        Preferences.itself().log("" + mapText);
     }
 
     private JSONObject getJsonDescriptionOfCache(String gcCode) {
