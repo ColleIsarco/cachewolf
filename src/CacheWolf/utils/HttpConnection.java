@@ -21,6 +21,8 @@ See http://www.cachewolf.de/ for more information.
  */
 package CacheWolf.utils;
 
+import javax.net.ssl.*;
+
 import ewe.data.Property;
 import ewe.data.PropertyList;
 import ewe.io.*;
@@ -669,6 +671,9 @@ public class HttpConnection {
                         // Now have to decode the data.
                         handle.setFlags(SocketConnected, 0);
 
+                        //SSLSocketFactory factory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+                        //SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
+                        //socket.close();
                         TlsSocket tls = new TlsSocket(useSslTls, sock);
                         makeRequest(tls.inputStream, tls.outputStream, serverTextDecoder);
                         handle.returnValue = connectedSocket = tls;

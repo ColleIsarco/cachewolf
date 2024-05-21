@@ -260,7 +260,7 @@ public final class GuiImageBroker {
             if (useIcons) {
                 if (leftIcons) {
                     btn = new mButton(getText(text));
-                    // Graphics.Up, Graphics.Down, Graphics.Right, Graphics.Left // über, unter, rechts, links vom Icon
+                    // Graphics.Up, Graphics.Down, Graphics.Right, Graphics.Left // Ã¼ber, unter, rechts, links vom Icon
                     btn.textPosition = Graphics.Right;
                     btn.image = getImage(icon);
                 } else {
