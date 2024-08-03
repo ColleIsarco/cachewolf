@@ -96,12 +96,12 @@ public final class GotoPanel extends CellPanel {
 
         // Format selection for coords (context) menu
         mnuContextFormt = new Menu();
-        currFormatSel = 1; // default to d� m.m
-        mnuContextFormt.addItem(miCooformat[0] = new MenuItem("d.d�"));
+        currFormatSel = 1; // default to d째 m.m
+        mnuContextFormt.addItem(miCooformat[0] = new MenuItem("d.d째"));
         miCooformat[0].modifiers &= ~MenuItem.Checked;
-        mnuContextFormt.addItem(miCooformat[1] = new MenuItem("d컈.m\'"));
+        mnuContextFormt.addItem(miCooformat[1] = new MenuItem("d째m.m\'"));
         miCooformat[1].modifiers |= MenuItem.Checked; // default
-        mnuContextFormt.addItem(miCooformat[2] = new MenuItem("d컈\'s\""));
+        mnuContextFormt.addItem(miCooformat[2] = new MenuItem("d째m\'s\""));
         miCooformat[2].modifiers &= ~MenuItem.Checked;
         mnuContextFormt.addItems(TransformCoordinates.localSystemsFriendlyShortname());
 

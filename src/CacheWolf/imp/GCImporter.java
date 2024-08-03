@@ -1374,8 +1374,11 @@ public class GCImporter {
 
     private void getPmCacheCoordinates (CacheHolder ch) {
         try {
-            getMapUrl(ch);
-            // parsed = Jsoup.parse(mapText);
+            var mapUrl = getMapUrl(ch);
+            //// -------
+            var mapText = UrlFetcher.fetch(mapUrl);
+            Preferences.itself().log("" + mapText);
+            var parsed = Jsoup.parse(mapText);
             // table = parsed.select("/html/body/form[1]/main/div/div/table");
         }
         catch (Exception e) {
@@ -1399,7 +1402,7 @@ public class GCImporter {
 
     }
 
-    private void getMapUrl(CacheHolder ch) throws IOException {
+    private String getMapUrl(CacheHolder ch) throws IOException {
         var ocId = ch.getIdOC();
         var trackableUrl = "https://www.geocaching.com/track/search.aspx?wid=" + ocId;
         var response = UrlFetcher.fetch(trackableUrl);
@@ -1420,9 +1423,7 @@ public class GCImporter {
         var trackableId = url.substring(index + 1);
         var mapUrl = "https://www.geocaching.com/track/map_gm.aspx?ID=" + trackableId;
         Preferences.itself().log("" + mapUrl);
-        //// -------
-        var mapText = UrlFetcher.fetch(mapUrl);
-        Preferences.itself().log("" + mapText);
+        return mapUrl;
     }
 
     private JSONObject getJsonDescriptionOfCache(String gcCode) {
