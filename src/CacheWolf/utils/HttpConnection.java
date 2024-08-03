@@ -32,7 +32,6 @@ import ewe.sys.Convert;
 import ewe.sys.Handle;
 import ewe.sys.Vm;
 import ewe.util.*;
-import CacheWolf.Preferences;
 import gro.cachewolf.tls.TlsSocket;
 
 /**
@@ -179,12 +178,14 @@ public class HttpConnection {
      */
     public HttpConnection getRedirectedConnection(String redirectTo) {
         if (!redirectTo.startsWith("http")) {
-            if (!redirectTo.startsWith("/"))
+            if (!redirectTo.startsWith("/")) {
                 redirectTo = "/" + redirectTo;
+            }
 
             String redirectToHost = host;
-            if (useProxy)
+            if (useProxy) {
                 redirectToHost = proxyDocumentHost;
+            }
 
             if (this.useSslTls || port == 443 || this.proxyDocumentIsSslTls) {
                 redirectTo = "https://" + redirectToHost + redirectTo;
@@ -217,8 +218,9 @@ public class HttpConnection {
      * addRequestField();
      */
     private PropertyList getRequestFields() {
-        if (requestFields == null)
+        if (requestFields == null) {
             requestFields = new PropertyList();
+        }
         return requestFields;
     }
 
@@ -238,22 +240,23 @@ public class HttpConnection {
     public void setPostData(Object data) {
         if (data instanceof Stream){
             bytesToPost = (Stream) data;
-	}
+        }
         else if (data instanceof ByteArray) {
             originalPostData = data;
             bytesToPost = new MemoryFile((ByteArray) data);
             getRequestFields().defaultTo("Content-Length", Convert.toString(((ByteArray) data).length));
         }
-	else if (data instanceof byte[]) {
+        else if (data instanceof byte[]) {
             originalPostData = data;
             bytesToPost = new MemoryFile(new ByteArray((byte[]) data));
             getRequestFields().defaultTo("Content-Length", Convert.toString(((byte[]) data).length));
         }
-	else if (data instanceof String) {
+        else if (data instanceof String) {
             String s = (String) data;
             TextCodec td = textCodec;
-            if (td == null)
+            if (td == null) {
                 td = new AsciiCodec();
+            }
             try {
                 ByteArray got = td.encodeText(Vm.getStringChars(s), 0, s.length(), true, null);
                 setPostData(got.toBytes());
@@ -261,13 +264,13 @@ public class HttpConnection {
                 // Global.getPref().log("Ignored exception", e, true);
             }
         }
-	else if (data instanceof InputStream){
+        else if (data instanceof InputStream){
             bytesToPost = new StreamAdapter((InputStream) data);
-	}
+        }
 
         if (bytesToPost != null && command.equalsIgnoreCase("get")){
             command = "POST";
-	}
+        }
     }
 
     /**
@@ -289,7 +292,7 @@ public class HttpConnection {
             port = 443;
             uu = "http://" + uu.substring(8);
         }
-	else {
+        else {
             useSslTls = false;
             port = 80;
         }
@@ -300,7 +303,7 @@ public class HttpConnection {
             int first = host.indexOf('/');
             if (first == -1){
                 document = "/";
-	    }
+            }
             else {
                 document = host.substring(first);
                 host = host.substring(0, first);
@@ -334,19 +337,19 @@ public class HttpConnection {
     public String getHost() {
         if (HttpConnection.useProxy){
             return proxyDocumentHost;
-	}
+        }
         else{
             return host;
-	}
+        }
     }
 
     private String getEncodedDocument() {
         if (documentIsEncoded){
             return document;
-	}
+        }
         else{
             return URL.encodeURL(document, false);
-	}
+        }
     }
 
     private Object waitOnIO(Handle h, String errorMessage) throws IOException {
@@ -356,10 +359,10 @@ public class HttpConnection {
         } catch (Exception e) {
             if (h.errorObject instanceof IOException){
                 throw (IOException) h.errorObject;
-	    }
+            }
             else{
                 throw new IOException(errorMessage);
-	    }
+            }
         }
     }
 
@@ -367,21 +370,21 @@ public class HttpConnection {
         responseCode = -1;
         if (td == null){
             td = new AsciiCodec();
-	}
+        }
         PropertyList pl = new PropertyList();
         if (requestFields != null){
             pl.set(requestFields);
-	}
+        }
         pl.defaultTo("Connection", "close");
         pl.defaultTo("Host", host);
-        
-	StringBuffer sb = new StringBuffer();
+
+        StringBuffer sb = new StringBuffer();
         sb.append(command + " " + getEncodedDocument() + " " + requestVersion + "\r\n");
         for (int i = 0; i < pl.size(); i++) {
             Property p = (Property) pl.get(i);
             if (p.value != null){
                 sb.append(p.name + ": " + p.value + "\r\n");
-	    }
+            }
         }
         sb.append("\r\n");
         String req = sb.toString();
@@ -402,15 +405,15 @@ public class HttpConnection {
             int got = is.read();
             if (got == -1){
                 throw new IOException("Unexpected end of stream." + ba.toString());
-	    }
+            }
             if (got == 10) {
                 if (lastReceived == 10){
                     break; //Got all the data now.
-		}
+                }
             }
-	    else if (got == 13){
+            else if (got == 13){
                 continue; //Ignore CR.
-	    }
+            }
             ba.append((byte) got);
             lastReceived = got;
         }
@@ -425,25 +428,25 @@ public class HttpConnection {
         responseFields = new ewe.data.PropertyList();
         if (got == 0){
             throw new IOException("No response");
-	}
+        }
 
         String response = lines.get(0).toString();
         responseFields.set("response", response);
 
-	int idx = response.indexOf(' ');
-	if (idx != -1) {
-	    int id2 = response.indexOf(' ', idx + 1);
-	    if (id2 != -1) {
-		responseCode = ewe.sys.Convert.toInt(response.substring(idx + 1, id2));
-	    }
-	}
+        int idx = response.indexOf(' ');
+        if (idx != -1) {
+            int id2 = response.indexOf(' ', idx + 1);
+            if (id2 != -1) {
+                responseCode = ewe.sys.Convert.toInt(response.substring(idx + 1, id2));
+            }
+        }
 
         for (int i = 1; i < got; i++) {
             String s = lines.get(i).toString();
             idx = s.indexOf(':');
             if (idx == -1){
                 continue;
-	    }
+            }
             String name = s.substring(0, idx).trim().toLowerCase();
             String value = s.substring(idx + 1).trim();
             responseFields.add(name, value);
@@ -465,10 +468,12 @@ public class HttpConnection {
              * has to wait.
              */
             int read = in.read(buff, 0, buff.length);
-            if (read == -1)
+            if (read == -1) {
                 break;
-            if (read == 0)
+            }
+            if (read == 0) {
                 continue;
+            }
             /*
              * This writeBytes method will block the current Coroutine until
              * all bytes are written. It will let other Coroutines run if it
@@ -494,32 +499,32 @@ public class HttpConnection {
     public String getRedirectTo() {
         if (responseCode < 300 || responseCode > 399){
             return null;
-	}
-	else{
-	    return responseFields.getString("location", null);
-	}
+        }
+        else{
+            return responseFields.getString("location", null);
+        }
     }
 
     private int readInChunkedHeader(InputStream connection, ByteArray buff, CharArray chBuff) throws IOException {
         if (buff == null){
             buff = new ByteArray();
-	}
+        }
         buff.clear();
 
-	int count = 0;
-	while (true) {
+        int count = 0;
+        while (true) {
             int got = connection.read();
             if (got == -1){
                 throw new IOException();
-	    }
+            }
             if (got == '\n'){
                 break;
-	    }
+            }
             buff.append((byte) got);
-	    count++;
+            count++;
             if (count > 1024){
-		break;
-	    }
+                break;
+            }
         }
 
         chBuff = new AsciiCodec().decodeText(buff.data, 0, buff.length, true, chBuff);
@@ -546,7 +551,7 @@ public class HttpConnection {
         int length = responseFields.getInt("content-length", -1);
         if (length == 0){
             return new Handle(Handle.Succeeded, new ByteArray());
-	}
+        }
         return StreamUtils.readAllBytes(getInputStream(), null, length, 0);
     }
 
@@ -577,20 +582,22 @@ public class HttpConnection {
                 private ByteArray ba = new ByteArray();
                 private CharArray ca = new CharArray();
 
+                @Override
                 protected boolean loadAndPutDataBlock() throws IOException {
                     if (leftInBlock <= 0) {
                         leftInBlock = readInChunkedHeader(connectedSocket.inputStream, ba, ca);
-                        if (leftInBlock <= 0)
+                        if (leftInBlock <= 0) {
                             return false;
+                        }
                     }
                     int toRead = leftInBlock;
                     if (toRead > buff.length){
                         toRead = buff.length;
-		    }
+                    }
                     int got = connectedSocket.inputStream.read(buff, 0, toRead);
                     if (got == -1){
                         throw new IOException();
-		    }
+                    }
                     leftInBlock -= got;
                     putInBuffer(buff, 0, got);
                     if (leftInBlock == 0) {
@@ -598,19 +605,19 @@ public class HttpConnection {
                             got = connectedSocket.inputStream.read();
                             if (got == -1){
                                 throw new IOException();
-			    }
+                            }
                             if (got == '\n'){
                                 break;
-			    }
+                            }
                         }
                     }
-		    return true;
+                    return true;
                 }
             }.toInputStream();
-	}
+        }
         else{
             return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
-	}
+        }
     }
 
     /*
@@ -647,6 +654,7 @@ public class HttpConnection {
     private Handle connectAsync(final TextCodec serverTextDecoder)
     {
         return new ewe.sys.TaskObject() {
+            @Override
             protected void doRun() {
                 while (true) {
                     // Create a Socket using an IOHandle.
@@ -656,7 +664,7 @@ public class HttpConnection {
                         sh = new Handle(Handle.Succeeded, openSocket);
                         sock = openSocket.socket;
                     }
-		    else {
+                    else {
                         sh = new IOHandle();
                         sock = new Socket(host, port, (IOHandle) sh);
                     }
@@ -665,13 +673,13 @@ public class HttpConnection {
                         // Now wait until connected.
                         if (!waitOnSuccess(sh, true)){
                             return;
-			    }
+                        }
 
                         // Report that the socket connection was made.
                         // Now have to decode the data.
                         handle.setFlags(SocketConnected, 0);
 
-                        //SSLSocketFactory factory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+                        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                         //SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
                         //socket.close();
                         TlsSocket tls = new TlsSocket(useSslTls, sock);
@@ -680,13 +688,13 @@ public class HttpConnection {
                         handle.setFlags(Handle.Success, 0);
                         return;
                     }
-		    catch (Throwable e) {
+                    catch (Throwable e) {
                         e.printStackTrace();
                         if (openSocket == null) {
                             handle.failed(e);
                             return;
                         }
-			else {
+                        else {
                             openSocket = null;
                             continue;
                         }
