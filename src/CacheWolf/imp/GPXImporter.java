@@ -151,13 +151,13 @@ public class GPXImporter extends MinML {
                             MainTab.itself.tablePanel.updateStatusBar(MyLocale.getMsg(4000, "Loaded caches: ") + zaehlerGel);
 
                             String lineRead = tr.readLine().toLowerCase();
-                            if (lineRead.startsWith("﻿") || lineRead.indexOf("encoding=\"utf-8\"") > 0) {
+                            if (lineRead.startsWith("ï»¿") || lineRead.indexOf("encoding=\"utf-8\"") > 0) {
                                 tr.close();
                                 // InputStreamReader r = new InputStreamReader(zif.getInputStream(zipEnt));
                                 tr = new TextReader(zif.getInputStream(zipEnt));
                                 tr.codec = new BetterUTF8Codec();
-                                if (lineRead.startsWith("﻿")) {
-                                    // erste Zeile �berlesen
+                                if (lineRead.startsWith("ï»¿")) {
+                                    // erste Zeile überlesen
                                     // <?xml version="1.0" encoding="utf-8"?>
                                     // weil der parser das erste Zeichen nicht mag und dann aussteigt
                                     tr.read();
@@ -176,12 +176,12 @@ public class GPXImporter extends MinML {
                     MainTab.itself.tablePanel.updateStatusBar(MyLocale.getMsg(4000, "Loaded caches: ") + zaehlerGel);
 
                     String lineRead = tr.readLine().toLowerCase();
-                    if (lineRead.startsWith("﻿") || lineRead.indexOf("encoding=\"utf-8\"") > 0) {
+                    if (lineRead.startsWith("ï»¿") || lineRead.indexOf("encoding=\"utf-8\"") > 0) {
                         tr.close();
                         tr = new TextReader(file);
                         tr.codec = new BetterUTF8Codec();
-                        if (lineRead.startsWith("﻿")) {
-                            // erste Zeile �berlesen
+                        if (lineRead.startsWith("ï»¿")) {
+                            // erste Zeile überlesen
                             // <?xml version="1.0" encoding="utf-8"?>
                             // weil der parser das erste Zeichen nicht mag und dann aussteigt
                             tr.read();
@@ -731,14 +731,14 @@ public class GPXImporter extends MinML {
         int descIndex = 0;
         while (imgRegexUrl.searchFrom(html, descIndex)) {
             descIndex = imgRegexUrl.matchedTo();
-            String fetchUrl = imgRegexUrl.stringMatched(2); // URL in Anf�hrungszeichen in (2)
+            String fetchUrl = imgRegexUrl.stringMatched(2); // URL in Anführungszeichen in (2)
             if (fetchUrl == null) {
                 fetchUrl = imgRegexUrl.stringMatched(3);
             } // falls ohne in (3)
             if (fetchUrl == null) {
                 continue;
             } // schlechtes html
-            // fetchUrl ist auf jeden Fall ohne Anf�hrungszeichen
+            // fetchUrl ist auf jeden Fall ohne Anführungszeichen
             if (fetchUrl.startsWith("resource"))
                 continue; //
             if (fetchUrl.startsWith("images")) // z.B. Flaggen

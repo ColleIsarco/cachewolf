@@ -74,21 +74,26 @@ public class CacheHolderDetail {
     }
 
     // quick debug info
+    @Override
     public String toString() {
-        if (this.parent == null)
+        if (this.parent == null) {
             return "empty unassigned";
-        else if (parent.mainCache == null)
+        }
+        else if (parent.mainCache == null) {
             return parent.toString();
-        else
+        }
+        else {
             return parent + "(" + parent.mainCache + ")";
+        }
     }
 
     private String stripControlChars(String desc) {
         StringBuffer sb = new StringBuffer(desc.length());
         for (int i = 0; i < desc.length(); i++) {
             char c = desc.charAt(i);
-            if (c >= ' ' || c == 10 || c == 13)
+            if (c >= ' ' || c == 10 || c == 13) {
                 sb.append(c);
+            }
         }
         return sb.toString();
     }
@@ -111,17 +116,20 @@ public class CacheHolderDetail {
             Travelbug oldTB = this.Travelbugs.find(tb.getName());
             // If the bug is already in the cache, we keep it
             if (oldTB != null) {
-                if (tb.getMission().length() > 0)
+                if (tb.getMission().length() > 0) {
                     oldTB.setMission(tb.getMission());
-                if (tb.getGuid().length() > 0)
+                }
+                if (tb.getGuid().length() > 0) {
                     oldTB.setGuid(tb.getGuid());
+                }
                 newChD.Travelbugs.replace(i, oldTB);
             }
         }
         this.Travelbugs = newChD.Travelbugs;
 
-        if (newChD.attributes.count() > 0)
+        if (newChD.attributes.count() > 0) {
             this.attributes = newChD.attributes;
+        }
         this.URL = newChD.URL;
         if (this.gCNotes.length() > 0) {
             this.setCacheNotes(STRreplace.replace(this.CacheNotes, this.gCNotes, newChD.getGCNotes()));
@@ -135,12 +143,15 @@ public class CacheHolderDetail {
         if (newChD.ownLog != null) {
             this.ownLog = newChD.ownLog;
         }
-        if (newChD.country.length() > 0)
+        if (newChD.country.length() > 0) {
             this.country = newChD.country;
-        if (newChD.state.length() > 0)
+        }
+        if (newChD.state.length() > 0) {
             this.state = newChD.state;
-        if (newChD.getSolver().length() > 0)
+        }
+        if (newChD.getSolver().length() > 0) {
             this.setSolver(newChD.getSolver());
+        }
         return this;
     }
 
@@ -155,8 +166,9 @@ public class CacheHolderDetail {
         CacheImage imageInfo;
         // If parent cache has empty waypoint then don't do anything.<br>
         // This might happen when a cache object is freshly created to serve as container for imported data
-        if (this.parent.getCode().length() == 0)
+        if (this.parent.getCode().length() == 0) {
             return;
+        }
         File cacheFile = new File(dir + parent.getCode().toLowerCase() + ".xml"); // Kleinschreibung
         if (cacheFile.exists()) {
             try {
@@ -337,8 +349,9 @@ public class CacheHolderDetail {
         if (dummy.length() > 10) {
             URL = dummy;
             int logpos = URL.indexOf("&"); // &Submit &log=y
-            if (logpos > 0)
+            if (logpos > 0) {
                 URL = URL.substring(0, logpos);
+            }
         } else {
             // if no URL is stored, set default URL (at this time only possible for gc.com)
             if (parent.isGC()) {
@@ -570,8 +583,9 @@ public class CacheHolderDetail {
 
     public void setLongDescription(String longDescription) {
         String s = stripControlChars(longDescription);
-        if (mLongDescription.equals(""))
+        if (mLongDescription.equals("")) {
             parent.setNew(true);
+        }
         else {
             if (!s.equals(mLongDescription)) {
                 parent.setUpdated(true);
@@ -585,8 +599,9 @@ public class CacheHolderDetail {
     }
 
     public void setHints(String hints) {
-        if (!mHints.equals(hints))
+        if (!mHints.equals(hints)) {
             parent.setUpdated(true);
+        }
         mHints = hints;
     }
 
@@ -602,12 +617,14 @@ public class CacheHolderDetail {
         } else {
             int size = newLogs.size();
             for (int i = size - 1; i >= 0; i--) { // Loop over all new logs, must start with oldest log
-                if (mCacheLogs.merge(newLogs.getLog(i)) >= 0)
+                if (mCacheLogs.merge(newLogs.getLog(i)) >= 0) {
                     parent.setLogUpdated(true);
+                }
             }
         }
-        if (mCacheLogs.purgeLogs() > 0)
+        if (mCacheLogs.purgeLogs() > 0) {
             unsaved = true;
+        }
         parent.setNoFindLogs(mCacheLogs.countNotFoundLogs());
     }
 
@@ -693,8 +710,9 @@ public class CacheHolderDetail {
     }
 
     public void setSolver(String solver) {
-        if (!this.solver.equals(solver))
+        if (!this.solver.equals(solver)) {
             parent.setUpdated(true);
+        }
         parent.setHasSolver(!solver.trim().equals(""));
         this.solver = solver;
     }

@@ -2700,8 +2700,9 @@ public class GCImporter {
     private String wayPointPageGetHints() {
         hintsRex.searchFrom(wayPointPage, wayPointPageIndex);
         if (hintsRex.didMatch()) {
-            wayPointPageIndex = hintsRex.matchedTo();
-            return hintsRex.stringMatched(1);
+            wayPointPageIndex = hintsRex.matchedTo();// !!--
+            var hint = hintsRex.stringMatched(1);
+            return SafeXML.html2iso8859s1(hint);
         } else {
             Preferences.itself().log("[SpiderGC.java:getHints]check hintsRex!", null);
             return "";
