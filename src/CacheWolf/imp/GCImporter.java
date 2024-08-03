@@ -1379,7 +1379,7 @@ public class GCImporter {
             var mapText = UrlFetcher.fetch(mapUrl);
             Preferences.itself().log("" + mapText);
             var parsed = Jsoup.parse(mapText);
-            // table = parsed.select("/html/body/form[1]/main/div/div/table");
+            var table = parsed.select("/html/body/form[1]/main/div/div/table");
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);

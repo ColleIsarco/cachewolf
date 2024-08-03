@@ -58,8 +58,6 @@ import org.json.JSONObject;
  * http://develforum.opencaching.de/viewtopic.php?t=135&postdays=0&postorder=asc&start=0 for more information.
  */
 public class OCXMLImporter {
-    // static protected final int STAT_CACHE_DESC = 2;
-
     String hostname;
 
     int numCacheImported, numDescImported, numLogImported = 0;
