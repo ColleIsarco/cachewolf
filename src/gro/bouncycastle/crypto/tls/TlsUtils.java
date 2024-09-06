@@ -1288,17 +1288,16 @@ public class TlsUtils
                  */        case HashAlgorithm.sha1:
                      return X509ObjectIdentifiers.id_SHA1;
                  case HashAlgorithm.sha224:
+                     return NISTObjectIdentifiers.id_sha224;
+        case HashAlgorithm.sha256:
+                     return NISTObjectIdentifiers.id_sha256;
+                 case HashAlgorithm.sha384:
                      throw new UnsupportedClassVersionError();/*
-            return NISTObjectIdentifiers.id_sha224;
-                      */        case HashAlgorithm.sha256:
-                          return NISTObjectIdentifiers.id_sha256;
-                      case HashAlgorithm.sha384:
-                          throw new UnsupportedClassVersionError();/*
             return NISTObjectIdentifiers.id_sha384;
-                           */        case HashAlgorithm.sha512:
-                               return NISTObjectIdentifiers.id_sha512;
-                           default:
-                               throw new IllegalArgumentException("unknown HashAlgorithm");
+                      */        case HashAlgorithm.sha512:
+                          return NISTObjectIdentifiers.id_sha512;
+                      default:
+                          throw new IllegalArgumentException("unknown HashAlgorithm");
         }
     }
     /*

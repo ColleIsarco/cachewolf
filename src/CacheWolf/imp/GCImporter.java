@@ -1379,7 +1379,14 @@ public class GCImporter {
             var mapText = UrlFetcher.fetch(mapUrl);
             Preferences.itself().log("" + mapText);
             var parsed = Jsoup.parse(mapText);
-            var table = parsed.select("/html/body/form[1]/main/div/div/table");
+            var table = parsed.selectXpath("/html/body/form[1]/main/div/div/table/tbody/tr");
+            // Nummer der Zeile finden
+            for (int i = 0; i < table.size(); i++) {
+                var row = table.get(i);
+                System.out.print(row);
+            }
+            // Im Scriptknoten den i.ten Eintrag von unten ermitteln
+            // Jetzt haben wir die Koordinaten.
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
