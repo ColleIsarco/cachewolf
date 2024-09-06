@@ -356,7 +356,7 @@ public class GpxExportNg {
                 }
             }
 
-            // temporäres Verzeichnis löschen (wird bei gpi nicht mehr gebraucht)
+            // temporÃ¤res Verzeichnis lÃ¶schen (wird bei gpi nicht mehr gebraucht)
             if (outputStyle == OUTPUT_GPI) {
                 File tmpdir = new File(tempDir);
                 String tmp[] = new FileBugfix(tempDir).list(prefix + "*.*", ewe.io.FileBase.LIST_FILES_ONLY);
@@ -738,7 +738,7 @@ public class GpxExportNg {
         if (ch.hasNote()) // eigentlich  nur die von GC, aber
             ret_____.append("      <gsak:GcNote>").append(SafeXML.cleanGPX(ch.getDetails().getGCNotes())).append("</gsak:GcNote>").append(newLine); //
         if (ch.isSolved()) {
-            // wir kennen die OriginalKoordinaten nicht, aber es gibt wohl nichts für nur corrected coordinates
+            // wir kennen die OriginalKoordinaten nicht, aber es gibt wohl nichts fÃ¼r nur corrected coordinates
             ret_____.append("      <gsak:LatBeforeCorrect>").append(ch.getWpt().getLatDeg(TransformCoordinates.DD)).append("</gsak:LatBeforeCorrect>").append(newLine) //
                     .append("      <gsak:LonBeforeCorrect>").append(ch.getWpt().getLonDeg(TransformCoordinates.DD)).append("</gsak:LonBeforeCorrect>").append(newLine); //
         }
@@ -799,7 +799,7 @@ public class GpxExportNg {
         StringBuffer ret = new StringBuffer();
         Attribute attrib;
         for (int i = 0; i < ch.getDetails().getAttributes().count(); i++) {
-            // <groundspeak:attribute id="X" inc="Y">text für X</groundspeak:attribute>
+            // <groundspeak:attribute id="X" inc="Y">text fÃ¼r X</groundspeak:attribute>
             attrib = ch.getDetails().getAttributes().getAttribute(i);
             if (attrib.getGCId().length() > 0) {
                 ret.append("        <groundspeak:attribute id=\"").//
@@ -1107,7 +1107,7 @@ public class GpxExportNg {
         if (pos.isValid()) {
             return pos.toString();
         } else {
-            return "N/S  __ ° __ . ___ W/E ___ ° __ . ___";
+            return "N/S  __ Â° __ . ___ W/E ___ Â° __ . ___";
         }
     }
 
@@ -1621,7 +1621,7 @@ public class GpxExportNg {
             FileChooser fc;
             fc = new FileChooser(what, ibFilename.getText());
             if (what == FileChooserBase.DIRECTORY_SELECT) {
-                fc.setTitle(MyLocale.getMsg(616, "Verzeichnis auswählen"));
+                fc.setTitle(MyLocale.getMsg(616, "Verzeichnis auswÃ¤hlen"));
             } else {
                 fc.setTitle(MyLocale.getMsg(2021, "Ausgabedatei"));
                 fc.addMask("*.gpx");

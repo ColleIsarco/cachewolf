@@ -60,7 +60,9 @@ import org.json.JSONObject;
 public class OCXMLImporter {
     String hostname;
 
-    int numCacheImported, numDescImported, numLogImported = 0;
+    int               numCacheImported;
+    int               numDescImported;
+    int               numLogImported = 0;
     int numCacheUpdated, numDescUpdated, numLogUpdated = 0;
 
     CacheDB cacheDB;
