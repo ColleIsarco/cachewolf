@@ -61,7 +61,6 @@ public class OCXMLImporter {
     String hostname;
 
     int               numCacheImported;
-    // int numDescImported;
     int               numLogImported = 0;
     int               numCacheUpdated;
     int               numDescUpdated;

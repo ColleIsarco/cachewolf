@@ -80,7 +80,7 @@ public class HttpConnection {
      * All other properties will be as specified by the server,
      * and <b>the property names will be converted to all lowercase letters</b>.
      **/
-    public ewe.data.PropertyList responseFields;
+    public PropertyList           responseFields;
 
     /**
      * This is the response code from the server. It is only valid after a connection has
@@ -312,7 +312,7 @@ public class HttpConnection {
             }
             int colon = host.indexOf(':');
             if (colon != -1) {
-                port = ewe.sys.Convert.toInt(host.substring(colon + 1));
+                port = Convert.toInt(host.substring(colon + 1));
                 host = host.substring(0, colon);
             }
         }
