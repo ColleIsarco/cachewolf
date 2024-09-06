@@ -1383,7 +1383,9 @@ public class GCImporter {
             // Nummer der Zeile finden
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
-                System.out.print(row);
+                var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
+                var href = anchor.getFirst().attr("href");
+                System.out.print(href);
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
