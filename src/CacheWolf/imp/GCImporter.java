@@ -1384,8 +1384,13 @@ public class GCImporter {
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
                 var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
-                var href = anchor.getFirst().attr("href");
-                System.out.print(href);
+                if (anchor.size() > 0) {
+                    var href = anchor.getFirst().attr("href");
+                    System.out.println(href);
+                    if (href.endsWith(ch.getCode())) {
+                        System.out.println("-> " + i);
+                    }
+                }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.

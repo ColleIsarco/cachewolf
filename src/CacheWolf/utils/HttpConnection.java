@@ -130,7 +130,7 @@ public class HttpConnection {
      * These are sent after the initial GET/POST line.
      * This is initially null, so you will have to create a new PropertyList for it, or use one of the setRequestField() or addRequestField() methods.
      **/
-    private ewe.data.PropertyList requestFields;
+    private PropertyList          requestFields;
 
     /**
      * Set this to true for keep alive mode requests.

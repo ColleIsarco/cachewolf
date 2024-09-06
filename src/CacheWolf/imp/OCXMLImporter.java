@@ -61,7 +61,7 @@ public class OCXMLImporter {
     String hostname;
 
     int               numCacheImported;
-    int               numLogImported = 0;
+    // int numLogImported = 0;
     int               numCacheUpdated;
     int               numDescUpdated;
     int               numLogUpdated  = 0;
@@ -228,7 +228,7 @@ public class OCXMLImporter {
             MainForm.profile.setLast_sync_opencaching(/*TODO: dateOfthisSync.format("yyyyMMddHHmmss")*/"20200731165908");
             // Preferences.itself().savePreferences();
             finalMessage = MyLocale.getMsg(1607, "Update from opencaching successful");
-            inf.addWarning("Number of" + "\n...caches new/updated: " + numCacheImported + " / " + numCacheUpdated + "\n...logs new/updated: " + numLogImported);
+            inf.addWarning("Number of" + "\n...caches new/updated: " + numCacheImported + " / " + numCacheUpdated);
             inf.setInfo(finalMessage);
         }
         inf.setButtonText(MyLocale.getMsg(4107, "Done"), FormBase.CANCELB);
