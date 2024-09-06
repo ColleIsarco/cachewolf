@@ -1381,6 +1381,7 @@ public class GCImporter {
             var parsed = Jsoup.parse(mapText);
             var table = parsed.selectXpath("/html/body/form[1]/main/div/div/table/tbody/tr");
             // Nummer der Zeile finden
+            int lineCounter = 0;
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
                 var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
@@ -1394,6 +1395,7 @@ public class GCImporter {
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
+            var script = parsed.selectXpath("/html/body/form[1]/script");
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);

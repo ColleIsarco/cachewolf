@@ -390,7 +390,7 @@ public class HttpConnection {
         }
         sb.append("\r\n");
         String req = sb.toString();
-        char[] rc = ewe.sys.Vm.getStringChars(req);
+        char[] rc = Vm.getStringChars(req);
         ByteArray ba = ((TextCodec) td.getCopy()).encodeText(rc, 0, rc.length, true, null);
         os.write(ba.data, 0, ba.length);
         os.flush();
