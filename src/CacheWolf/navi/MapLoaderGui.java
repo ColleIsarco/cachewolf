@@ -39,6 +39,7 @@ import ewe.io.File;
 import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
+import ewe.ui.mTabbedPanel;
 import ewe.ui.*;
 
 /**
