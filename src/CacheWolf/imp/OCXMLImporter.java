@@ -61,7 +61,7 @@ public class OCXMLImporter {
     String hostname;
 
     int               numCacheImported;
-    int               numDescImported;
+    // int numDescImported;
     int               numLogImported = 0;
     int               numCacheUpdated;
     int               numDescUpdated;
@@ -520,7 +520,7 @@ public class OCXMLImporter {
                 inf.addWarning(MyLocale.getMsg(1617, "Ignoriere Fehler in html-Cache-Description: \"<img\" without \"src=\" in cache " + syncHolder.getCode()));
                 continue;
             }
-            inf.setInfo(MyLocale.getMsg(1611, "Importing cache description:") + " " + numDescImported + "\n" + MyLocale.getMsg(1620, "downloading embedded images: ") + numDownloaded++);
+            inf.setInfo(MyLocale.getMsg(1611, "Importing cache description") + "\n" + MyLocale.getMsg(1620, "downloading embedded images: ") + numDownloaded++);
             if (imgRegexAlt.search(imgTag)) {
                 imgAltText = imgRegexAlt.stringMatched(1);
                 if (imgAltText == null)
