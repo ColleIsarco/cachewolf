@@ -63,7 +63,9 @@ public class OCXMLImporter {
     int               numCacheImported;
     int               numDescImported;
     int               numLogImported = 0;
-    int numCacheUpdated, numDescUpdated, numLogUpdated = 0;
+    int               numCacheUpdated;
+    int               numDescUpdated;
+    int               numLogUpdated  = 0;
 
     CacheDB cacheDB;
     InfoBox inf;

@@ -214,7 +214,7 @@ public class GarminPicExporter {
         StringBuffer s = new StringBuffer(len);
         for (int i = 0; i < len; i++) {
             char ch = fileName.charAt(i);
-            if ((ch == ' ') || (ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z')) || ((ch >= '0') && (ch <= '9')) || (ch == 'ä') || (ch == 'Ä') || (ch == 'ü') || (ch == 'Ü') || (ch == 'ö') || (ch == 'Ö') || (ch == 'ß'))
+            if ((ch == ' ') || (ch == '_') || ((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z')) || ((ch >= '0') && (ch <= '9')) || (ch == 'Ã¤') || (ch == 'Ã„') || (ch == 'Ã¼') || (ch == 'Ãœ') || (ch == 'Ã¶') || (ch == 'Ã–') || (ch == 'ÃŸ'))
                 s.append(ch);
         }
         return s.toString();
