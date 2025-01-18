@@ -427,7 +427,7 @@ public class HttpConnection {
         }
         data.set(all.data, 0, all.length);
         int got = data.split('\n', lines);
-        responseFields = new ewe.data.PropertyList();
+        responseFields = new PropertyList();
         if (got == 0){
             throw new IOException("No response");
         }

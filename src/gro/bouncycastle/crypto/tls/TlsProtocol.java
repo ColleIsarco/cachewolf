@@ -1554,13 +1554,14 @@ public abstract class TlsProtocol
 
         default:
         {
-            throw new UnsupportedClassVersionError();/*
             if (isTLSv12)
             {
+                throw new UnsupportedClassVersionError();/*
                 return PRFAlgorithm.tls_prf_sha256;
+                */
             }
             return PRFAlgorithm.tls_prf_legacy;
-*/        }
+        }
         }
     }
     

@@ -1391,6 +1391,7 @@ public class GCImporter {
                     if (href.endsWith(ch.getCode())) {
                         System.out.println("-> " + i);
                     }
+                    lineCounter++;
                 }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
