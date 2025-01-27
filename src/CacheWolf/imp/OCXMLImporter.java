@@ -196,7 +196,6 @@ public class OCXMLImporter {
         incUpdate = true;
         if (Convert.toInt(dist) > Convert.toInt(MainForm.profile.getDistOC()) || Preferences.itself().downloadAllOC) {
             // resysnc
-            lastS = "20050801000000";
             incUpdate = false;
         }
         MainForm.profile.setDistOC(dist);

@@ -34,6 +34,7 @@ import com.stevesoft.ewe_pat.Transformer;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Sound;
+import ewe.io.FileBase;
 import ewe.io.*;
 import ewe.sys.*;
 import ewe.sys.Process;

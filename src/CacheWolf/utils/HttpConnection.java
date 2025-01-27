@@ -439,7 +439,7 @@ public class HttpConnection {
         if (idx != -1) {
             int id2 = response.indexOf(' ', idx + 1);
             if (id2 != -1) {
-                responseCode = ewe.sys.Convert.toInt(response.substring(idx + 1, id2));
+                responseCode = Convert.toInt(response.substring(idx + 1, id2));
             }
         }
 
