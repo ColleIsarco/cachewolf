@@ -398,7 +398,7 @@ public class HttpConnection {
         os.flush();
 
         if (bytesToPost != null) {
-            transfer(bytesToPost, os);
+            transfer_new(bytesToPost, os);
             os.flush();
             bytesToPost.close();
         }
@@ -546,6 +546,38 @@ public class HttpConnection {
         }
         contentLength = responseFields.getInt("content-length", -1);
         return responseCode;
+    }
+
+    /**
+     * Copy from the "in" stream to the "out" stream. The streams are NOT closed.
+     **/
+    public void transfer_new(java.io.InputStream in, OutputStream out) throws IOException {
+        int bufferSize = 1024;
+        byte[] buff = new byte[bufferSize];
+        while (true) {
+            /*
+             * This readBytes method will block the current Coroutine until at
+             * least one byte is read. It will let other Coroutines run if it
+             * has to wait.
+             */
+            int read = in.read(buff, 0, buff.length);
+            if (read == -1) {
+                break;
+            }
+            if (read == 0) {
+                continue;
+            }
+            /*
+             * This writeBytes method will block the current Coroutine until
+             * all bytes are written. It will let other Coroutines run if it
+             * has to wait.
+             */
+            out.write(buff, 0, read);
+            /*
+             * Allow other threads to have some time to execute.
+             */
+        }
+        out.flush();
     }
 
     /**

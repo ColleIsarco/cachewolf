@@ -1370,6 +1370,7 @@ public class GCImporter {
         ch.setOwner(getOwner(mapDetails));
         ch.setHidden(getDateHidden(mapDetails));
         ch.setIdOC(getUuid(mapDetails));
+        ch.setArchived(getArchived(mapDetails));
     }
 
     private void getPmCacheCoordinates (CacheHolder ch) {
@@ -1389,7 +1390,7 @@ public class GCImporter {
                     var href = anchor.getFirst().attr("href");
                     System.out.println(href);
                     if (href.endsWith(ch.getCode())) {
-                        System.out.println("-> " + i);
+                        System.out.println(" -> " + i);
                     }
                     lineCounter++;
                 }
@@ -1398,9 +1399,9 @@ public class GCImporter {
             // Jetzt haben wir die Koordinaten.
             var script = parsed.selectXpath("/html/body/form[1]/script");
             for (int i = 0; i < script.size(); i++) {
-
+                System.out.println(script.get(i).data());
+                var data = script.get(i).data();
             }
-            System.out.println(script);
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
@@ -1549,6 +1550,12 @@ public class GCImporter {
         catch (JSONException e){
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean getArchived(JSONObject cacheDescription) {
+          //  return cacheDescription.getBoolean("archived");
+        // TODO Auto-generated method stub
+        return false;
     }
 
     private void downloadCaches() {

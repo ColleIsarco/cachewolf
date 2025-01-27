@@ -32,6 +32,7 @@ import CacheWolf.utils.Common;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
+import ewe.io.RandomAccessFile;
 import ewe.sys.Handle;
 import ewe.ui.FormBase;
 import ewe.ui.ProgressBarForm;
