@@ -32,6 +32,7 @@ import CacheWolf.utils.STRreplace;
 import HTML.Template;
 import com.stevesoft.ewe_pat.Regex;
 import ewe.io.*;
+import ewe.io.FileBase;
 import ewe.sys.Vm;
 import ewe.ui.FormBase;
 import ewe.util.Hashtable;
