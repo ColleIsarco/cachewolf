@@ -1397,6 +1397,10 @@ public class GCImporter {
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
             var script = parsed.selectXpath("/html/body/form[1]/script");
+            for (int i = 0; i < script.size(); i++) {
+
+            }
+            System.out.println(script);
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);

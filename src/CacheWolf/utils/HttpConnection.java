@@ -32,6 +32,7 @@ import ewe.net.Socket;
 import ewe.net.URL;
 import ewe.sys.Convert;
 import ewe.sys.Handle;
+import ewe.sys.TaskObject;
 import ewe.sys.Vm;
 import ewe.util.*;
 import gro.cachewolf.tls.TlsSocket;
@@ -368,6 +369,96 @@ public class HttpConnection {
         }
     }
 
+    // -- Type von In-/outputstream auf java-ändern
+    private int makeRequest_new(java.io.InputStream is, java.io.OutputStream os, TextCodec td) throws IOException {
+        responseCode = -1;
+        if (td == null) {
+            td = new AsciiCodec();
+        }
+        PropertyList pl = new PropertyList();
+        if (requestFields != null) {
+            pl.set(requestFields);
+        }
+        pl.defaultTo("Connection", "close");
+        pl.defaultTo("Host", host);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(command + " " + getEncodedDocument() + " " + requestVersion + "\r\n");
+        for (int i = 0; i < pl.size(); i++) {
+            Property p = (Property) pl.get(i);
+            if (p.value != null) {
+                sb.append(p.name + ": " + p.value + "\r\n");
+            }
+        }
+        sb.append("\r\n");
+        String req = sb.toString();
+        char[] rc = Vm.getStringChars(req);
+        ByteArray ba = ((TextCodec) td.getCopy()).encodeText(rc, 0, rc.length, true, null);
+        os.write(ba.data, 0, ba.length);
+        os.flush();
+
+        if (bytesToPost != null) {
+            transfer(bytesToPost, os);
+            os.flush();
+            bytesToPost.close();
+        }
+
+        int lastReceived = -1;
+        ba.clear();
+        while (true) {
+            int got = is.read();
+            if (got == -1) {
+                throw new IOException("Unexpected end of stream." + ba.toString());
+            }
+            if (got == 10) {
+                if (lastReceived == 10) {
+                    break; // Got all the data now.
+                }
+            }
+            else if (got == 13) {
+                continue; // Ignore CR.
+            }
+            ba.append((byte) got);
+            lastReceived = got;
+        }
+
+        CharArray all = ((TextCodec) td.getCopy()).decodeText(ba.data, 0, ba.length, true, null);
+        if (data == null) {
+            data = new SubString();
+            lines = new Vector();
+        }
+        data.set(all.data, 0, all.length);
+        int got = data.split('\n', lines);
+        responseFields = new PropertyList();
+        if (got == 0) {
+            throw new IOException("No response");
+        }
+
+        String response = lines.get(0).toString();
+        responseFields.set("response", response);
+
+        int idx = response.indexOf(' ');
+        if (idx != -1) {
+            int id2 = response.indexOf(' ', idx + 1);
+            if (id2 != -1) {
+                responseCode = Convert.toInt(response.substring(idx + 1, id2));
+            }
+        }
+
+        for (int i = 1; i < got; i++) {
+            String s = lines.get(i).toString();
+            idx = s.indexOf(':');
+            if (idx == -1) {
+                continue;
+            }
+            String name = s.substring(0, idx).trim().toLowerCase();
+            String value = s.substring(idx + 1).trim();
+            responseFields.add(name, value);
+        }
+        contentLength = responseFields.getInt("content-length", -1);
+        return responseCode;
+    }
+
     private int makeRequest(InputStream is, OutputStream os, TextCodec td) throws IOException {
         responseCode = -1;
         if (td == null){
@@ -649,13 +740,77 @@ public class HttpConnection {
      * reads in the reply and server properties and then returns the connected Socket ready for
      * for reading in the actual data.
      *
+     * @param serverTextDecoder
+     *            The text decoder to convert the server and requestor properties data into text.
+     * @return A Handle used to monitor the connection. When the Handle reports a state of
+     *         Success, then the returnValue of the Handle will hold the connected socket.
+     */
+    private Handle connectAsync_new(final TextCodec serverTextDecoder) {
+        return new TaskObject() {
+            @Override
+            protected void doRun() {
+                while (true) {
+                    // Create a Socket using an IOHandle.
+                    Handle sh;
+                    Socket sock;
+                    if (openSocket != null) {
+                        sh = new Handle(Handle.Succeeded, openSocket);
+                        sock = openSocket.socket;
+                    }
+                    else {
+                        sh = new IOHandle();
+                        sock = new Socket(host, port, (IOHandle) sh);
+                    }
+
+                    try {
+                        // Now wait until connected.
+                        if (!waitOnSuccess(sh, true)) {
+                            return;
+                        }
+
+                        // Report that the socket connection was made.
+                        // Now have to decode the data.
+                        handle.setFlags(SocketConnected, 0);
+
+                        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+                        SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
+                        // -- wird ersetzt
+                        socket.close();
+                        TlsSocket tls = new TlsSocket(useSslTls, sock);
+                        makeRequest(tls.inputStream, tls.outputStream, serverTextDecoder);
+                        // --
+                        handle.returnValue = connectedSocket = tls;
+                        handle.setFlags(Handle.Success, 0);
+                        return;
+                    }
+                    catch (Throwable e) {
+                        e.printStackTrace();
+                        if (openSocket == null) {
+                            handle.failed(e);
+                            return;
+                        }
+                        else {
+                            openSocket = null;
+                            continue;
+                        }
+                    }
+                }
+            }
+        }.startTask();
+    }
+
+    /**
+     * Connect asynchronously. This makes the connection, sends the request and requestor properties
+     * reads in the reply and server properties and then returns the connected Socket ready for
+     * for reading in the actual data.
+     *
      * @param serverTextDecoder The text decoder to convert the server and requestor properties data into text.
      * @return A Handle used to monitor the connection. When the Handle reports a state of
      * Success, then the returnValue of the Handle will hold the connected socket.
      */
     private Handle connectAsync(final TextCodec serverTextDecoder)
     {
-        return new ewe.sys.TaskObject() {
+        return new TaskObject() {
             @Override
             protected void doRun() {
                 while (true) {
