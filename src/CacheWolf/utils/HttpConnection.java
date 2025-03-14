@@ -440,8 +440,7 @@ public class HttpConnection {
         }
         sb.append("\r\n");
         String req = sb.toString();
-        char[] rc = Vm.getStringChars(req);
-        ByteArray ba = ((TextCodec) td.getCopy()).encodeText(rc, 0, rc.length, true, null);
+        byte[] ba = req.getBytes("ISO-8859-1");
         os.write(ba.data, 0, ba.length);
         os.flush();
 

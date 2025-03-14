@@ -31,6 +31,7 @@ import ewe.filechooser.FileChooserBase;
 import ewe.fx.Color;
 import ewe.fx.DrawnIcon;
 import ewe.fx.Rect;
+import ewe.io.FileBase;
 import ewe.io.*;
 import ewe.sys.Convert;
 import ewe.sys.Time;
