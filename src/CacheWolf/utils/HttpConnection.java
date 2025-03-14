@@ -418,7 +418,7 @@ public class HttpConnection {
     }
 
     // -- Type von In-/outputstream auf java-ändern
-    private int makeRequest_new(java.io.InputStream is, java.io.OutputStream os, TextCodec td) throws IOException {
+    private int makeRequest_new(java.io.InputStream is, java.io.OutputStream os, TextCodec td) throws java.io.IOException {
         responseCode = -1;
         if (td == null) {
             td = new AsciiCodec();
