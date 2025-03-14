@@ -43,6 +43,7 @@
 package CacheWolf.utils;
 
 import ewe.io.*;
+import ewe.io.StreamAdapter;
 
 /**
  * This class is used to get a "sub-stream" of data from another Stream. The

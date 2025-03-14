@@ -23,6 +23,7 @@ package CacheWolf.utils;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import java.io.ByteArrayInputStream;
 
 import ewe.data.Property;
 import ewe.data.PropertyList;
@@ -446,7 +447,7 @@ public class HttpConnection {
 
         if (bytesToPost_new != null) {
             ByteArrayInputStream bis = new ByteArrayInputStream(bytesToPost_new.getBytes("ISO-8859-1"));
-            transfer_new(bytesToPost_new, os);
+            transfer_new(bis, os);
             os.flush();
             bis.close();
         }
