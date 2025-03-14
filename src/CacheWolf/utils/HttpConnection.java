@@ -445,9 +445,10 @@ public class HttpConnection {
         os.flush();
 
         if (bytesToPost_new != null) {
-            transfer_new(bytesToPost, os);
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytesToPost_new.getBytes("ISO-8859-1"));
+            transfer_new(bytesToPost_new, os);
             os.flush();
-            bytesToPost.close();
+            bis.close();
         }
 
         int lastReceived = -1;

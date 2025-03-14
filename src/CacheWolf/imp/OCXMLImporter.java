@@ -290,7 +290,6 @@ public class OCXMLImporter {
             return 0;
         }
 
-        //TODO: is_found mit User-Id und Anzahl logs.
         final String userId = getUserUuid();
         final String detailUrl = ("https://www.opencaching.de/okapi/services/caches/geocache?"+
                 "cache_code="+ocCode+

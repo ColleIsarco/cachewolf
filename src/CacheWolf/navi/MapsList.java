@@ -33,6 +33,7 @@ import CacheWolf.utils.MyLocale;
 import ewe.fx.Point;
 import ewe.fx.Rect;
 import ewe.io.*;
+import ewe.io.File;
 import ewe.sys.Time;
 import ewe.ui.FormBase;
 import ewe.util.Comparer;
