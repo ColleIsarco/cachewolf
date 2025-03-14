@@ -551,7 +551,7 @@ public class HttpConnection {
     /**
      * Copy from the "in" stream to the "out" stream. The streams are NOT closed.
      **/
-    public void transfer_new(java.io.InputStream in, OutputStream out) throws IOException {
+    public void transfer_new(java.io.InputStream in, java.io.OutputStream out) throws java.io.IOException {
         int bufferSize = 1024;
         byte[] buff = new byte[bufferSize];
         while (true) {

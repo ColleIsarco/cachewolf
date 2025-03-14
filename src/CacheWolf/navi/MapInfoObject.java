@@ -30,6 +30,7 @@ import CacheWolf.utils.Matrix;
 import CacheWolf.utils.MyLocale;
 import ewe.fx.Point;
 import ewe.io.*;
+import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.util.mString;
 
