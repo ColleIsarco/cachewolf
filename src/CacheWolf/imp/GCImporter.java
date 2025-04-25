@@ -1552,10 +1552,13 @@ public class GCImporter {
         }
     }
 
-    private boolean getArchived(JSONObject cacheDescription) throws JSONException {
-        // return cacheDescription.getBoolean("archived");
-        // TODO Auto-generated method stub
-        return false;
+    private boolean getArchived(JSONObject cacheDescription) {
+        try {
+            return cacheDescription.getBoolean("archived");
+        }
+        catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void downloadCaches() {
