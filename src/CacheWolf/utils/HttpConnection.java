@@ -456,7 +456,7 @@ public class HttpConnection {
         while (true) {
             int got = is.read();
             if (got == -1) {
-                throw new IOException("Unexpected end of stream." + ba.toString());
+                throw new java.io.IOException("Unexpected end of stream." + ba.toString());
             }
             if (got == 10) {
                 if (lastReceived == 10) {
