@@ -479,7 +479,7 @@ public class HttpConnection {
         int got = data.split('\n', lines);
         responseFields = new PropertyList();
         if (got == 0) {
-            throw new IOException("No response");
+            throw new java.io.IOException("No response");
         }
 
         String response = lines.get(0).toString();

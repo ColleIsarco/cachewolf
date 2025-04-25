@@ -33,6 +33,7 @@ import com.stevesoft.ewe_pat.Regex;
 import ewe.io.*;
 import ewe.io.File;
 import ewe.io.FileReader;
+import ewe.io.IOException;
 import ewe.ui.FormBase;
 import ewe.util.mString;
 

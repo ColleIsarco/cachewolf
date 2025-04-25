@@ -1402,6 +1402,9 @@ public class GCImporter {
             for (int i = 0; i < script.size(); i++) {
                 var data = script.get(i).data();
                 System.out.println(data);
+                if (data.indexOf("tbStops") > 0) {
+
+                }
             }
         }
         catch (Exception e) {
