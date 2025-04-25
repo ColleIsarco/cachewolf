@@ -1402,8 +1402,8 @@ public class GCImporter {
             for (int i = 0; i < script.size(); i++) {
                 var data = script.get(i).data();
                 System.out.println(data);
-                if (data.indexOf("tbStops") > 0) {
-
+                if (data.indexOf("tbStops") > 0) {// MapTilesEnvironment = 'production';var tbStops = [
+                    var lines = data.split("\r\n");
                 }
             }
         }

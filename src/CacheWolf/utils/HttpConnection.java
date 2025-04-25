@@ -470,12 +470,18 @@ public class HttpConnection {
             lastReceived = got;
         }
 
-        CharArray all = ((TextCodec) td.getCopy()).decodeText(baos.toByteArray(), 0, ba.length, true, null);
-        if (data == null) {
-            data = new SubString();
-            lines = new Vector();
+        try {
+            CharArray all = ((TextCodec) td.getCopy()).decodeText(baos.toByteArray(), 0, ba.length, true, null);
+            if (data == null) {
+                data = new SubString();
+                lines = new Vector();
+            }
+            data.set(all.data, 0, all.length);
         }
-        data.set(all.data, 0, all.length);
+        catch (IOException ioe) {
+            throw new java.io.IOException(ioe);
+        }
+
         int got = data.split('\n', lines);
         responseFields = new PropertyList();
         if (got == 0) {
