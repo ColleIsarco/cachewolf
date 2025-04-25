@@ -63,7 +63,7 @@ import gro.cachewolf.tls.TlsSocket;
 
 public class HttpConnection {
 
-    //Files / Images with more than size will currently be denied.
+    // Files / Images with more than this size will currently be denied.
     //This is to prevent to download MJPEGs which have an infinite size. (eg. OC14469)
     private static final long MAX_FILESIZE = 8L * 1024L * 1024L;
 
@@ -441,7 +441,7 @@ public class HttpConnection {
         sb.append("\r\n");
         String req = sb.toString();
         byte[] ba = req.getBytes("ISO-8859-1");
-        os.write(ba.data, 0, ba.length);
+        os.write(ba, 0, ba.length);
         os.flush();
 
         if (bytesToPost_new != null) {
@@ -452,7 +452,7 @@ public class HttpConnection {
         }
 
         int lastReceived = -1;
-        ba.clear();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         while (true) {
             int got = is.read();
             if (got == -1) {
@@ -466,11 +466,11 @@ public class HttpConnection {
             else if (got == 13) {
                 continue; // Ignore CR.
             }
-            ba.append((byte) got);
+            baos.write((byte) got);
             lastReceived = got;
         }
 
-        CharArray all = ((TextCodec) td.getCopy()).decodeText(ba.data, 0, ba.length, true, null);
+        CharArray all = ((TextCodec) td.getCopy()).decodeText(baos.toByteArray(), 0, ba.length, true, null);
         if (data == null) {
             data = new SubString();
             lines = new Vector();

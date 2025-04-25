@@ -30,6 +30,7 @@ import CacheWolf.navi.TransformCoordinates;
 import CacheWolf.utils.*;
 
 import ewe.io.*;
+import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 import ewe.sys.Handle;
 import ewe.sys.Vm;

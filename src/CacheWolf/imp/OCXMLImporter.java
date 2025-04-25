@@ -340,6 +340,7 @@ public class OCXMLImporter {
         }
         //Images will always be (re)loaded
         syncHolder.getDetails().getImages().clear();
+        // TODO: Convert image-urls to schema WP-1.img like in GC-caches.
         //TODO: Delete existing images from filesystem
 
         JSONObject cacheAsJson = new JSONObject(cacheAsJsonString);

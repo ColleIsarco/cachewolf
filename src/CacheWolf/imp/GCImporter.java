@@ -1391,6 +1391,7 @@ public class GCImporter {
                     System.out.println(href);
                     if (href.endsWith(ch.getCode())) {
                         System.out.println(" -> " + i);
+                        break;
                     }
                     lineCounter++;
                 }
@@ -1399,8 +1400,8 @@ public class GCImporter {
             // Jetzt haben wir die Koordinaten.
             var script = parsed.selectXpath("/html/body/form[1]/script");
             for (int i = 0; i < script.size(); i++) {
-                System.out.println(script.get(i).data());
                 var data = script.get(i).data();
+                System.out.println(data);
             }
         }
         catch (Exception e) {

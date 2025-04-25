@@ -26,6 +26,7 @@ import com.jcraft.jzlib.GZIPInputStream;
 import ewe.data.Property;
 import ewe.data.PropertyList;
 import ewe.io.*;
+import ewe.io.IOException;
 import ewe.sys.Time;
 import ewe.sys.Vm;
 import ewe.util.ByteArray;
@@ -74,7 +75,7 @@ public class UrlFetcher {
 
     private static void initPermanentRequestorProperty() {
         permanentRequestorProperties = new PropertyList();
-        permanentRequestorProperties.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
+        permanentRequestorProperties.set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0");
         permanentRequestorProperties.set("Connection", "keep-alive");
     }
 
