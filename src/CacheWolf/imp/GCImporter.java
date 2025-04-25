@@ -1402,14 +1402,21 @@ public class GCImporter {
             for (int i = 0; i < script.size(); i++) {
                 var data = script.get(i).data();
                 System.out.println(data);
-                if (data.indexOf("tbStops") > 0) {// MapTilesEnvironment = 'production';var tbStops = [
+                if (data.indexOf("MapTilesEnvironment = 'production';var tbStops = [") > 0) {
                     var lines = data.split("\r\n");
+                    for (int j = 0; j < lines.length; j++) {
+                        if (lines[j].contains('"'+ch.getName()+'"')){
+                            System.out.println(lines[j]);
+                            var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
+                        }
+                    }
                 }
             }
         }
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
         }
+        // Ende Gelaende
         final String detailUrl = "https://www.geocaching.com/api/proxy/web/v1/geocache/" + ch.getCode();
         try{
             String response = UrlFetcher.fetch(detailUrl);
@@ -1420,7 +1427,6 @@ public class GCImporter {
             double lat = postedCoordinates.getDouble("latitude");
             double lon = postedCoordinates.getDouble("longitude");
             CWPoint coordinates = new CWPoint(lat, lon);
-            ch.setWpt(coordinates);
         }
         catch (Exception e){
             Preferences.itself().log ("Error while loading the details: ",e, true);

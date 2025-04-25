@@ -667,16 +667,20 @@ public abstract class ECPoint
                 throw new UnsupportedClassVersionError();/*
                 return b;
 */            }
-            throw new UnsupportedClassVersionError();/*
             if (b.isInfinity())
             {
+            throw new UnsupportedClassVersionError();/*
                 return this;
+                */
             }
             if (this == b)
             {
+            throw new UnsupportedClassVersionError();/*
                 return twice();
+                */
             }
 
+            throw new UnsupportedClassVersionError();/*
             ECCurve curve = this.getCurve();
             int coord = curve.getCoordinateSystem();
 

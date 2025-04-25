@@ -860,12 +860,12 @@ public class HttpConnection {
 
                         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
+                        makeRequest_new(socket.getInputStream(), socket.getOutputStream(), serverTextDecoder);
                         // -- wird ersetzt
                         socket.close();
                         TlsSocket tls = new TlsSocket(useSslTls, sock);
-                        makeRequest(tls.inputStream, tls.outputStream, serverTextDecoder);
                         // --
-                        handle.returnValue = connectedSocket = tls;
+                        handle.returnValue = socket;
                         handle.setFlags(Handle.Success, 0);
                         return;
                     }
