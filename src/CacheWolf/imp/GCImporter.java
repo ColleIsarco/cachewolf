@@ -1408,6 +1408,9 @@ public class GCImporter {
                         if (lines[j].contains('"'+ch.getName()+'"')){
                             System.out.println(lines[j]);
                             var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
+                            JSONObject coordinateLine = new JSONObject(tmpString);
+                            JSONArray latlon = coordinateLine.getJSONArray("ll");
+                            var latitude = latlon.getDouble(1);
                         }
                     }
                 }

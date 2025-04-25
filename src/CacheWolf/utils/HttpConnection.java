@@ -471,7 +471,8 @@ public class HttpConnection {
         }
 
         try {
-            CharArray all = ((TextCodec) td.getCopy()).decodeText(baos.toByteArray(), 0, ba.length, true, null);
+            byte[] byteArray = baos.toByteArray();
+            CharArray all = ((TextCodec) td.getCopy()).decodeText(byteArray, 0, byteArray.length, true, null);
             if (data == null) {
                 data = new SubString();
                 lines = new Vector();
@@ -861,9 +862,9 @@ public class HttpConnection {
                         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
                         makeRequest_new(socket.getInputStream(), socket.getOutputStream(), serverTextDecoder);
-                        // -- wird ersetzt
                         socket.close();
-                        TlsSocket tls = new TlsSocket(useSslTls, sock);
+                        // -- wird ersetzt
+
                         // --
                         handle.returnValue = socket;
                         handle.setFlags(Handle.Success, 0);
@@ -956,6 +957,19 @@ public class HttpConnection {
      */
     public TlsSocket connect() throws IOException {
         openSocket = (TlsSocket) waitOnIO(connectAsync(), host + ":" + port + "/" + document + " could not connect.");
+        return openSocket;
+    }
+
+    /**
+     * This makes the connection, blocking the current thread.
+     *
+     * @return A Socket that you can read the data from. The document properties will be in
+     *         the document properties list.
+     * @throws IOException
+     *             if there was an error connecting or getting the data.
+     */
+    public SSLSocket connect_new() throws IOException {
+        openSocket = (TlsSocket) waitOnIO(connectAsync_new(), host + ":" + port + "/" + document + " could not connect.");
         return openSocket;
     }
 
