@@ -1412,6 +1412,7 @@ public class GCImporter {
                             JSONArray latlon = coordinateLine.getJSONArray("ll");
                             var latitude = latlon.getDouble(0);
                             var longitude = latlon.getDouble(1);
+                            CoordinatePoint coordinates = new CoordinatePoint(latitude, longitude);
                         }
                     }
                 }

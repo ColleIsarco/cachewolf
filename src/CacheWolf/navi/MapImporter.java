@@ -36,6 +36,7 @@ import ewe.fx.*;
 import ewe.graphics.AniImage;
 import ewe.graphics.InteractivePanel;
 import ewe.io.*;
+import ewe.io.FileNotFoundException;
 import ewe.sys.Convert;
 import ewe.sys.Vm;
 import ewe.ui.*;

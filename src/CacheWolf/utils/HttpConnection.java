@@ -95,6 +95,7 @@ public class HttpConnection {
      **/
     public boolean documentIsEncoded;
     protected TlsSocket openSocket;
+    protected SSLSocket           openSocket_new;
     protected TlsSocket connectedSocket;
 
     /**
@@ -973,7 +974,7 @@ public class HttpConnection {
      *             if there was an error connecting or getting the data.
      */
     public SSLSocket connect_new() throws IOException {
-        openSocket_new = (TlsSocket) waitOnIO(connectAsync_new(), host + ":" + port + "/" + document + " could not connect.");
+        openSocket_new = (SSLSocket) waitOnIO(connectAsync_new(), host + ":" + port + "/" + document + " could not connect.");
         return openSocket_new;
     }
 
