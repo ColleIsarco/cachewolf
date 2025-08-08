@@ -34,6 +34,7 @@ import com.stevesoft.ewe_pat.Regex;
 import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
+import ewe.io.TextCodec;
 import ewe.ui.FormBase;
 import ewe.ui.ProgressBarForm;
 import ewe.util.*;

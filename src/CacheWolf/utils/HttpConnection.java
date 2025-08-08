@@ -969,7 +969,7 @@ public class HttpConnection {
      *             if there was an error connecting or getting the data.
      */
     public SSLSocket connect_new() throws IOException {
-        openSocket = (TlsSocket) waitOnIO(connectAsync_new(), host + ":" + port + "/" + document + " could not connect.");
+        openSocket_new = (TlsSocket) waitOnIO(connectAsync_new(), host + ":" + port + "/" + document + " could not connect.");
         return openSocket;
     }
 

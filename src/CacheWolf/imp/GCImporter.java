@@ -1410,7 +1410,8 @@ public class GCImporter {
                             var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
                             JSONObject coordinateLine = new JSONObject(tmpString);
                             JSONArray latlon = coordinateLine.getJSONArray("ll");
-                            var latitude = latlon.getDouble(1);
+                            var latitude = latlon.getDouble(0);
+                            var longitude = latlon.getDouble(1);
                         }
                     }
                 }
