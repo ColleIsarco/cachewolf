@@ -822,6 +822,10 @@ public class HttpConnection {
         return connectAsync(new AsciiCodec());
     }
 
+    public Handle connectAsync_new() {
+        return connectAsync_new(new AsciiCodec());
+    }
+
     /**
      * Connect asynchronously. This makes the connection, sends the request and requestor properties
      * reads in the reply and server properties and then returns the connected Socket ready for
@@ -970,7 +974,7 @@ public class HttpConnection {
      */
     public SSLSocket connect_new() throws IOException {
         openSocket_new = (TlsSocket) waitOnIO(connectAsync_new(), host + ":" + port + "/" + document + " could not connect.");
-        return openSocket;
+        return openSocket_new;
     }
 
     public void disconnect() {

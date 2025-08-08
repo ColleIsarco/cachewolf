@@ -52,6 +52,7 @@ import ewe.util.Hashtable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 /**
  * Class to import Data from opencaching. It uses the lastmodified parameter to identify new or changed caches. See here: http://www.opencaching.com/phpBB2/viewtopic.php?t=281 (out-dated) See here: http://www.opencaching.de/doc/xml/xml11.htm and
@@ -505,6 +506,9 @@ public class OCXMLImporter {
         imgRegexUrl.setIgnoreCase(true);
         int descIndex = 0;
         int numDownloaded = 1;
+        // In Document verwandeln und dioe IMG-elemente extrahieren. Dann die Images und Alt-Description ermitteln, und die RegExe entsorgen...
+
+        var htmlDocument = Jsoup.parse(syncHolder.getDetails().getLongDescription());
         while (imgRegexUrl.searchFrom(syncHolder.getDetails().getLongDescription(), descIndex)) { // "img" found
             imgTag = imgRegexUrl.stringMatched(1); // (1) enthlt das gesamte <img ...>-tag
             fetchUrl = imgRegexUrl.stringMatched(2); // URL in Anfhrungszeichen in (2) falls ohne in (3) Ergebnis ist auf jeden Fall ohne Anfhrungszeichen
