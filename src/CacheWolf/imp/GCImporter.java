@@ -1385,6 +1385,7 @@ public class GCImporter {
             int lineCounter = 0;
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
+                var classNames = row.classNames();// if contains BorderBottom -> continue
                 if (row.selectXpath("td/img[@title='Dropped Off']").size() > 0 || row.selectXpath("td/img[@title='Visited']").size() > 0) {
                     var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
                     if (anchor.size() > 0) {

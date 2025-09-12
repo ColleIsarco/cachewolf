@@ -35,6 +35,7 @@ import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
 import ewe.io.AsciiCodec;
+import ewe.io.JavaUtf8Codec;
 import ewe.io.TextCodec;
 import ewe.ui.FormBase;
 import ewe.ui.ProgressBarForm;
