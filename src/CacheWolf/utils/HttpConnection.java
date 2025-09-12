@@ -750,7 +750,7 @@ public class HttpConnection {
         if (length == 0) {
             return new Handle(Handle.Succeeded, new ByteArray());
         }
-        return StreamUtils.readAllBytes(getInputStream(), null, length, 0);
+        return StreamUtils.readAllBytes(getInputStream_new(), null, length, 0);
     }
 
     /**
@@ -818,6 +818,56 @@ public class HttpConnection {
         }
     }
 
+    /**
+     * Get an InputStream to read in the data. This is a very important method as it is used by
+     * the readInData() method.
+     **/
+    private java.io.InputStream getInputStream_new() {
+        int length = responseFields.getInt("content-length", -1);
+        if ("chunked".equals(responseFields.getValue(encodings, null))) {
+            return new MemoryStream(true) {
+                private byte[]    buff        = new byte[10240];
+                private int       leftInBlock = 0;
+                private ByteArray ba          = new ByteArray();
+                private CharArray ca          = new CharArray();
+
+                @Override
+                protected boolean loadAndPutDataBlock() throws IOException {
+                    if (leftInBlock <= 0) {
+                        leftInBlock = readInChunkedHeader(connectedSocket.inputStream, ba, ca);
+                        if (leftInBlock <= 0) {
+                            return false;
+                        }
+                    }
+                    int toRead = leftInBlock;
+                    if (toRead > buff.length) {
+                        toRead = buff.length;
+                    }
+                    int got = connectedSocket.inputStream.read(buff, 0, toRead);
+                    if (got == -1) {
+                        throw new IOException();
+                    }
+                    leftInBlock -= got;
+                    putInBuffer(buff, 0, got);
+                    if (leftInBlock == 0) {
+                        while (true) {
+                            got = connectedSocket.inputStream.read();
+                            if (got == -1) {
+                                throw new IOException();
+                            }
+                            if (got == '\n') {
+                                break;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }.toInputStream();
+        }
+        else {
+            return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
+        }
+    }
     /*
      * Read in the document body from the Socket. This method blocks until the complete
      * data is read in. readInData() is a non-blocking version.

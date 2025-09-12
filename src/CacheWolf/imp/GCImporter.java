@@ -1431,7 +1431,6 @@ public class GCImporter {
             JSONObject json = new JSONObject(response);
             JSONObject postedCoordinates = json.getJSONObject("postedCoordinates");
             double lat = postedCoordinates.getDouble("latitude");
-            double lon = postedCoordinates.getDouble("longitude");
         }
         catch (Exception e){
             Preferences.itself().log ("Error while loading the details: ",e, true);
