@@ -45,6 +45,8 @@ import ewesoft.xml.sax.AttributeList;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGeneratorFactory;
 
@@ -1382,21 +1384,23 @@ public class GCImporter {
             var parsed = Jsoup.parse(mapText);
             var table = parsed.selectXpath("/html/body/form[1]/main/div/div/table/tbody/tr");
             // Nummer der Zeile finden
+            List<String> testListe = new ArrayList<>(); // Diese Liste mit den Namen der Caches aus der Tabelle füllen und in der unteren Schleife miteinander abgleichen:
             int lineCounter = 0;
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
-                var classNames = row.classNames();// if contains BorderBottom -> continue
-                if (row.selectXpath("td/img[@title='Dropped Off']").size() > 0 || row.selectXpath("td/img[@title='Visited']").size() > 0) {
-                    var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
-                    if (anchor.size() > 0) {
-                        var href = anchor.getFirst().attr("href");
-                        System.out.println(href);
-                        if (href.endsWith(ch.getCode())) {
-                            System.out.println(" -> " + i);
-                            break;
-                        }
-                        lineCounter++;
+                var classNames = row.classNames();
+                if (classNames.contains("BorderBottom")) {
+                    continue;
+                }
+                var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
+                if (anchor.size() > 0) {
+                    var href = anchor.getFirst().attr("href");
+                    System.out.println(href);
+                    if (href.endsWith(ch.getCode())) {
+                        System.out.println(" -> " + i);
+                        break;
                     }
+                    lineCounter++;
                 }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
