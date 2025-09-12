@@ -40,7 +40,7 @@ import gro.cachewolf.tls.TlsSocket;
 
 /**
  * Use this class to create an HttpConnection with a Web Server and to read in the data for the connection.<p>
- * This a a modified version of XXX. This version automatically makes use of a proxy server, if once for all proxy is set.
+ * This a a modified version of XYZ. This version automatically makes use of a proxy server, if once for all proxy is set.
  * To use this do the following:
  * <ol>
  * <li>Create an HttpConnection object with a URL or specify the host, port and document to get.
@@ -524,7 +524,7 @@ public class HttpConnection {
     }
 
     // TODO weg
-    private int makeRequest(InputStream is, OutputStream os, TextCodec td) throws IOException {
+    private int makeRequest_old(InputStream is, OutputStream os, TextCodec td) throws IOException {
         responseCode = -1;
         if (td == null){
             td = new AsciiCodec();
@@ -696,7 +696,7 @@ public class HttpConnection {
         }
     }
 
-    private int readInChunkedHeader(InputStream connection, ByteArray buff, CharArray chBuff) throws IOException {
+    private int readInChunkedHeader_old(InputStream connection, ByteArray buff, CharArray chBuff) throws IOException {
         if (buff == null){
             buff = new ByteArray();
         }
@@ -730,6 +730,67 @@ public class HttpConnection {
         return clen;
     }
 
+    private java.io.InputStream readInChunkedHeader_new(java.io.InputStream connection, ByteArray buff, CharArray chBuff) throws java.io.IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        if (buff == null) {
+            buff = new ByteArray();
+        }
+
+        int length;
+        do {
+            int count = 0;
+            buff.clear();
+            while (true) {
+                int got = connection.read();
+                if (got == -1) {
+                    throw new java.io.IOException();
+                }
+                if (got == '\r') {
+                    continue;
+                }
+                if (got == '\n') {
+                    break;
+                }
+                buff.append((byte) got);
+                count++;
+                if (count > 1024) {
+                    break;
+                }
+            }
+            String lengthText = new String(buff.toBytes());
+            length = Integer.parseInt(lengthText, 16);
+            for (int i = 0; i < length; i++) {
+                int got = connection.read();
+                bos.write(got);
+            }
+            // now read the new line:
+            while (true) {
+                int got = connection.read();
+                if (got == -1) {
+                    throw new java.io.IOException();
+                }
+                if (got == '\r') {
+                    continue;
+                }
+                if (got == '\n') {
+                    break;
+                }
+            }
+            System.out.println(length);
+        }
+        while (length > 0);
+
+        // chBuff = new AsciiCodec().decodeText(buff.data, 0, buff.length, true, chBuff);
+        // String s = new String(chBuff.data, 0, chBuff.length);
+        // String length = mString.leftOf(s, ';').trim().toUpperCase();
+        // int clen = 0;
+        // for (int i = 0; i < length.length(); i++) {
+        // char c = length.charAt(i);
+        // clen *= 16;
+        // clen += c <= '9' ? c - '0' : c - 'A' + 10;
+        // }
+        return new ByteArrayInputStream(bos.toByteArray());// clen;
+    }
     /**
      * Read in all the data from the Socket.
      *
@@ -767,13 +828,19 @@ public class HttpConnection {
         var ba = new ByteArray();
         var is = getInputStream_new();
 
-        while (bytesLeft > 0) {
-            byte[] bytes = new byte[bytesLeft];
-            int bytesRead = is.read(bytes);
-            ba.append(bytes, 0, bytesRead);
-            bytesLeft -= bytesRead;
+        if (length == -1 && is instanceof ByteArrayInputStream bais) {
+            var bytes = bais.readAllBytes();
+            ba.append(bytes, 0, bytes.length);
         }
+        else {
+            while (bytesLeft > 0) {
+                byte[] bytes = new byte[bytesLeft];
+                int bytesRead = is.read(bytes);
+                ba.append(bytes, 0, bytesRead);
+                bytesLeft -= bytesRead;
 
+            }
+        }
         return new Handle(Handle.Succeeded, ba);
 
         // return null;
@@ -851,6 +918,14 @@ public class HttpConnection {
     private java.io.InputStream getInputStream_new() {
         int length = responseFields.getInt("content-length", -1);
         if ("chunked".equals(responseFields.getValue(encodings, null))) {
+            try {
+                java.io.InputStream inputStream = openSocket_new.getInputStream();
+                return readInChunkedHeader_new(inputStream, null, null);
+            }
+            catch (java.io.IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             /*
              * return new MemoryStream(true) {
              * private byte[] buff = new byte[10240];
@@ -1011,7 +1086,7 @@ public class HttpConnection {
      * Success, then the returnValue of the Handle will hold the connected socket.
      */
     // TODO weg
-    private Handle connectAsync(final TextCodec serverTextDecoder)
+    private Handle connectAsync_old(final TextCodec serverTextDecoder)
     {
         return new TaskObject() {
             @Override
