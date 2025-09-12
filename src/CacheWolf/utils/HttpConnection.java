@@ -1006,11 +1006,6 @@ public class HttpConnection {
      * @return A Handle used to monitor the connection. When the Handle reports a state of
      * Success, then the returnValue of the IOHandle will hold the connected socket.
      */
-    // TODO weg
-    private Handle connectAsync_old() {
-        return connectAsync(new AsciiCodec());
-    }
-
     public Handle connectAsync_new() {
         return connectAsync_new(new AsciiCodec());
     }
