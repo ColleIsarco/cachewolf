@@ -750,7 +750,14 @@ public class HttpConnection {
         if (length == 0) {
             return new Handle(Handle.Succeeded, new ByteArray());
         }
-        return StreamUtils.readAllBytes(getInputStream_new(), null, length, 0);
+        byte[] bytes = new byte[length];
+        var is = getInputStream_new();
+        // is.read(bytes);
+        // var ba = new ByteArray(bytes);
+        // return new Handle(Handle.Succeeded, ba);
+        // return StreamUtils.readAllBytes(getInputStream_new(), null, length, 0);
+
+        return null;
     }
 
     /**
