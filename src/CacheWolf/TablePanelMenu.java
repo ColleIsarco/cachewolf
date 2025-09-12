@@ -223,14 +223,14 @@ public class TablePanelMenu extends MenuBar {
     private PullDownMenu makeOrganizeMenu() {
         MenuItem[] organizeMenuItems = { //
                 orgNewWP = GuiImageBroker.getMenuItem(MyLocale.getMsg(214, "New Waypoint"), "add"), //
-                orgCopy = GuiImageBroker.getMenuItem(MyLocale.getMsg(141, "Copy Waypoints"), "copy"), //
-                orgMove = GuiImageBroker.getMenuItem(MyLocale.getMsg(142, "Move Waypoints"), "move"), //
-                orgDelete = GuiImageBroker.getMenuItem(MyLocale.getMsg(143, "Delete Waypoints"), "delete"), //
-                mnuSeparator, //
-                orgTravelbugs = GuiImageBroker.getMenuItem(MyLocale.getMsg(139, "Manage travelbugs"), "bug"), //
-                cacheTour = GuiImageBroker.getMenuItem(MyLocale.getMsg(198, "Cachetour"), "cachetour"), //
-                mnuSeparator, //
-                orgAbout = GuiImageBroker.getMenuItem(MyLocale.getMsg(117, "About"), "about"), //
+                        orgCopy = GuiImageBroker.getMenuItem(MyLocale.getMsg(141, "Copy Waypoints"), "copy"), //
+                        orgMove = GuiImageBroker.getMenuItem(MyLocale.getMsg(142, "Move Waypoints"), "move"), //
+                        orgDelete = GuiImageBroker.getMenuItem(MyLocale.getMsg(143, "Delete Waypoints"), "delete"), //
+                        mnuSeparator, //
+                        orgTravelbugs = GuiImageBroker.getMenuItem(MyLocale.getMsg(139, "Manage travelbugs"), "bug"), //
+                        cacheTour = GuiImageBroker.getMenuItem(MyLocale.getMsg(198, "Cachetour"), "cachetour"), //
+                        mnuSeparator, //
+                        orgAbout = GuiImageBroker.getMenuItem(MyLocale.getMsg(117, "About"), "about"), //
         };
         orgAbout.subMenu = this.makeAboutMenu();
         return GuiImageBroker.getPullDownMenu(MyLocale.getMsg(140, "Organise"), "admin", organizeMenuItems);
@@ -239,10 +239,10 @@ public class TablePanelMenu extends MenuBar {
     private Menu makeAboutMenu() {
         MenuItem[] aboutMenuItems = { //
                 about = GuiImageBroker.getMenuItem(MyLocale.getMsg(117, "About"), "about"), //
-                legend = GuiImageBroker.getMenuItem(MyLocale.getMsg(155, "Legend"), "legend"), //
-                wolflang = GuiImageBroker.getMenuItem(MyLocale.getMsg(118, "WolfLanguage"), "wolflanguage"), //
-                sysinfo = GuiImageBroker.getMenuItem(MyLocale.getMsg(157, "System"), "system"), //
-                chkVersion = GuiImageBroker.getMenuItem(MyLocale.getMsg(158, "Version Check"), "version"),//
+                        legend = GuiImageBroker.getMenuItem(MyLocale.getMsg(155, "Legend"), "legend"), //
+                        wolflang = GuiImageBroker.getMenuItem(MyLocale.getMsg(118, "WolfLanguage"), "wolflanguage"), //
+                        sysinfo = GuiImageBroker.getMenuItem(MyLocale.getMsg(157, "System"), "system"), //
+                        chkVersion = GuiImageBroker.getMenuItem(MyLocale.getMsg(158, "Version Check"), "version"),//
         };
         return new Menu(aboutMenuItems, MyLocale.getMsg(117, "About"));
     }
@@ -293,10 +293,12 @@ public class TablePanelMenu extends MenuBar {
         boolean alreadySaid = false;
         boolean alreadySaid2 = false;
         InfoBox infB;
-        if (atGC)
+        if (atGC) {
             infB = new InfoBox("Info", MyLocale.getMsg(370, "Correcting coordinates"), InfoBox.PROGRESS_WITH_WARNINGS);
-        else
+        }
+        else {
             infB = new InfoBox("Info", "Loading", InfoBox.PROGRESS_WITH_WARNINGS);
+        }
         infB.exec();
 
         Vector cachesToUpdate = new Vector();
@@ -305,8 +307,8 @@ public class TablePanelMenu extends MenuBar {
             if (ch.isChecked && ch.isVisible()) {
                 // should work even if only the wayPoint is created
                 if (ch.isGC() || ch.isOC())
-                // Notiz: Wenn es ein addi Wpt ist, sollte eigentlich der Maincache gespidert werden
-                // Alter code prüft aber nur ob ein Maincache von GC existiert und versucht dann den addi direkt zu spidern, was nicht funktioniert
+                    // Notiz: Wenn es ein addi Wpt ist, sollte eigentlich der Maincache gespidert werden
+                    // Alter code prüft aber nur ob ein Maincache von GC existiert und versucht dann den addi direkt zu spidern, was nicht funktioniert
                 {
                     cachesToUpdate.add(new Integer(i));
                 } else {
@@ -404,7 +406,9 @@ public class TablePanelMenu extends MenuBar {
         // select profile
         ProfilesForm f = new ProfilesForm(Preferences.itself().absoluteBaseDir, "", operation);
         if (f.execute() == -1)
+         {
             return; // no select
+        }
         // check selection
         if (Preferences.itself().lastProfile.equals(f.newSelectedProfile)) {
             // aktives Profil kann nicht gelöscht / umbenannt werden;
@@ -424,8 +428,9 @@ public class TablePanelMenu extends MenuBar {
                 String mapsPath = p.getMapsDir();
                 //Really check if the user wants to delete the profile
                 String questionText = MyLocale.getMsg(276, "Do You really want to delete profile '") + f.newSelectedProfile + MyLocale.getMsg(277, "' ?");
-                if (new InfoBox("", questionText).wait(FormBase.MBYESNO) != FormBase.IDOK)
+                if (new InfoBox("", questionText).wait(FormBase.MBYESNO) != FormBase.IDOK) {
                     return;
+                }
                 if (new InfoBox("", MyLocale.getMsg(1125, "Delete") + " " + MyLocale.getMsg(654, "Maps directory") + "?\n\n" + mapsPath + "\n").wait(FormBase.MBYESNO) == FormBase.IDOK) {
                     deleteDirectory(new File(mapsPath));
                 }
@@ -458,6 +463,7 @@ public class TablePanelMenu extends MenuBar {
         MainForm.itself.toggleCacheTourVisible();
     }
 
+    @Override
     public void onEvent(Event ev) {
         CacheDB cacheDB = MainForm.profile.cacheDB;
         MainTab.itself.updatePendingChanges();
@@ -718,7 +724,9 @@ public class TablePanelMenu extends MenuBar {
                 // .execute doesn't work because the tcp-socket uses another
                 // thread which cannot be startet if here .execute() is used!
                 if (mLG.isCreated)
+                 {
                     mLG.exec(); // no wait for close window
+                }
             }
             else if (mev.selectedItem == importmap) {
                 MapImporter map = new MapImporter();
@@ -756,7 +764,7 @@ public class TablePanelMenu extends MenuBar {
                 preferencesScreen.execute(MainForm.itself.getFrame(), Gui.CENTER_FRAME);
                 // überflüssig, wurde ja gerade gespeichert und auch bei Abbruch wurde keine Preferences Variable gesetzt ! Preferences.itself().readPrefFile();
                 if (Preferences.itself().fontSize != fontsize || Preferences.itself().useBigIcons != useBigIcons) {
-                        MainTab.itself.saveUnsavedChanges(true);
+                    MainTab.itself.saveUnsavedChanges(true);
                 }
             }
             else if (mev.selectedItem == savenoxit) {
@@ -802,11 +810,13 @@ public class TablePanelMenu extends MenuBar {
                 tablePanel.refreshTable();
             }
             else if (mev.selectedItem == filtCreate) {
-                if (scnFilter == null)
+                if (scnFilter == null) {
                     scnFilter = new FilterScreen();
+                }
                 scnFilter.setData(MainForm.profile.getCurrentFilter());
-                if (Vm.isMobile())
+                if (Vm.isMobile()) {
                     Preferences.itself().setBigWindowSize(scnFilter);
+                }
                 scnFilter.execute();
                 tablePanel.refreshTable();
             }
@@ -863,10 +873,12 @@ public class TablePanelMenu extends MenuBar {
             // "Organise" pulldown menu
             // /////////////////////////////////////////////////////////////////
             else if (mev.selectedItem == orgNewWP) {
-                if (MainTab.itself.tablePanel.getSelectedCache() >= 0)
+                if (MainTab.itself.tablePanel.getSelectedCache() >= 0) {
                     MainTab.itself.lastselected = cacheDB.get(MainTab.itself.tablePanel.getSelectedCache()).getCode();
-                else
+                }
+                else {
                     MainTab.itself.lastselected = "";
+                }
                 MainTab.itself.newWaypoint(new CacheHolder());
             }
 
@@ -914,8 +926,9 @@ public class TablePanelMenu extends MenuBar {
                         ch.setHasNote(!ch.getDetails().getCacheNotes().equals(""));
                         ch.setHasSolver(!ch.getDetails().getSolver().equals(""));
                     }
-                    if (cwp.isClosed())
+                    if (cwp.isClosed()) {
                         break;
+                    }
                 } // for
                 cwp.exit(0);
                 tablePanel.refreshTable();
@@ -1050,8 +1063,9 @@ class EditCenter extends Form {
         content.addNext(new mLabel(MyLocale.getMsg(108, "Preferences")));
         content.addLast(chkSetCurrentCentreFromGPSPosition = new mCheckBox(MyLocale.getMsg(646, "centre from GPS")), CellConstants.DONTSTRETCH, (CellConstants.DONTFILL | CellConstants.WEST));
         // content.addLast(btnGPS2Cur=new mButton("   v   "),DONTSTRETCH,DONTFILL|LEFT);
-        if (Preferences.itself().setCurrentCentreFromGPSPosition)
+        if (Preferences.itself().setCurrentCentreFromGPSPosition) {
             chkSetCurrentCentreFromGPSPosition.setState(true);
+        }
         content.addNext(new mLabel(MyLocale.getMsg(1116, "Current")));
         content.addLast(btnCurrentCentre = new mButton(Preferences.itself().curCentrePt.toString()), HSTRETCH, HFILL | LEFT);
         content.addNext(new mLabel("      "), HSTRETCH, HFILL);
@@ -1071,6 +1085,7 @@ class EditCenter extends Form {
      * A return value is created and passed back to the calling form
      * while it closes itself.
      */
+    @Override
     public void onEvent(Event ev) {
         if (ev instanceof ControlEvent && ev.type == ControlEvent.PRESSED) {
             /*if (ev.target == btnCancel){
@@ -1184,6 +1199,7 @@ class SearchBox extends InputBox {
         return result;
     }
 
+    @Override
     public Control addLast(Control c) {
         // This method is a dirty hack, because in InputBox every thing, from creation of the
         // controls to displaying it and returning the return value is done at once.

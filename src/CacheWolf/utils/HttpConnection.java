@@ -745,19 +745,19 @@ public class HttpConnection {
      *         reports Success, then the returnValue of the Handle will be a ewe.util.ByteArray
      *         object that holds the data read in.
      */
-    private Handle readInData_new(final java.io.InputStream connection) {
+    private Handle readInData_new(final java.io.InputStream connection) throws java.io.IOException {
         int length = responseFields.getInt("content-length", -1);
         if (length == 0) {
             return new Handle(Handle.Succeeded, new ByteArray());
         }
         byte[] bytes = new byte[length];
         var is = getInputStream_new();
-        // is.read(bytes);
-        // var ba = new ByteArray(bytes);
-        // return new Handle(Handle.Succeeded, ba);
+        is.read(bytes);
+        var ba = new ByteArray(bytes);
+        return new Handle(Handle.Succeeded, ba);
         // return StreamUtils.readAllBytes(getInputStream_new(), null, length, 0);
 
-        return null;
+        // return null;
     }
 
     /**
@@ -832,44 +832,47 @@ public class HttpConnection {
     private java.io.InputStream getInputStream_new() {
         int length = responseFields.getInt("content-length", -1);
         if ("chunked".equals(responseFields.getValue(encodings, null))) {
-            return new MemoryStream(true) {
-                private byte[]    buff        = new byte[10240];
-                private int       leftInBlock = 0;
-                private ByteArray ba          = new ByteArray();
-                private CharArray ca          = new CharArray();
-
-                @Override
-                protected boolean loadAndPutDataBlock() throws IOException {
-                    if (leftInBlock <= 0) {
-                        leftInBlock = readInChunkedHeader(connectedSocket.inputStream, ba, ca);
-                        if (leftInBlock <= 0) {
-                            return false;
-                        }
-                    }
-                    int toRead = leftInBlock;
-                    if (toRead > buff.length) {
-                        toRead = buff.length;
-                    }
-                    int got = connectedSocket.inputStream.read(buff, 0, toRead);
-                    if (got == -1) {
-                        throw new IOException();
-                    }
-                    leftInBlock -= got;
-                    putInBuffer(buff, 0, got);
-                    if (leftInBlock == 0) {
-                        while (true) {
-                            got = connectedSocket.inputStream.read();
-                            if (got == -1) {
-                                throw new IOException();
-                            }
-                            if (got == '\n') {
-                                break;
-                            }
-                        }
-                    }
-                    return true;
-                }
-            }.toInputStream();
+            /*
+             * return new MemoryStream(true) {
+             * private byte[] buff = new byte[10240];
+             * private int leftInBlock = 0;
+             * private ByteArray ba = new ByteArray();
+             * private CharArray ca = new CharArray();
+             *
+             * @Override
+             * protected boolean loadAndPutDataBlock() throws IOException {
+             * if (leftInBlock <= 0) {
+             * leftInBlock = readInChunkedHeader(connectedSocket.inputStream, ba, ca);
+             * if (leftInBlock <= 0) {
+             * return false;
+             * }
+             * }
+             * int toRead = leftInBlock;
+             * if (toRead > buff.length) {
+             * toRead = buff.length;
+             * }
+             * int got = connectedSocket.inputStream.read(buff, 0, toRead);
+             * if (got == -1) {
+             * throw new IOException();
+             * }
+             * leftInBlock -= got;
+             * putInBuffer(buff, 0, got);
+             * if (leftInBlock == 0) {
+             * while (true) {
+             * got = connectedSocket.inputStream.read();
+             * if (got == -1) {
+             * throw new IOException();
+             * }
+             * if (got == '\n') {
+             * break;
+             * }
+             * }
+             * }
+             * return true;
+             * }
+             * }.toInputStream();
+             */
+            return null;
         }
         else {
             // return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
@@ -1068,8 +1071,13 @@ public class HttpConnection {
     }
 
     public void disconnect() {
-        if (openSocket.socket.isOpen()) {
-            openSocket.close(); // releases the handles of the system
+        if (openSocket != null) {
+            if (openSocket.socket.isOpen()) {
+                openSocket.close(); // releases the handles of the system
+            }
+        }
+        else {
+            openSocket_new.close();
         }
     }
 

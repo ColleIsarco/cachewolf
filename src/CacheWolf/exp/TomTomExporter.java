@@ -34,6 +34,7 @@ import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
 import ewe.io.RandomAccessFile;
 import ewe.io.File;
+import ewe.io.IOException;
 import ewe.sys.Handle;
 import ewe.ui.FormBase;
 import ewe.ui.ProgressBarForm;

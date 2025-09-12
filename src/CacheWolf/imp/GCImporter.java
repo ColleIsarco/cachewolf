@@ -1406,9 +1406,9 @@ public class GCImporter {
                 if (data.indexOf("MapTilesEnvironment = 'production';var tbStops = [") > 0) {
                     var lines = data.split("\r\n");
                     for (int j = 0; j < lines.length; j++) {
+                        var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
                         if (lines[j].contains('"'+ch.getName()+'"')){
                             System.out.println(lines[j]);
-                            var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
                             JSONObject coordinateLine = new JSONObject(tmpString);
                             JSONArray latlon = coordinateLine.getJSONArray("ll");
                             var latitude = latlon.getDouble(0);
