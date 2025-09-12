@@ -739,6 +739,23 @@ public class HttpConnection {
     /**
      * Read in all the data from the Socket.
      *
+     * @param connection
+     *            The Inputstream returned by a connect() call.
+     * @return A Handle with which you can monitor the connection. When the Handle
+     *         reports Success, then the returnValue of the Handle will be a ewe.util.ByteArray
+     *         object that holds the data read in.
+     */
+    private Handle readInData_new(final java.io.InputStream connection) {
+        int length = responseFields.getInt("content-length", -1);
+        if (length == 0) {
+            return new Handle(Handle.Succeeded, new ByteArray());
+        }
+        return StreamUtils.readAllBytes(getInputStream(), null, length, 0);
+    }
+
+    /**
+     * Read in all the data from the Socket.
+     *
      * @return A Handle with which you can monitor the connection. When the Handle
      * reports Success, then the returnValue of the Handle will be a ewe.util.ByteArray
      * object that holds the data read in.
@@ -808,7 +825,17 @@ public class HttpConnection {
      * @return A ByteArray containing the read in data.
      */
     public ByteArray readData() throws IOException {
-        return (ByteArray) waitOnIO(readInData(openSocket.inputStream), "Error reading data.");
+        if (openSocket_new != null) {
+            try {
+                return (ByteArray) waitOnIO(readInData_new(openSocket_new.getInputStream()), "Error reading data.");
+            }
+            catch (java.io.IOException e) {
+                throw new IOException(e);
+            }
+        }
+        else {
+            return (ByteArray) waitOnIO(readInData(openSocket.inputStream), "Error reading data.");
+        }
     }
 
     /**
@@ -866,7 +893,7 @@ public class HttpConnection {
                         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
                         makeRequest_new(socket.getInputStream(), socket.getOutputStream(), serverTextDecoder);
-                        socket.close();
+                        // socket.close();
                         // -- wird ersetzt
 
                         // --
@@ -984,8 +1011,8 @@ public class HttpConnection {
     }
 
     public boolean isOpen() {
-        if (openSocket.socket != null) {
-            return openSocket.socket.isOpen() ;
+        if (openSocket != null) {
+            return openSocket.socket != null && openSocket.socket.isOpen();
         }
         else {
             return !openSocket_new.isClosed();

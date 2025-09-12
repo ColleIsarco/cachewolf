@@ -153,6 +153,7 @@ public class OCXMLImporter {
         }
         catch (Exception e){
             Preferences.itself().log ("Error while updating OC-Cache: " + e);
+            e.printStackTrace();
             return false;
         }
         finally{

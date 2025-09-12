@@ -1399,6 +1399,7 @@ public class GCImporter {
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
             var script = parsed.selectXpath("/html/body/form[1]/script");
+            System.out.println(mapText);
             for (int i = 0; i < script.size(); i++) {
                 var data = script.get(i).data();
                 System.out.println(data);
@@ -1413,6 +1414,7 @@ public class GCImporter {
                             var latitude = latlon.getDouble(0);
                             var longitude = latlon.getDouble(1);
                             CoordinatePoint coordinates = new CoordinatePoint(latitude, longitude);
+                            ch.setWpt(coordinates);
                         }
                     }
                 }
@@ -1428,10 +1430,8 @@ public class GCImporter {
             Preferences.itself().log("[AP!]: Result from detail-urllfetch:\n" + response + "\n\n");
             JSONObject json = new JSONObject(response);
             JSONObject postedCoordinates = json.getJSONObject("postedCoordinates");
-            Preferences.itself().log("                  postedCoordinates:" + postedCoordinates + "\n\n");
             double lat = postedCoordinates.getDouble("latitude");
             double lon = postedCoordinates.getDouble("longitude");
-            CWPoint coordinates = new CWPoint(lat, lon);
         }
         catch (Exception e){
             Preferences.itself().log ("Error while loading the details: ",e, true);

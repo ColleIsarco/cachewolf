@@ -32,6 +32,7 @@ import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
 import ewe.io.File;
+import ewe.io.LineNumberReader;
 import ewe.sys.Handle;
 import ewe.ui.FormBase;
 import ewe.ui.ProgressBarForm;
