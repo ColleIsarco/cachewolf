@@ -274,7 +274,7 @@ public class UrlFetcher {
         do {
             redirectionCounter++;
 
-            conn.connect();
+            conn.connect_new();
 
             Preferences.itself().log("Request [" + url + "] returned status-code: [" + conn.responseCode + ']');
             if (conn.responseCode < 300 || conn.responseCode > 399) {

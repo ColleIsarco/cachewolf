@@ -750,11 +750,19 @@ public class HttpConnection {
         if (length == 0) {
             return new Handle(Handle.Succeeded, new ByteArray());
         }
-        byte[] bytes = new byte[length];
+
+        // TODO: Alles einlesen nicht nur ein Teil…
+        int bytesLeft = length;
+        var ba = new ByteArray();
         var is = getInputStream_new();
-        int bytesRead = is.read(bytes);
-        // TODO: Alles einlesen nicht nur ein Teil… (readAllBytes!)
-        var ba = new ByteArray(bytes);
+
+        while (bytesLeft > 0) {
+            byte[] bytes = new byte[bytesLeft];
+            int bytesRead = is.read(bytes);
+            ba.append(bytes, 0, bytesRead);
+            bytesLeft -= bytesRead;
+        }
+
         return new Handle(Handle.Succeeded, ba);
 
         // return null;

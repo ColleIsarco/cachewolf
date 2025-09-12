@@ -18,7 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 package CacheWolf.navi;
 
 import CacheWolf.Preferences;
@@ -30,6 +30,7 @@ import CacheWolf.utils.Matrix;
 import CacheWolf.utils.MyLocale;
 import ewe.fx.Point;
 import ewe.io.*;
+import ewe.io.FileInputStream;
 import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.util.mString;
@@ -198,8 +199,9 @@ public class MapInfoObject extends BoundingBox {
      * "" = empty map -> no file is associated<br>
      */
     public String getImagePathAndName() {
-        if (this.mapType == 1)
+        if (this.mapType == 1) {
             return ""; // 1=empty map
+        }
         else if (this.mapType == 3) {
             return Preferences.itself().absoluteMapsBaseDir + this.mapImageFileNameObject.getPath() + ".pack!" + this.mapImageFileNameObject.getMapName();
         } else {
@@ -246,7 +248,7 @@ public class MapInfoObject extends BoundingBox {
                 throw (new IOException(MyLocale.getMsg(4301, "Lat/Lon out of range while reading ") + FilePaN));
             }
         } catch (final NullPointerException e) {
-            // in.readline liefert null zurück, wenn keine Daten mehr vorhanden sind
+            // in.readline liefert null zurï¿½ck, wenn keine Daten mehr vorhanden sind
             throw (new IOException(MyLocale.getMsg(4303, "not enough lines in file ") + FilePaN));
         }
         doCalculations();
@@ -288,8 +290,9 @@ public class MapInfoObject extends BoundingBox {
         // N 48 16.000 E 11 32.000
         // N 48 16.000 E 11 50.000
         // N 48 9.000 E 11 32.000
-        if (GCPs.size() < 3)
+        if (GCPs.size() < 3) {
             throw new IllegalArgumentException(MyLocale.getMsg(4304, "not enough points to calibrate the map"));
+        }
         GCPoint gcp = new GCPoint();
         // Calculate parameters for latitutde affine transformation (affine
         // 0,2,4)
@@ -355,7 +358,7 @@ public class MapInfoObject extends BoundingBox {
             topleft.set(calcLatLon(0, 0));
             // die Mitte durch Halbierung
             center.set((bottomright.latDec + topleft.latDec) / 2, (bottomright.lonDec + topleft.lonDec) / 2);
-            // Diagonale Länge = 2 * (Mitte bis UntenRechts)
+            // Diagonale Lï¿½nge = 2 * (Mitte bis UntenRechts)
             sizeKm = java.lang.Math.abs((float) center.getDistance(bottomright)) * 2;
 
             // calculate reverse affine
@@ -373,15 +376,16 @@ public class MapInfoObject extends BoundingBox {
             c.y -= 1000;
             rotationRad = (float) (center.getBearing(calcLatLon(c)) / 180 * Math.PI);
             // note: the direction of nord can vary across the image.
-            // In Gauß-Krüger Projection it does change about 1 degree per 10km!
+            // In Gauï¿½-Krï¿½ger Projection it does change about 1 degree per 10km!
             // (float)java.lang.Math.atan(rotationX2y);
-            if (rotationRad > Math.PI)
+            if (rotationRad > Math.PI) {
                 rotationRad -= 2 * Math.PI;
+            }
 
             // calculate scale in meters per pixel
             final double heightkm = calcLatLon(0, heightpixel).getDistance(topleft);
             scale = (float) (heightkm * 1000 / heightpixel);
-	    Preferences.itself().log ("doCalc: " + center + " bottomRight: " + bottomright + " topLeft: " + topleft + " affineTopLeft: " + affineTopleft);
+            Preferences.itself().log ("doCalc: " + center + " bottomRight: " + bottomright + " topLeft: " + topleft + " affineTopLeft: " + affineTopleft);
         } catch (final ArithmeticException ex) {
             throw new ArithmeticException(MyLocale.getMsg(4305, "Not allowed values in affine\n (matrix cannot be inverted)\n in file \n") + this.mapImageFileNameObject.getMapName());
         }
@@ -394,8 +398,9 @@ public class MapInfoObject extends BoundingBox {
      * @throws IllegalArgumentException when affine[x] for all x == 0 ("map not calibrated").
      */
     public void saveWFL() throws IOException, IllegalArgumentException {
-        if (affine[0] == 0 && affine[1] == 0 && affine[2] == 0 && affine[3] == 0 && !topleft.isValid())
+        if (affine[0] == 0 && affine[1] == 0 && affine[2] == 0 && affine[3] == 0 && !topleft.isValid()) {
             throw (new IllegalArgumentException(MyLocale.getMsg(4306, "map not calibrated")));
+        }
         String PaN = Preferences.itself().absoluteMapsBaseDir + this.mapImageFileNameObject.getPath() + this.mapImageFileNameObject.getMapName() + ".wfl";
         final PrintWriter outp = new PrintWriter(new BufferedWriter(new FileWriter(PaN)));
         final StringBuffer towriteB = new StringBuffer(400);
@@ -409,8 +414,9 @@ public class MapInfoObject extends BoundingBox {
         towriteB.append(Convert.toString(bottomright.lonDec)).append("\n"); // WGS84 values
         towriteB.append(((coordTrans == 0 || coordTrans == TransformCoordinates.EPSG_WGS84) ? "" : "" + coordTrans + "\n"));
         String towrite = towriteB.toString();
-        if (Common.getDigSeparator() == ',')
+        if (Common.getDigSeparator() == ',') {
             towrite = towrite.replace(',', '.');
+        }
         outp.print(towrite);
         outp.close();
     }
@@ -431,8 +437,9 @@ public class MapInfoObject extends BoundingBox {
         affine[2] = affine[2] * zoomFactor;
         affine[3] = affine[3] * zoomFactor;
         CoordinatePoint upperleft = calcLatLon(diffX, diffY);
-        if (coordTrans != 0)
+        if (coordTrans != 0) {
             upperleft = TransformCoordinatesProperties.fromWgs84(upperleft, coordTrans);
+        }
         affineTopleft.latDec = upperleft.latDec;
         affineTopleft.lonDec = upperleft.lonDec;
         affine[0] = affine[0] / zf;
@@ -454,10 +461,12 @@ public class MapInfoObject extends BoundingBox {
      */
     public Point calcMapXY(CoordinatePoint ll) {
         CoordinatePoint t;
-        if (coordTrans != 0)
+        if (coordTrans != 0) {
             t = TransformCoordinatesProperties.fromWgs84(ll, coordTrans);
-        else
+        }
+        else {
             t = ll;
+        }
         final Point coords = new Point();
         double b0, b1;
         b0 = t.latDec - affineTopleft.latDec;
@@ -480,8 +489,9 @@ public class MapInfoObject extends BoundingBox {
         CWPoint ll = new CWPoint();
         ll.latDec = x * affine[0] + y * affine[2] + affineTopleft.latDec;
         ll.lonDec = x * affine[1] + y * affine[3] + affineTopleft.lonDec;
-        if (coordTrans != 0)
+        if (coordTrans != 0) {
             ll = TransformCoordinatesProperties.toWgs84(ll, coordTrans);
+        }
         return ll;
     }
 
@@ -527,7 +537,7 @@ class GCPoint extends CWPoint {
     }
 
     /**
-     * If you are using Gauß-Krüger, put lat = northing, lon = easting
+     * If you are using Gauï¿½-Krï¿½ger, put lat = northing, lon = easting
      *
      * @param lat
      * @param lon
@@ -586,8 +596,10 @@ class MapImageFileNameObject {
         } else if (mapType == 3) {
             String s[] = mString.split(this.mapName, '!');
             return this.path + " zoom: " + s[4] + " x,y: " + s[5] + "," + s[6];
-        } else
+        }
+        else {
             return this.mapName;
+        }
     }
 
 }
