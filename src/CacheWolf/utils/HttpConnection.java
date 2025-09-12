@@ -993,9 +993,7 @@ public class HttpConnection {
                 throw new IOException(e);
             }
         }
-        else {
-            return (ByteArray) waitOnIO(readInData(openSocket.inputStream), "Error reading data.");
-        }
+        throw new IOException("Socket closed");
     }
 
     /**

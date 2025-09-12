@@ -1359,6 +1359,16 @@ public class GCImporter {
 
     private void getTravelBugs(CacheHolder ch){
         String url = "https://www.geocaching.com/seek/nearest.aspx/CacheContents";
+        // ## var payload = String.format("{\"dto\":{\"data\":\"%s\",\"ut\":\"2\"}}", ch.getCacheID());
+        // ## UrlFetcher.setpostData(payload);
+        // ## try {
+        // ## var text = UrlFetcher.fetch(url);
+        // ## System.out.println(text);
+        // ## }
+        // ## catch (IOException e) {
+        // ## // TODO Auto-generated catch block
+        // ## e.printStackTrace();
+        // ## }
         //payload: $payload = "{\"dto\":{\"data\":\"$wpId\",\"ut\":\"2\"}}"; + POST
     }
 
@@ -2548,6 +2558,7 @@ public class GCImporter {
                         newCache.setLastSync((new Time()).format("yyyyMMddHHmmss"));
                         newCache.setIdOC(wayPointPageGetUuid());
                         newCache.setIncomplete(false);
+                        // ## Besser getBugs und darin -> getTravelBugs(newCache);
                         Preferences.itself().log("ready " + newCache.getCode() + " : " + newCache.getLastSync());
                         break;
                     } catch (final Exception ex) {
