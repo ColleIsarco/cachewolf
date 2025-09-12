@@ -1427,7 +1427,6 @@ public class GCImporter {
         // Ende Gelaende
         final String detailUrl = "https://www.geocaching.com/api/proxy/web/v1/geocache/" + ch.getCode();
         try{
-            String response = UrlFetcher.fetch(detailUrl);
         }
         catch (Exception e){
         }
@@ -2391,6 +2390,7 @@ public class GCImporter {
     public int fetchWayPointPage(String wayPoint) {
         int ret = SPIDER_OK; // initialize value;
         try {
+            // TODO: wayPointPage in JSoup-Document konvertieren und dann die Daten extrahieren statt Zillions of Regex verwenden:
             wayPointPage = UrlFetcher.fetch("https://www.geocaching.com/seek/cache_details.aspx?wp=" + wayPoint);
             Preferences.itself().log("Fetched: " + wayPoint);
         } catch (final Exception ex) {
@@ -2438,6 +2438,7 @@ public class GCImporter {
                                     newCacheDetails = chOld.getDetails();
                                     final String url = "https://www.geocaching.com/seek/geocache_logs.aspx?guid=" + chOld.getIdOC();
                                     final String fetchResult = UrlFetcher.fetch(url);
+                                    // TODO: Hier nicht wayPointPage überschreiben!!
                                     wayPointPage = fetchResult;
                                     getLogs(true);
                                 }
