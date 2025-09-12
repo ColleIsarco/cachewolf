@@ -1430,7 +1430,6 @@ public class GCImporter {
             String response = UrlFetcher.fetch(detailUrl);
         }
         catch (Exception e){
-            Preferences.itself().log ("Error while loading the details: ",e, true);
         }
 
     }

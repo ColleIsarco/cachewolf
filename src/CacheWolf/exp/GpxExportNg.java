@@ -37,6 +37,7 @@ import ewe.fx.Sound;
 import ewe.io.*;
 import ewe.io.File;
 import ewe.io.FileBase;
+import ewe.io.PrintWriter;
 import ewe.sys.*;
 import ewe.sys.Process;
 import ewe.ui.*;

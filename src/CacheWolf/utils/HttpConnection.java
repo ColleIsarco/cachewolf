@@ -1072,69 +1072,6 @@ public class HttpConnection {
     }
 
     /**
-     * Connect asynchronously. This makes the connection, sends the request and requestor properties
-     * reads in the reply and server properties and then returns the connected Socket ready for
-     * for reading in the actual data.
-     *
-     * @param serverTextDecoder The text decoder to convert the server and requestor properties data into text.
-     * @return A Handle used to monitor the connection. When the Handle reports a state of
-     * Success, then the returnValue of the Handle will hold the connected socket.
-     */
-    // TODO weg
-    private Handle connectAsync_old(final TextCodec serverTextDecoder)
-    {
-        return new TaskObject() {
-            @Override
-            protected void doRun() {
-                while (true) {
-                    // Create a Socket using an IOHandle.
-                    Handle sh;
-                    Socket sock;
-                    if (openSocket != null) {
-                        sh = new Handle(Handle.Succeeded, openSocket);
-                        sock = openSocket.socket;
-                    }
-                    else {
-                        sh = new IOHandle();
-                        sock = new Socket(host, port, (IOHandle) sh);
-                    }
-
-                    try {
-                        // Now wait until connected.
-                        if (!waitOnSuccess(sh, true)){
-                            return;
-                        }
-
-                        // Report that the socket connection was made.
-                        // Now have to decode the data.
-                        handle.setFlags(SocketConnected, 0);
-
-                        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                        SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
-                        socket.close();
-                        TlsSocket tls = new TlsSocket(useSslTls, sock);
-                        makeRequest(tls.inputStream, tls.outputStream, serverTextDecoder);
-                        handle.returnValue = connectedSocket = tls;
-                        handle.setFlags(Handle.Success, 0);
-                        return;
-                    }
-                    catch (Throwable e) {
-                        e.printStackTrace();
-                        if (openSocket == null) {
-                            handle.failed(e);
-                            return;
-                        }
-                        else {
-                            openSocket = null;
-                            continue;
-                        }
-                    }
-                }
-            }
-        }.startTask();
-    }
-
-    /**
      * This makes the connection, blocking the current thread.
      *
      * @return A Socket that you can read the data from. The document properties will be in
