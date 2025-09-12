@@ -31,6 +31,7 @@ import com.stevesoft.ewe_pat.Regex;
 import ewe.io.*;
 import ewe.io.File;
 import ewe.io.FileBase;
+import ewe.io.IOException;
 import ewe.sys.Process;
 import ewe.sys.Time;
 import ewe.sys.Vm;

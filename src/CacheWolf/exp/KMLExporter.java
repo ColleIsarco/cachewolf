@@ -32,6 +32,7 @@ import CacheWolf.utils.MyLocale;
 import CacheWolf.utils.STRreplace;
 import CacheWolf.utils.SafeXML;
 import ewe.io.*;
+import ewe.io.BufferedWriter;
 import ewe.io.FileWriter;
 import ewe.io.PrintWriter;
 import ewe.sys.Handle;

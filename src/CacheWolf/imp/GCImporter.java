@@ -1385,16 +1385,18 @@ public class GCImporter {
             int lineCounter = 0;
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
-                var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
-                if (anchor.size() > 0) {
-                    var href = anchor.getFirst().attr("href");
-                    System.out.println(href);
-                    if (href.endsWith(ch.getCode())) {
-                        System.out.println(" -> " + i);
-                        break;
+                if (row.selectXpath("td/img[@title='Dropped Off']").size() > 0) {
+                    var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
+                    if (anchor.size() > 0) {
+                        var href = anchor.getFirst().attr("href");
+                        System.out.println(href);
+                        if (href.endsWith(ch.getCode())) {
+                            System.out.println(" -> " + i);
+                            break;
+                        }
+                        lineCounter++;
                     }
-                    lineCounter++;
-                }
+            }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
@@ -1424,13 +1426,6 @@ public class GCImporter {
         catch (Exception e) {
             Preferences.itself().log("Error while loading the details: ", e, true);
         }
-        // Ende Gelaende
-        final String detailUrl = "https://www.geocaching.com/api/proxy/web/v1/geocache/" + ch.getCode();
-        try{
-        }
-        catch (Exception e){
-        }
-
     }
 
     private String getMapUrl(CacheHolder ch) throws IOException {
@@ -2919,7 +2914,8 @@ public class GCImporter {
      */
     private void getBugs(CacheHolderDetail chD) throws Exception {
         chD.getTravelbugs().clear();
-        if (wayPointPage.indexOf("ctl00_ContentBody_uxTravelBugList_uxNoTrackableItemsLabel") >= 0) {
+        var parsedDoc = Jsoup.parse(wayPointPage);
+        if (wayPointPage.indexOf("There are no Trackables in this cache.") >= 0) {
             return; // there are no trackables
         }
         final Extractor exBlock = new Extractor(wayPointPage, blockExStart, blockExEnd, 0, Extractor.EXCLUDESTARTEND);
