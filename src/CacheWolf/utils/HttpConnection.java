@@ -845,9 +845,8 @@ public class HttpConnection {
                     // Create a Socket using an IOHandle.
                     Handle sh;
                     Socket sock;
-                    if (openSocket != null) {
-                        sh = new Handle(Handle.Succeeded, openSocket);
-                        sock = openSocket.socket;
+                    if (openSocket_new != null) {
+                        sh = new Handle(Handle.Succeeded, openSocket_new);
                     }
                     else {
                         sh = new IOHandle();
@@ -877,12 +876,12 @@ public class HttpConnection {
                     }
                     catch (Throwable e) {
                         e.printStackTrace();
-                        if (openSocket == null) {
+                        if (openSocket_new == null) {
                             handle.failed(e);
                             return;
                         }
                         else {
-                            openSocket = null;
+                            openSocket_new = null;
                             continue;
                         }
                     }
@@ -985,6 +984,11 @@ public class HttpConnection {
     }
 
     public boolean isOpen() {
-        return openSocket.socket.isOpen();
+        if (openSocket.socket != null) {
+            return openSocket.socket.isOpen() ;
+        }
+        else {
+            return !openSocket_new.isClosed();
+        }
     }
 }

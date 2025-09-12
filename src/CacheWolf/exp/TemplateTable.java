@@ -81,7 +81,7 @@ public class TemplateTable {
             varParams.put("OWNER", (ModTyp == 0) ? SafeXML.cleanGPX(ch.getOwner()) : ch.getOwner());
             varParams.put("DATE", ch.getHidden());
         }
-	else {
+        else {
             difficulty = cache.getDifficulty();
             terrain = cache.getTerrain();
             size = cache.getSize();
@@ -95,7 +95,7 @@ public class TemplateTable {
                 varParams.put("SHORTTERRAIN", "");
                 varParams.put("SHTERRAIN", "");
             }
-	    else {
+            else {
                 varParams.put("DIFFICULTY", (difficulty < 0) ? "" : decSep.replaceAll(CacheTerrDiff.longDT(difficulty)));
                 String sHard = Integer.toString(difficulty);
                 varParams.put("SHORTDIFFICULTY", (difficulty < 0) ? "" : sHard);
@@ -135,8 +135,10 @@ public class TemplateTable {
         }
         if (withFoundText) {
             varParams.put("STATUS", cache.getStatusText());
-        } else
+        }
+        else {
             varParams.put("STATUS", cache.getStatus());
+        }
         varParams.put("GC_LOGTYPE", CacheHolder.getGCLogType(type, cache.isFound(), cache.getStatus()));
         varParams.put("STATUS_DATE", cache.getStatusDate());
         varParams.put("STATUS_TIME", cache.getStatusTime());
@@ -154,8 +156,9 @@ public class TemplateTable {
         String shortName = shortenName(cache.getName(), shortNameLength);
         varParams.put("SHORTNAME", shortName);
         varParams.put("TRAVELBUG", (cache.hasBugs() ? "Y" : "N"));
-        if (gm != null)
+        if (gm != null) {
             varParams.put("GMTYPE", gm.getIcon(cache));
+        }
         varParams.put("NOW_DATE", nowdate().setToCurrentTime().toString());
         varParams.put("NOW_TIME", nowtime().setToCurrentTime().toString());
         varParams.put("CACHEID", cache.getCacheID());
@@ -185,85 +188,88 @@ public class TemplateTable {
             varParams.put("IFPM", "?");
         }
 
-	switch (cache.getType()){
-	    case CacheType.CW_TYPE_TRADITIONAL:
-	        varParams.put("IFTRADITIONAL", "TR");
-	        break;        
-	    case CacheType.CW_TYPE_MULTI:
+        switch (cache.getType()){
+            case CacheType.CW_TYPE_TRADITIONAL:
+                varParams.put("IFTRADITIONAL", "TR");
+                break;
+            case CacheType.CW_TYPE_MULTI:
                 varParams.put("IFMULTI", "MU");
-		break;        
+                break;
             case CacheType.CW_TYPE_MYSTERY:
-		varParams.put("IFMYSTERY", "UN");
+                varParams.put("IFMYSTERY", "UN");
                 break;
             case CacheType.CW_TYPE_EVENT:
                 varParams.put("IFEVENT", "EV");
-	        break;
+                break;
             case CacheType.CW_TYPE_CITO:
                 varParams.put("IFCITO", "CI");
-	        break;
+                break;
             case CacheType.CW_TYPE_EARTH:
                 varParams.put("IFEARTH", "EA");
-	        break;
+                break;
             case CacheType.CW_TYPE_MEGA_EVENT:
                 varParams.put("IFMEGA", "ME");
-	        break;
+                break;
             case CacheType.CW_TYPE_GIGA_EVENT:
                 varParams.put("IFGIGA", "GI");
-	        break;
+                break;
             case CacheType.CW_TYPE_LAB:
                 varParams.put("IFLAB", "LA");
-	        break;
+                break;
             case CacheType.CW_TYPE_LETTERBOX:
                 varParams.put("IFLETTERBOX", "LB");
-	        break;
+                break;
             case CacheType.CW_TYPE_WEBCAM:
                 varParams.put("IFWEBCAM", "WC");
-	        break;
+                break;
             case CacheType.CW_TYPE_WHEREIGO:
                 varParams.put("IFWHEREIGO", "WG");
-	        break;
+                break;
             case CacheType.CW_TYPE_PARKING:
                 varParams.put("IFPARKING", "PA");
-	        break;
+                break;
             case CacheType.CW_TYPE_STAGE:
                 varParams.put("IFSTAGE", "ST");
-	        break;
+                break;
             case CacheType.CW_TYPE_QUESTION:
                 varParams.put("IFQUESTION", "QU");
-	        break;
+                break;
             case CacheType.CW_TYPE_FINAL:
                 varParams.put("IFFINAL", "FI");
-	        break;
+                break;
             case CacheType.CW_TYPE_TRAILHEAD:
                 varParams.put("IFTRAILHEAD", "TH");
-	        break;
+                break;
             case CacheType.CW_TYPE_REFERENCE:
                 varParams.put("IFREFERENCE", "RE");
-	        break;
+                break;
             case CacheType.CW_TYPE_CUSTOM:
                 varParams.put("IFCUSTOM", "CU");
-	        break;
+                break;
             case CacheType.CW_TYPE_VIRTUAL:
                 varParams.put("IFVIRTUAL", "VI");
-	        break;
+                break;
             case CacheType.CW_TYPE_DRIVE_IN:
                 varParams.put("IFDRIVEIN", "DI");
-	        break;
+                break;
             case CacheType.CW_TYPE_LOCATIONLESS:
                 varParams.put("IFLOCATIONLESS", "LL");
-	        break;
+                break;
             case CacheType.CW_TYPE_APE:
                 varParams.put("IFAPE", "AP");
-	        break;
+                break;
             case CacheType.CW_TYPE_MAZE:
                 varParams.put("IFMAZE", "MZ");
-	        break;
-   	    default:
+                break;
+        case CacheType.CW_TYPE_BLOCKPARTY:
+            varParams.put("IFBLOCKPARTY", "BP");
+                break;
+            default:
                 varParams.put("IFUNKNOWN", "NN");
-	        break;
-	}
+                break;
+        }
 
-	varParams.put("VOTE", cache.getRecommended());
+        varParams.put("VOTE", cache.getRecommended());
         if (chD == null) {
             varParams.put("URL", "");
             varParams.put("DESCRIPTION", "");
@@ -303,10 +309,12 @@ public class TemplateTable {
                 varParams.put("HINTS", (ModTyp == 0) ? SafeXML.cleanGPX(chD.getHints()) : chD.getHints());
                 varParams.put("DECRYPTEDHINTS", (ModTyp == 0) ? SafeXML.cleanGPX(Common.rot13(chD.getHints())) : Common.rot13(chD.getHints()));
             }
-            if (chD.getTravelbugs().size() > 0)
+            if (chD.getTravelbugs().size() > 0) {
                 varParams.put("BUGS", (ModTyp == 0) ? SafeXML.cleanGPX(chD.getTravelbugs().toHtml()) : chD.getTravelbugs().toHtml());
-            if (chD.getSolver() != null && chD.getSolver().trim().length() > 0)
+            }
+            if (chD.getSolver() != null && chD.getSolver().trim().length() > 0) {
                 varParams.put("SOLVER", STRreplace.replace(chD.getSolver(), "\n", "<br/>\n"));
+            }
             varParams.put("COUNTRY", chD.getCountry());
             varParams.put("STATE", chD.getState());
 
@@ -319,10 +327,12 @@ public class TemplateTable {
                 atts.put("GCID", chD.getAttributes().getAttribute(i).getGCId());
                 atts.put("INC", "" + chD.getAttributes().getAttribute(i).getInc());
                 atts.put("INC2TXT", chD.getAttributes().getAttribute(i).getInc() == 1 ? "YES:" : "NO:");
-                if (i % 5 == 4)
+                if (i % 5 == 4) {
                     atts.put("BR", "<br/>");
-                else
+                }
+                else {
                     atts.put("BR", "");
+                }
                 atts.put("INFO", chD.getAttributes().getAttribute(i).getMsg());
                 atts.put("GCINFO", chD.getAttributes().getAttribute(i).getGCText());
                 attVect.add(atts);
@@ -358,13 +368,15 @@ public class TemplateTable {
                 } else {
                     lastFive = lastFive + "o";
                 }
-                if (i == 4)
+                if (i == 4) {
                     break;
+                }
             }
             varParams.put("LASTFIVE", lastFive);
 
-            if (nrOfLogs > -1 && nrOfLogs < maxlogs)
+            if (nrOfLogs > -1 && nrOfLogs < maxlogs) {
                 maxlogs = nrOfLogs;
+            }
             for (int i = 0; i < maxlogs; i++) {
                 Hashtable logs = new Hashtable();
                 String stmp;
@@ -427,8 +439,10 @@ public class TemplateTable {
                 } else {
                     exportPath = Preferences.itself().getExportPath(expName);
                 }
-            } else
+            }
+            else {
                 exportPath = "";
+            }
             Vector imgVect = new Vector(chD.getImages().size());
             for (int i = 0; i < chD.getImages().size(); i++) {
                 Hashtable imgs = new Hashtable();
@@ -484,11 +498,13 @@ public class TemplateTable {
         int pos;
         int imageNo = 0;
         String imgsrc = "";
-        if (ModTypLongDesc == 1)
+        if (ModTypLongDesc == 1) {
             imgsrc = "file://" + MainForm.profile.dataDir;
+        }
         while (start >= 0 && (pos = chD.getLongDescription().indexOf("<img", start)) > 0) {
-            if (imageNo >= chD.getImages().size())
+            if (imageNo >= chD.getImages().size()) {
                 break;
+            }
             s.append(chD.getLongDescription().substring(start, pos));
             start = chD.getLongDescription().indexOf(">", pos) + 1;
             String oldurl = chD.getImages().get(imageNo).getURL();
@@ -506,8 +522,9 @@ public class TemplateTable {
             s.append(STRreplace.replace(imgString, oldurl, newurl));
             imageNo++;
         }
-        if (start >= 0)
+        if (start >= 0) {
             s.append(chD.getLongDescription().substring(start));
+        }
         return s.toString();
     }
 
@@ -577,12 +594,14 @@ public class TemplateTable {
     }
 
     private String removeCharsfromString(String text, int MaxLength, String chars) {
-        if (text == null)
+        if (text == null) {
             return null;
+        }
         int originalTextLength = text.length();
         int anzToRemove = originalTextLength - MaxLength;
-        if (anzToRemove <= 0)
+        if (anzToRemove <= 0) {
             return text;
+        }
         int anzRemoved = 0;
         StringBuffer sb = new StringBuffer(50);
         for (int i = originalTextLength - 1; i >= 0; i--) {
