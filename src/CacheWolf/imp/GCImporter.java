@@ -1385,7 +1385,7 @@ public class GCImporter {
             int lineCounter = 0;
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
-                if (row.selectXpath("td/img[@title='Dropped Off']").size() > 0) {
+                if (row.selectXpath("td/img[@title='Dropped Off']").size() > 0 || row.selectXpath("td/img[@title='Visited']").size() > 0) {
                     var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
                     if (anchor.size() > 0) {
                         var href = anchor.getFirst().attr("href");
@@ -1396,7 +1396,7 @@ public class GCImporter {
                         }
                         lineCounter++;
                     }
-            }
+                }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
@@ -2915,6 +2915,8 @@ public class GCImporter {
     private void getBugs(CacheHolderDetail chD) throws Exception {
         chD.getTravelbugs().clear();
         var parsedDoc = Jsoup.parse(wayPointPage);
+        var trackableNode = parsedDoc.getElementById("trackableInventory");
+        var bugNodes = trackableNode.getElementsByTag("ul");// if (bugNodes.isEmpty()) {}
         if (wayPointPage.indexOf("There are no Trackables in this cache.") >= 0) {
             return; // there are no trackables
         }
