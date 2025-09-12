@@ -65,7 +65,7 @@ public class HttpConnection {
 
     // Files / Images with more than this size will currently be denied.
     //This is to prevent to download MJPEGs which have an infinite size. (eg. OC14469)
-    private static final long MAX_FILESIZE = 8L * 1024L * 1024L;
+    private static final long     MAX_FILESIZE    = 16L * 1024L * 1024L;
 
     private static final int SocketConnected = 0x1;
     private static final String[] encodings = {"transfer-coding", "transfer-encoding"};
@@ -94,8 +94,10 @@ public class HttpConnection {
      * If the document you supplied is already URL encoded, set this to true.
      **/
     public boolean documentIsEncoded;
-    protected TlsSocket openSocket;
+    // TODO: weg
+    protected TlsSocket           openSocket;
     protected SSLSocket           openSocket_new;
+    // TODO: weg
     protected TlsSocket connectedSocket;
 
     /**
@@ -149,9 +151,12 @@ public class HttpConnection {
     /**
      * This is the codec used when sending data to the server.
      **/
+    // TODO weg
     private TextCodec textCodec;
+    // TODO weg
     private Stream bytesToPost;
-    private String                bytesToPost_new;
+    private byte[]                bytesToPost_new;
+    // TODO weg ist obsolet weil alles in bytesToPost_new steht.
     private Object originalPostData;
     private byte[] buffer;
 
@@ -243,6 +248,7 @@ public class HttpConnection {
      *
      * @param data the data to post either as a Stream, InputStream, byte[] or ByteArray
      */
+    // TODO: weg
     public void setPostData_new(Object data) {
         if (data instanceof Stream) {
             bytesToPost = (Stream) data;
@@ -289,6 +295,7 @@ public class HttpConnection {
      * @param data
      *            the data to post either as a Stream, InputStream, byte[] or ByteArray
      */
+    // TODO weg
     public void setPostData(Object data) {
         if (data instanceof Stream){
             bytesToPost = (Stream) data;
@@ -301,6 +308,7 @@ public class HttpConnection {
         else if (data instanceof byte[]) {
             originalPostData = data;
             bytesToPost = new MemoryFile(new ByteArray((byte[]) data));
+            bytesToPost_new = (byte[]) data;
             getRequestFields().defaultTo("Content-Length", Convert.toString(((byte[]) data).length));
         }
         else if (data instanceof String) {
@@ -446,7 +454,7 @@ public class HttpConnection {
         os.flush();
 
         if (bytesToPost_new != null) {
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytesToPost_new.getBytes("ISO-8859-1"));
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytesToPost_new);
             transfer_new(bis, os);
             os.flush();
             bis.close();
@@ -515,6 +523,7 @@ public class HttpConnection {
         return responseCode;
     }
 
+    // TODO weg
     private int makeRequest(InputStream is, OutputStream os, TextCodec td) throws IOException {
         responseCode = -1;
         if (td == null){
@@ -639,6 +648,7 @@ public class HttpConnection {
     /**
      * Copy from the "in" stream to the "out" stream. The streams are NOT closed.
      **/
+    // TODO weg
     public void transfer(Stream in, OutputStream out) throws IOException {
         int bufferSize = 1024;
         byte[] buff = new byte[bufferSize];
@@ -728,6 +738,7 @@ public class HttpConnection {
      * reports Success, then the returnValue of the Handle will be a ewe.util.ByteArray
      * object that holds the data read in.
      */
+    // TODO weg
     private Handle readInData(final InputStream connection) {
         int length = responseFields.getInt("content-length", -1);
         if (length == 0){
@@ -920,6 +931,7 @@ public class HttpConnection {
      * @return A Handle used to monitor the connection. When the Handle reports a state of
      * Success, then the returnValue of the IOHandle will hold the connected socket.
      */
+    // TODO weg
     public Handle connectAsync() {
         return connectAsync(new AsciiCodec());
     }
@@ -938,6 +950,7 @@ public class HttpConnection {
      * @return A Handle used to monitor the connection. When the Handle reports a state of
      *         Success, then the returnValue of the Handle will hold the connected socket.
      */
+    // TODO serverTextDecoder ist immmer ein AsciiCodev. Parameter kann weg
     private Handle connectAsync_new(final TextCodec serverTextDecoder) {
         return new TaskObject() {
             @Override
@@ -967,10 +980,7 @@ public class HttpConnection {
                         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
                         makeRequest_new(socket.getInputStream(), socket.getOutputStream(), serverTextDecoder);
-                        // socket.close();
-                        // -- wird ersetzt
 
-                        // --
                         handle.returnValue = socket;
                         handle.setFlags(Handle.Success, 0);
                         return;
@@ -1000,6 +1010,7 @@ public class HttpConnection {
      * @return A Handle used to monitor the connection. When the Handle reports a state of
      * Success, then the returnValue of the Handle will hold the connected socket.
      */
+    // TODO weg
     private Handle connectAsync(final TextCodec serverTextDecoder)
     {
         return new TaskObject() {
@@ -1060,7 +1071,8 @@ public class HttpConnection {
      * the document properties list.
      * @throws IOException if there was an error connecting or getting the data.
      */
-    public TlsSocket connect() throws IOException {
+    // TODO weg
+    public TlsSocket connect_old() throws IOException {
         openSocket = (TlsSocket) waitOnIO(connectAsync(), host + ":" + port + "/" + document + " could not connect.");
         return openSocket;
     }

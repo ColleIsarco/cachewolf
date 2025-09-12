@@ -28,6 +28,7 @@ import CacheWolf.database.*;
 import CacheWolf.utils.*;
 import ewe.fx.Point;
 import ewe.io.*;
+import ewe.io.File;
 import ewe.io.IOException;
 import ewe.io.FileBase;
 import ewe.sys.Time;
