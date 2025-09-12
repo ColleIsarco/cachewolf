@@ -1143,19 +1143,6 @@ public class HttpConnection {
      * This makes the connection, blocking the current thread.
      *
      * @return A Socket that you can read the data from. The document properties will be in
-     * the document properties list.
-     * @throws IOException if there was an error connecting or getting the data.
-     */
-    // TODO weg
-    public TlsSocket connect_old() throws IOException {
-        openSocket = (TlsSocket) waitOnIO(connectAsync(), host + ":" + port + "/" + document + " could not connect.");
-        return openSocket;
-    }
-
-    /**
-     * This makes the connection, blocking the current thread.
-     *
-     * @return A Socket that you can read the data from. The document properties will be in
      *         the document properties list.
      * @throws IOException
      *             if there was an error connecting or getting the data.

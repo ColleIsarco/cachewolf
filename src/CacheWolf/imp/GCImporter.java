@@ -1428,8 +1428,6 @@ public class GCImporter {
         final String detailUrl = "https://www.geocaching.com/api/proxy/web/v1/geocache/" + ch.getCode();
         try{
             String response = UrlFetcher.fetch(detailUrl);
-            Preferences.itself().log("[AP!]: Result from detail-urllfetch:\n" + response + "\n\n");
-            JSONObject json = new JSONObject(response);
         }
         catch (Exception e){
             Preferences.itself().log ("Error while loading the details: ",e, true);
