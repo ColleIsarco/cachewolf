@@ -28,6 +28,7 @@ package CacheWolf.utils;
 
 import ewe.fx.Rect;
 import ewe.io.*;
+import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.sys.LocalResource;
 import ewe.sys.Locale;

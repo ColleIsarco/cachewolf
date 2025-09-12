@@ -34,6 +34,7 @@ import ewe.filechooser.FileChooserBase;
 import ewe.fx.*;
 import ewe.io.*;
 import ewe.io.File;
+import ewe.io.FileReader;
 import ewe.sys.Convert;
 import ewe.sys.Device;
 import ewe.sys.Vm;

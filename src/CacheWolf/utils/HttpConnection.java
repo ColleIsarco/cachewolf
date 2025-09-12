@@ -295,7 +295,7 @@ public class HttpConnection {
      * @param data
      *            the data to post either as a Stream, InputStream, byte[] or ByteArray
      */
-    // TODO weg
+    // TODO: wird faktisch nur mit String von außen aufgerufen
     public void setPostData(Object data) {
         if (data instanceof Stream){
             bytesToPost = (Stream) data;
@@ -932,7 +932,7 @@ public class HttpConnection {
      * Success, then the returnValue of the IOHandle will hold the connected socket.
      */
     // TODO weg
-    public Handle connectAsync() {
+    private Handle connectAsync_old() {
         return connectAsync(new AsciiCodec());
     }
 
