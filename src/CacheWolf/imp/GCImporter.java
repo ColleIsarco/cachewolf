@@ -1386,6 +1386,7 @@ public class GCImporter {
             // Nummer der Zeile finden
             List<String> testListe = new ArrayList<>(); // Diese Liste mit den Namen der Caches aus der Tabelle füllen und in der unteren Schleife miteinander abgleichen:
             int lineCounter = 0;
+            List<String> tmpFuerTest = new ArrayList<>();
             for (int i = 0; i < table.size(); i++) {
                 var row = table.get(i);
                 var classNames = row.classNames();
