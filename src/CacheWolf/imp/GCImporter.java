@@ -1407,6 +1407,7 @@ public class GCImporter {
                     var lines = data.split("\r\n");
                     for (int j = 0; j < lines.length; j++) {
                         var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
+                        var jsonName = ch.getName().replaceAll("\"", "\\\\\""); // in zeile darunter ersetzen und dann aus der Schleife ziehen...
                         if (lines[j].contains('"'+ch.getName()+'"')){
                             System.out.println(lines[j]);
                             JSONObject coordinateLine = new JSONObject(tmpString);

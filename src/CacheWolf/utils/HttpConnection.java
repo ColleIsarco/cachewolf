@@ -65,7 +65,7 @@ public class HttpConnection {
 
     // Files / Images with more than this size will currently be denied.
     //This is to prevent to download MJPEGs which have an infinite size. (eg. OC14469)
-    private static final long     MAX_FILESIZE    = 16L * 1024L * 1024L;
+    private static final long     MAX_FILESIZE    = 128L * 1024L * 1024L;
 
     private static final int SocketConnected = 0x1;
     private static final String[] encodings = {"transfer-coding", "transfer-encoding"};
