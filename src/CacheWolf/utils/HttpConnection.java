@@ -872,7 +872,13 @@ public class HttpConnection {
             }.toInputStream();
         }
         else {
-            return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
+            // return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
+            try {
+                return openSocket_new.getInputStream();
+            }
+            catch (java.io.IOException ioe) {
+                return null;
+            }
         }
     }
     /*

@@ -33,6 +33,7 @@ import CacheWolf.utils.STRreplace;
 import CacheWolf.utils.SafeXML;
 import ewe.io.*;
 import ewe.io.FileWriter;
+import ewe.io.PrintWriter;
 import ewe.sys.Handle;
 import ewe.ui.FormBase;
 import ewe.ui.ProgressBarForm;

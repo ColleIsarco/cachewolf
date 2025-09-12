@@ -507,7 +507,7 @@ public class OCXMLImporter {
         imgRegexUrl.setIgnoreCase(true);
         int descIndex = 0;
         int numDownloaded = 1;
-        // In Document verwandeln und dioe IMG-elemente extrahieren. Dann die Images und Alt-Description ermitteln, und die RegExe entsorgen...
+        // In Document verwandeln und die IMG-elemente extrahieren. Dann die Images und Alt-Description ermitteln, und die RegExe entsorgen...
 
         var htmlDocument = Jsoup.parse(syncHolder.getDetails().getLongDescription());
         while (imgRegexUrl.searchFrom(syncHolder.getDetails().getLongDescription(), descIndex)) { // "img" found

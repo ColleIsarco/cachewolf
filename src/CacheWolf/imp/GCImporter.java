@@ -1429,7 +1429,6 @@ public class GCImporter {
             String response = UrlFetcher.fetch(detailUrl);
             Preferences.itself().log("[AP!]: Result from detail-urllfetch:\n" + response + "\n\n");
             JSONObject json = new JSONObject(response);
-            JSONObject postedCoordinates = json.getJSONObject("postedCoordinates");
         }
         catch (Exception e){
             Preferences.itself().log ("Error while loading the details: ",e, true);
