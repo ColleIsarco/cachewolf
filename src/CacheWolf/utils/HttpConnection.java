@@ -752,10 +752,10 @@ public class HttpConnection {
         }
         byte[] bytes = new byte[length];
         var is = getInputStream_new();
-        is.read(bytes);
+        int bytesRead = is.read(bytes);
+        // TODO: Alles einlesen nicht nur ein Teil… (readAllBytes!)
         var ba = new ByteArray(bytes);
         return new Handle(Handle.Succeeded, ba);
-        // return StreamUtils.readAllBytes(getInputStream_new(), null, length, 0);
 
         // return null;
     }
@@ -1077,7 +1077,12 @@ public class HttpConnection {
             }
         }
         else {
-            openSocket_new.close();
+            try {
+                openSocket_new.close();
+            }
+            catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
