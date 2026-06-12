@@ -1361,14 +1361,14 @@ public class GCImporter {
         String url = "https://www.geocaching.com/seek/nearest.aspx/CacheContents";
         var payload = String.format("{\"dto\":{\"data\":\"%s\",\"ut\":\"2\"}}", ch.getCacheID());
         UrlFetcher.setpostData(payload);
-        // ## try {
-        // ## var text = UrlFetcher.fetch(url);
-        // ## System.out.println(text);
-        // ## }
-        // ## catch (IOException e) {
-        // ## // TODO Auto-generated catch block
-        // ## e.printStackTrace();
-        // ## }
+        try {
+            var text = UrlFetcher.fetch(url);
+            System.out.println(text);
+        }
+        catch (IOException e) {
+            // ## // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         //payload: $payload = "{\"dto\":{\"data\":\"$wpId\",\"ut\":\"2\"}}"; + POST
     }
 
@@ -1409,12 +1409,14 @@ public class GCImporter {
                     System.out.println(href + anchor.text());
                     tmpFuerTest.add(anchor.text());
                     if (href.endsWith(ch.getCode())) {
+                        lineCounter = i;
                         System.out.println(" -> " + i);
                         break;
                     }
-                    lineCounter++;
                 }
             }
+            tmpFuerTest = tmpFuerTest.reversed();
+
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
             var script = parsed.selectXpath("/html/body/form[1]/script");
