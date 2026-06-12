@@ -791,22 +791,6 @@ public class HttpConnection {
         // }
         return new ByteArrayInputStream(bos.toByteArray());// clen;
     }
-    /**
-     * Read in all the data from the Socket.
-     *
-     * @param connection The Inputstream returned by a connect() call.
-     * @return A Handle with which you can monitor the connection. When the Handle
-     * reports Success, then the returnValue of the Handle will be a ewe.util.ByteArray
-     * object that holds the data read in.
-     */
-    // TODO weg
-    private Handle readInData(final InputStream connection) {
-        int length = responseFields.getInt("content-length", -1);
-        if (length == 0){
-            return new Handle(Handle.Succeeded, new ByteArray());
-        }
-        return StreamUtils.readAllBytes(getInputStream(), null, length, 0);
-    }
 
     /**
      * Read in all the data from the Socket.
@@ -859,57 +843,6 @@ public class HttpConnection {
         return readInData(connectedSocket.inputStream);
     }
 
-    /**
-     * Get an InputStream to read in the data. This is a very important method as it is used by
-     * the readInData() method.
-     **/
-    private InputStream getInputStream()
-    {
-        int length = responseFields.getInt("content-length", -1);
-        if ("chunked".equals(responseFields.getValue(encodings, null))){
-            return new MemoryStream(true) {
-                private byte[] buff = new byte[10240];
-                private int leftInBlock = 0;
-                private ByteArray ba = new ByteArray();
-                private CharArray ca = new CharArray();
-
-                @Override
-                protected boolean loadAndPutDataBlock() throws IOException {
-                    if (leftInBlock <= 0) {
-                        leftInBlock = readInChunkedHeader(connectedSocket.inputStream, ba, ca);
-                        if (leftInBlock <= 0) {
-                            return false;
-                        }
-                    }
-                    int toRead = leftInBlock;
-                    if (toRead > buff.length){
-                        toRead = buff.length;
-                    }
-                    int got = connectedSocket.inputStream.read(buff, 0, toRead);
-                    if (got == -1){
-                        throw new IOException();
-                    }
-                    leftInBlock -= got;
-                    putInBuffer(buff, 0, got);
-                    if (leftInBlock == 0) {
-                        while (true) {
-                            got = connectedSocket.inputStream.read();
-                            if (got == -1){
-                                throw new IOException();
-                            }
-                            if (got == '\n'){
-                                break;
-                            }
-                        }
-                    }
-                    return true;
-                }
-            }.toInputStream();
-        }
-        else{
-            return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
-        }
-    }
 
     /**
      * Get an InputStream to read in the data. This is a very important method as it is used by

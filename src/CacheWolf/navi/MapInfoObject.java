@@ -31,6 +31,7 @@ import CacheWolf.utils.MyLocale;
 import ewe.fx.Point;
 import ewe.io.*;
 import ewe.io.FileInputStream;
+import ewe.io.InputStreamReader;
 import ewe.io.IOException;
 import ewe.sys.Convert;
 import ewe.util.mString;
