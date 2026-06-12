@@ -41,6 +41,7 @@ public class BetterUTF8Codec extends JavaUtf8Codec implements TextCodec {
     }
 
     public StringBuffer decodeUTF8(byte[] paramArrayOfByte, int start, int length) throws IOException {
+        // [AP] :Hier einfacher von byte[] nach UTF-8 String dekodieren. Geht jetzt mit JDK21
         if (readbackBuffer != null) {
             byte[] b = new byte[length + readbackBuffer.length];
             Vm.arraycopy(readbackBuffer, 0, b, 0, readbackBuffer.length);
@@ -57,7 +58,7 @@ public class BetterUTF8Codec extends JavaUtf8Codec implements TextCodec {
             } else if (b1 < 0) {
                 if ((b1 & 0xe0) == 0xc0) {
                     if (i < paramArrayOfByte.length - 1) {
-                        char ch1 = (char) (((int) b1 & 0x3f) << 6 | ((int) paramArrayOfByte[++i] & 0x3f));
+                        char ch1 = (char) ((b1 & 0x3f) << 6 | (paramArrayOfByte[++i] & 0x3f));
                         result.append(ch1);
                     } else {
                         readbackBuffer = new byte[1];
@@ -94,6 +95,7 @@ public class BetterUTF8Codec extends JavaUtf8Codec implements TextCodec {
         return result;
     }
 
+    @Override
     public CharArray decodeText(byte[] paramArrayOfByte, int start, int length, boolean paramBoolean, CharArray paramCharArray) throws IOException {
         StringBuffer utf8 = decodeUTF8(paramArrayOfByte, start, length);
         if (paramCharArray == null) {
@@ -106,6 +108,7 @@ public class BetterUTF8Codec extends JavaUtf8Codec implements TextCodec {
         return paramCharArray;
     }
 
+    @Override
     public Object getCopy() {
         byte[] newReadBackBuffer = new byte[readbackBuffer.length];
         Vm.arraycopy(readbackBuffer, 0, newReadBackBuffer, 0, readbackBuffer.length);

@@ -1359,8 +1359,8 @@ public class GCImporter {
 
     private void getTravelBugs(CacheHolder ch){
         String url = "https://www.geocaching.com/seek/nearest.aspx/CacheContents";
-        // ## var payload = String.format("{\"dto\":{\"data\":\"%s\",\"ut\":\"2\"}}", ch.getCacheID());
-        // ## UrlFetcher.setpostData(payload);
+        var payload = String.format("{\"dto\":{\"data\":\"%s\",\"ut\":\"2\"}}", ch.getCacheID());
+        UrlFetcher.setpostData(payload);
         // ## try {
         // ## var text = UrlFetcher.fetch(url);
         // ## System.out.println(text);
@@ -1406,7 +1406,8 @@ public class GCImporter {
                 var anchor = row.getElementsByAttributeValueStarting("href", "https://www.geocaching.com/geocache/");
                 if (anchor.size() > 0) {
                     var href = anchor.getFirst().attr("href");
-                    System.out.println(href);
+                    System.out.println(href + anchor.text());
+                    tmpFuerTest.add(anchor.text());
                     if (href.endsWith(ch.getCode())) {
                         System.out.println(" -> " + i);
                         break;
@@ -1426,7 +1427,7 @@ public class GCImporter {
                     for (int j = 0; j < lines.length; j++) {
                         var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
                         var jsonName = ch.getName().replaceAll("\"", "\\\\\""); // in zeile darunter ersetzen und dann aus der Schleife ziehen...
-                        if (lines[j].contains('"'+ch.getName()+'"')){
+                        if (lines[j].contains('"' + jsonName + '"')) {
                             System.out.println(lines[j]);
                             JSONObject coordinateLine = new JSONObject(tmpString);
                             JSONArray latlon = coordinateLine.getJSONArray("ll");
@@ -2930,6 +2931,7 @@ public class GCImporter {
      * @return A HTML formatted string with bug names and there purpose
      */
     private void getBugs(CacheHolderDetail chD) throws Exception {
+        getTravelBugs(chD.getParent());
         chD.getTravelbugs().clear();
         var parsedDoc = Jsoup.parse(wayPointPage);
         var trackableNode = parsedDoc.getElementById("trackableInventory");

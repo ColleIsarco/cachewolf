@@ -100,7 +100,7 @@ public class MapLoader {
             onlineMapServices.sort(comparer, false);
         }
         String[] s = new String[onlineMapServices.size()];
-        for (int i = 0; i < onlineMapServices.size() - 1; i++) {
+        for (int i = 0; i < onlineMapServices.size(); i++) {
             BoundingBox bb = ((OnlineMapService) onlineMapServices.get(i)).boundingBox;
             String result = (bb.isInBound(center) ? "" : "---");
             result = result + ((OnlineMapService) onlineMapServices.get(i)).name;
@@ -111,7 +111,9 @@ public class MapLoader {
 
     public void setCurrentMapService(int index) {
         if (index == -1)
+        {
             index = 0; // if no center set
+        }
         currentOnlineMapService = (OnlineMapService) onlineMapServices.get(index);
     }
 
@@ -198,12 +200,14 @@ public class MapLoader {
             for (int col = 1; col <= numMapsX; col++) {
                 center.set(lat, lon);
                 if (!fetchOnlyMapWithCache || hasCache(center, latinc, loninc)) {
-                    if (progressInfobox != null)
+                    if (progressInfobox != null) {
                         progressInfobox.setInfo(MyLocale.getMsg(4802, "Downloading calibrated (georeferenced) \n map image \n '") + currentOnlineMapService.getName() + MyLocale.getMsg(4803, "' \n Downloading tile \n row") + " " + row + " / "
                                 + numMapsY + MyLocale.getMsg(4804, " column") + " " + col + " / " + numMapsX);
+                    }
                     downloadMap(center, this.scale, this.sizeInPixels, mapsPath);
-                    if (progressInfobox.isClosed())
+                    if (progressInfobox.isClosed()) {
                         return;
+                    }
                 }
                 lon = lon + loninc;
             }
@@ -424,39 +428,48 @@ public class MapLoader {
                         parts = mString.split(line, ',');
                         gcp1.bitMapX = Common.parseInt(parts[2]);
                         gcp1.bitMapY = Common.parseInt(parts[3]);
-                        if (gcp1.bitMapX == 0)
+                        if (gcp1.bitMapX == 0) {
                             gcp1.bitMapX = 1;
-                        if (gcp1.bitMapY == 0)
+                        }
+                        if (gcp1.bitMapY == 0) {
                             gcp1.bitMapY = 1;
+                        }
 
                         line = inMap.readLine();
                         parts = mString.split(line, ',');
                         gcp2.bitMapX = Common.parseInt(parts[2]);
                         gcp2.bitMapY = Common.parseInt(parts[3]);
-                        if (gcp2.bitMapX == 0)
+                        if (gcp2.bitMapX == 0) {
                             gcp2.bitMapX = 1;
-                        if (gcp2.bitMapY == 0)
+                        }
+                        if (gcp2.bitMapY == 0) {
                             gcp2.bitMapY = 1;
+                        }
 
                         line = inMap.readLine();
                         parts = mString.split(line, ',');
                         gcp3.bitMapX = Common.parseInt(parts[2]);
                         gcp3.bitMapY = Common.parseInt(parts[3]);
-                        if (gcp3.bitMapX == 0)
+                        if (gcp3.bitMapX == 0) {
                             gcp3.bitMapX = 1;
+                        }
                         if (gcp3.bitMapY == 0)
+                        {
                             gcp3.bitMapY = 1;
-                        // imageWidth = gcp3.bitMapX;
-                        // imageHeight = gcp3.bitMapY;
+                            // imageWidth = gcp3.bitMapX;
+                            // imageHeight = gcp3.bitMapY;
+                        }
 
                         line = inMap.readLine();
                         parts = mString.split(line, ',');
                         gcp4.bitMapX = Common.parseInt(parts[2]);
                         gcp4.bitMapY = Common.parseInt(parts[3]);
-                        if (gcp4.bitMapX == 0)
+                        if (gcp4.bitMapX == 0) {
                             gcp4.bitMapX = 1;
-                        if (gcp4.bitMapY == 0)
+                        }
+                        if (gcp4.bitMapY == 0) {
                             gcp4.bitMapY = 1;
+                        }
 
                         line = inMap.readLine();
                         parts = mString.split(line, ',');
@@ -722,6 +735,7 @@ class OnlineMapService {
         return getMapInfoObjectInternal(CenterScaleToArea(center, scale, pixelsize), pixelsize);
     }
 
+    @Override
     public String toString() {
         return getName();
     }
@@ -766,12 +780,12 @@ class WebMapService extends OnlineMapService {
         name = wms.getProperty("Name", "").trim();
         if (name.length() == 0){
             throw new IllegalArgumentException(MyLocale.getMsg(4812, "WebMapService: property >Name:< missing in file:\n") + filename);
-	}
+        }
 
         mainUrl = wms.getProperty("MainUrl", "").trim();
         if (mainUrl.length() == 0){
             throw new IllegalArgumentException(MyLocale.getMsg(4813, "WebMapService: property >MainUrl:< missing in file:\n") + filename);
-	}
+        }
         //takenFromUrl = wms.getProperty("TakenFromUrl", "").trim();
         //getCapabilitiesUrl = wms.getProperty("GetCapabilitiesUrl", "").trim();
         specialUrl = wms.getProperty("SpecialUrl", "").trim();
@@ -798,16 +812,17 @@ class WebMapService extends OnlineMapService {
         }
         tmp2 = mString.split(tmp, ' ');
         if (tmp2.length != coordinateReferenceSystem.length){
-            throw new IllegalArgumentException(MyLocale.getMsg(4817, "number of strings in CoordinateReferenceSystemUrlPart (") + 
-                                               tmp2.length + 
-                                               MyLocale.getMsg(4818, ") must match the number of codes in CoordinateReferenceSystemCacheWolf (") +
-                                               coordinateReferenceSystem.length + 
-                                               MyLocale.getMsg(4819, ") use normal space as separator"));}
+            throw new IllegalArgumentException(MyLocale.getMsg(4817, "number of strings in CoordinateReferenceSystemUrlPart (") +
+                    tmp2.length +
+                    MyLocale.getMsg(4818, ") must match the number of codes in CoordinateReferenceSystemCacheWolf (") +
+                    coordinateReferenceSystem.length +
+                    MyLocale.getMsg(4819, ") use normal space as separator"));}
         coordinateReferenceSystemUrlPart = new String[tmp2.length];
         for (int i = 0; i < tmp2.length; i++) {
             coordinateReferenceSystemUrlPart[i] = tmp2[i].trim();
-            if (coordinateReferenceSystemUrlPart[i].length() == 0)
+            if (coordinateReferenceSystemUrlPart[i].length() == 0) {
                 throw new IllegalArgumentException(MyLocale.getMsg(4820, "WebMapService: property >CoordinateReferenceSystemUrlPart:< incorrect in file:\n") + filename);
+            }
         }
         requestUrlPart = wms.getProperty("RequestUrlPart", "REQUEST=GetMap").trim();
         imageFormatUrlPart = STRreplace.replace(wms.getProperty("ImageFormatUrlPart", "").trim(), "/", "%2F");
@@ -832,10 +847,10 @@ class WebMapService extends OnlineMapService {
         imageFileExt = wms.getProperty("ImageFileExtension", "").trim();
         if (imageFileExt.length() == 0){
             throw new IllegalArgumentException(MyLocale.getMsg(4821, "WebMapService: property >ImageFileExtension:< missing in file:\n") + filename);
-	}
+        }
         String[] recommendedScalesStr = mString.split(wms.getProperty("RecommendedScale", "5").trim(), ' ');
-        
-	// convert recommended scales to sorted doubel[], preselected is the first read
+
+        // convert recommended scales to sorted doubel[], preselected is the first read
         if (recommendedScalesStr.length > 0) {
             double preselected = Common.parseDouble(recommendedScalesStr[0]);
             ewe.sys.Double[] recommendedScalesObj = new ewe.sys.Double[recommendedScalesStr.length];
@@ -848,20 +863,23 @@ class WebMapService extends OnlineMapService {
             recommendedScales = new double[recommendedScalesStr.length];
             for (int i = 0; i < recommendedScales.length; i++) {
                 recommendedScales[i] = recommendedScalesObj[i].value;
-                if (recommendedScales[i] == preselected)
+                if (recommendedScales[i] == preselected) {
                     preselectedRecScaleIndex = i;
+                }
             }
         }
 
         // some WMS limit the size of images they deliver - a swedish WMS delivers just 256x256 even if 500x500 or 1000x1000 was requested.
         // TLS - Server always have 256x256
         maxPixelSize = Integer.parseInt(wms.getProperty("MaxPixelSize", "-1").trim());
-        if (maxPixelSize == -1)
+        if (maxPixelSize == -1) {
             maxPixelSize = Integer.MAX_VALUE;
+        }
 
         minPixelSize = Integer.parseInt(wms.getProperty("MinPixelSize", "100").trim());
-        if (minPixelSize == -1)
+        if (minPixelSize == -1) {
             minPixelSize = 0;
+        }
 
         prefWidthPixelSize = wms.getProperty("RecommendedWidthPixelSize", "1024").trim();
         prefHeightPixelSize = wms.getProperty("RecommendedHeightPixelSize", "1024").trim();
@@ -884,6 +902,7 @@ class WebMapService extends OnlineMapService {
         return ret;
     }
 
+    @Override
     public BoundingBox CenterScaleToArea(CWPoint center, float scale, Point pixelsize) {
         BoundingBox bbox = new BoundingBox();
         int region = TransformCoordinates.getLocalProjectionSystem(coordinateReferenceSystem[0]);
@@ -899,7 +918,7 @@ class WebMapService extends OnlineMapService {
             bbox.topleft = TransformCoordinates.ProjectedEpsgToWgs84(tlgk, epsg);
             bbox.bottomright = TransformCoordinates.ProjectedEpsgToWgs84(brgk, epsg);
         }
-	else {
+        else {
             switch (coordinateReferenceSystem[0]) {
                 case TransformCoordinates.EPSG_WGS84:
                     bbox.topleft.set(center);
@@ -916,9 +935,11 @@ class WebMapService extends OnlineMapService {
         return bbox;
     }
 
+    @Override
     protected String getUrlForBoundingBoxInternal(BoundingBox maparea, Point sizeInPixels, double scaleInput) {
-        if (!boundingBox.isOverlapping(maparea))
+        if (!boundingBox.isOverlapping(maparea)) {
             throw new IllegalArgumentException(MyLocale.getMsg(4822, "area:") + " " + maparea.toString() + MyLocale.getMsg(4823, " not covered by service:") + " " + name + MyLocale.getMsg(4824, ", service area:") + " " + boundingBox.toString());
+        }
         // http://www.geoserver.nrw.de/GeoOgcWms1.3/servlet/TK25?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&SRS=EPSG:31466&BBOX=2577567.0149,5607721.7566,2578567.0077,5608721.7602&WIDTH=500&HEIGHT=500&LAYERS=Raster:TK25_KMF:Farbkombination&STYLES=&FORMAT=image/png
         CWPoint bottomleft = new CWPoint(maparea.bottomright.latDec, maparea.topleft.lonDec);
         CWPoint topright = new CWPoint(maparea.topleft.latDec, maparea.bottomright.lonDec);
@@ -932,10 +953,12 @@ class WebMapService extends OnlineMapService {
             topright = TransformCoordinates.ProjectedEpsgToWgs84(gk[TOPRIGHT_INDEX], coordinateReferenceSystem[crs]);
             bbox += TransformCoordinates.wgs84ToEpsg(bottomleft, coordinateReferenceSystem[crs]).toString(2, "", ",");
             bbox += "," + TransformCoordinates.wgs84ToEpsg(topright, coordinateReferenceSystem[crs]).toString(2, "", ",");
-        } else if (coordinateReferenceSystem[0] == TransformCoordinates.EPSG_WGS84)
+        } else if (coordinateReferenceSystem[0] == TransformCoordinates.EPSG_WGS84) {
             bbox += bottomleft.toString(TransformCoordinates.LON_LAT) + "," + topright.toString(TransformCoordinates.LON_LAT);
-        else
+        }
+        else {
             throw new IllegalArgumentException(MyLocale.getMsg(4828, "Coordinate system not supported by cachewolf:") + " " + coordinateReferenceSystem.toString());
+        }
         String ret = mainUrl //
                 + layersUrlPart //
                 + "&" + imageFormatUrlPart//
@@ -944,10 +967,10 @@ class WebMapService extends OnlineMapService {
                 + "&" + requestUrlPart //
                 + "&" + stylesUrlPart //
                 + "&" + coordinateReferenceSystemUrlPart[crs] //
-                + "&" + bbox //
-                + "&" + "WIDTH=" + sizeInPixels.x //
-                + "&" + "HEIGHT=" + sizeInPixels.y //
-                ;
+                        + "&" + bbox //
+                        + "&" + "WIDTH=" + sizeInPixels.x //
+                        + "&" + "HEIGHT=" + sizeInPixels.y //
+                        ;
         return ret;
     }
 
@@ -966,17 +989,21 @@ class WebMapService extends OnlineMapService {
             // TODO: think / read about what to do if bottom left and top right are not in the same Gauss-Krüger stripe?
             int wantepsg = gkbl.getEpsgCode();
             for (crsindex = 0; crsindex < coordinateReferenceSystem.length; crsindex++) {
-                if (coordinateReferenceSystem[crsindex] == wantepsg)
+                if (coordinateReferenceSystem[crsindex] == wantepsg) {
                     break;
+                }
             }
             if (crsindex >= coordinateReferenceSystem.length) {
                 // not match
                 for (crsindex = 0; crsindex < coordinateReferenceSystem.length; crsindex++) {
                     if (Math.abs(coordinateReferenceSystem[crsindex] - wantepsg) == 1)
+                    {
                         break; // accept 1 zone deviation
+                    }
                 }
-                if (crsindex >= coordinateReferenceSystem.length)
+                if (crsindex >= coordinateReferenceSystem.length) {
                     crsindex = -1;
+                }
 
             }
             if (crsindex < 0) {
@@ -987,9 +1014,11 @@ class WebMapService extends OnlineMapService {
         return crsindex;
     }
 
+    @Override
     protected MapInfoObject getMapInfoObjectInternal(BoundingBox maparea, Point pixelsize) {
-        if (!boundingBox.isOverlapping(maparea))
+        if (!boundingBox.isOverlapping(maparea)) {
             throw new IllegalArgumentException(MyLocale.getMsg(4822, "area:") + " " + maparea.toString() + MyLocale.getMsg(4823, " not covered by service:") + " " + name + MyLocale.getMsg(4824, ", service area:") + " " + boundingBox.toString());
+        }
         Vector georef = new Vector(4);
 
         // calculate a rectangle in the according coordinate reference system
@@ -1024,8 +1053,10 @@ class WebMapService extends OnlineMapService {
             bottomright.shift(metersperpixalhorizontal, 0);
             topright = new CWPoint(topleft.latDec, bottomright.lonDec);
             bottomleft = new CWPoint(bottomright.latDec, topleft.lonDec);
-        } else
+        }
+        else {
             throw new IllegalArgumentException(MyLocale.getMsg(4831, "getMapInfoObject: Coordinate system not supported by cachewolf:") + " " + coordinateReferenceSystem);
+        }
         georef.add(new GCPoint(topleft, new Point(0, 0)));
         georef.add(new GCPoint(bottomright, new Point(pixelsize.x, pixelsize.y)));
         georef.add(new GCPoint(topright, new Point(pixelsize.x, 0)));
@@ -1044,6 +1075,7 @@ class MapServiceComparer implements Comparer {
         this.centre = centre;
     }
 
+    @Override
     public int compare(Object one, Object two) {
         if ((!(one instanceof OnlineMapService)) || (!(two instanceof OnlineMapService))) {
             return 0;
