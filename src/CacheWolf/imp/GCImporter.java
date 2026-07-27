@@ -1365,6 +1365,7 @@ public class GCImporter {
             var text = UrlFetcher.fetch(url);
             System.out.println(text);
             JSONObject result = new JSONObject(text);
+            var dataText = result.get("d");
             // Positives result: {"d":"[{\"tbn\":\"VIP2024-Oelegem\",\"tbi\":\"/images/WptTypes/sm/21.gif\",\"tbg\":\"0e0dabee-e57b-47c2-9bd5-f3abeec80c28\"}]"}
         }
         catch (IOException | JSONException e) {
@@ -1427,6 +1428,7 @@ public class GCImporter {
                 System.out.println(data);
                 if (data.indexOf("MapTilesEnvironment = 'production';var tbStops = [") > 0) {
                     var lines = data.split("\r\n");
+                    System.out.println("lines.length: " + lines.length);
                     for (int j = 3; j < lines.length; j++) {
                         var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
                         JSONObject ll = new JSONObject(tmpString);
@@ -1441,6 +1443,7 @@ public class GCImporter {
                             var longitude = latlon.getDouble(1);
                             CoordinatePoint coordinates = new CoordinatePoint(latitude, longitude);
                             ch.setWpt(coordinates);
+                            break;
                         }
                     }
                 }
