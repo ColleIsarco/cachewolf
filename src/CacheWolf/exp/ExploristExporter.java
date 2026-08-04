@@ -33,6 +33,7 @@ import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
 import ewe.io.BufferedReader;
 import ewe.io.File;
+import ewe.io.FileReader;
 import ewe.io.LineNumberReader;
 import ewe.sys.Handle;
 import ewe.ui.FormBase;

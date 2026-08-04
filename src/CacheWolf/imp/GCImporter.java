@@ -1428,7 +1428,9 @@ public class GCImporter {
             // #############
             // Wenn zwei aufeinanderfolgende Logeinträge sich auf denselben Cache beziehen, dann wird im Json der Cache aber nur einmal eingetragen.
             // Das muss hier ausgefiltert werden.
+            for (int i = 0; i < tmpFuerTest.size(); i++) {
 
+            }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
             var script = parsed.selectXpath("/html/body/form[1]/script");
