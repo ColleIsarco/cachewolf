@@ -845,46 +845,6 @@ public class HttpConnection {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            /*
-             * return new MemoryStream(true) {
-             * private byte[] buff = new byte[10240];
-             * private int leftInBlock = 0;
-             * private ByteArray ba = new ByteArray();
-             * private CharArray ca = new CharArray();
-             *
-             * @Override
-             * protected boolean loadAndPutDataBlock() throws IOException {
-             * if (leftInBlock <= 0) {
-             * leftInBlock = readInChunkedHeader(connectedSocket.inputStream, ba, ca);
-             * if (leftInBlock <= 0) {
-             * return false;
-             * }
-             * }
-             * int toRead = leftInBlock;
-             * if (toRead > buff.length) {
-             * toRead = buff.length;
-             * }
-             * int got = connectedSocket.inputStream.read(buff, 0, toRead);
-             * if (got == -1) {
-             * throw new IOException();
-             * }
-             * leftInBlock -= got;
-             * putInBuffer(buff, 0, got);
-             * if (leftInBlock == 0) {
-             * while (true) {
-             * got = connectedSocket.inputStream.read();
-             * if (got == -1) {
-             * throw new IOException();
-             * }
-             * if (got == '\n') {
-             * break;
-             * }
-             * }
-             * }
-             * return true;
-             * }
-             * }.toInputStream();
-             */
             return null;
         }
         else {

@@ -1425,6 +1425,9 @@ public class GCImporter {
                 }
             }
             tmpFuerTest = tmpFuerTest.reversed();
+            // #############
+            // Wenn zwei aufeinanderfolgende Logeinträge sich auf denselben Cache beziehen, dann wird im Json der Cache aber nur einmal eingetragen.
+            // Das muss hier ausgefiltert werden.
 
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.
