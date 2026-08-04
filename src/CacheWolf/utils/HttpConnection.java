@@ -831,20 +831,6 @@ public class HttpConnection {
     }
 
     /**
-     * Read in all the data from the Socket.
-     *
-     * @return A Handle with which you can monitor the connection. When the Handle
-     * reports Success, then the returnValue of the Handle will be a ewe.util.ByteArray
-     * object that holds the data read in.
-     * <p>
-     * FIXME: never referenced
-     */
-    public Handle readInData() {
-        return readInData(connectedSocket.inputStream);
-    }
-
-
-    /**
      * Get an InputStream to read in the data. This is a very important method as it is used by
      * the readInData() method.
      **/

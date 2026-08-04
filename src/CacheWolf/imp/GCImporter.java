@@ -1365,7 +1365,11 @@ public class GCImporter {
             var text = UrlFetcher.fetch(url);
             System.out.println(text);
             JSONObject result = new JSONObject(text);
-            var dataText = result.get("d");
+            var dataText = result.getString("d");
+            JSONArray data = new JSONArray(dataText);
+            if (data.length() == 0) {
+
+            }
             // Positives result: {"d":"[{\"tbn\":\"VIP2024-Oelegem\",\"tbi\":\"/images/WptTypes/sm/21.gif\",\"tbg\":\"0e0dabee-e57b-47c2-9bd5-f3abeec80c28\"}]"}
         }
         catch (IOException | JSONException e) {
@@ -1433,7 +1437,7 @@ public class GCImporter {
                         var tmpString = lines[j].endsWith(",") ? lines[j].substring(0, lines[j].length() - 1) : lines[j];
                         JSONObject ll = new JSONObject(tmpString);
                         String nameFromNode = ll.getString("n");
-                        System.out.println("]]: " + i + ": " + nameFromNode + "/" + tmpFuerTest.get(j - 3));
+                        System.out.println("]]: " + j + ": " + nameFromNode + "/" + tmpFuerTest.get(j - 3));
                         var jsonName = ch.getName().replaceAll("\"", "\\\\\""); // in zeile darunter ersetzen und dann aus der Schleife ziehen...
                         if (lines[j].contains('"' + jsonName + '"')) {
                             System.out.println(lines[j]);
