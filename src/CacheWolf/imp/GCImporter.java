@@ -46,6 +46,7 @@ import ewesoft.xml.sax.AttributeList;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGeneratorFactory;
@@ -1357,7 +1358,7 @@ public class GCImporter {
         return toDistance;
     }
 
-    private void getTravelBugs(CacheHolder ch){
+    private List<String> getTravelBugs(CacheHolder ch) {
         String url = "https://www.geocaching.com/seek/nearest.aspx/CacheContents";
         var payload = String.format("{\"dto\":{\"data\":\"%s\",\"ut\":\"2\"}}", ch.getCacheID());
         UrlFetcher.setpostData(payload);
@@ -1368,14 +1369,16 @@ public class GCImporter {
             var dataText = result.getString("d");
             JSONArray data = new JSONArray(dataText);
             if (data.length() == 0) {
-
+                return Collections.emptyList();
             }
+            System.out.println(data);
             // Positives result: {"d":"[{\"tbn\":\"VIP2024-Oelegem\",\"tbi\":\"/images/WptTypes/sm/21.gif\",\"tbg\":\"0e0dabee-e57b-47c2-9bd5-f3abeec80c28\"}]"}
         }
         catch (IOException | JSONException e) {
             // ## // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return null;
         //payload: $payload = "{\"dto\":{\"data\":\"$wpId\",\"ut\":\"2\"}}"; + POST
     }
 
