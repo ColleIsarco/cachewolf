@@ -838,18 +838,11 @@ public class HttpConnection {
     }
 
     public void disconnect() {
-        if (openSocket != null) {
-            if (openSocket.socket.isOpen()) {
-                openSocket.close(); // releases the handles of the system
-            }
+        try {
+            openSocket_new.close();
         }
-        else {
-            try {
-                openSocket_new.close();
-            }
-            catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
+        catch (java.io.IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -35,6 +35,7 @@ import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.fx.Sound;
 import ewe.io.*;
+import ewe.io.BufferedWriter;
 import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.io.PrintWriter;
