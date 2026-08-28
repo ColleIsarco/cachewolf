@@ -1371,6 +1371,7 @@ public class GCImporter {
             if (data.length() == 0) {
                 return Collections.emptyList();
             }
+            var tbList = new ArrayList<String>();
             System.out.println(data);
             for (int i = 0; i < data.length(); i++) {
             }
@@ -1430,8 +1431,10 @@ public class GCImporter {
             // #############
             // Wenn zwei aufeinanderfolgende Logeinträge sich auf denselben Cache beziehen, dann wird im Json der Cache aber nur einmal eingetragen.
             // Das muss hier ausgefiltert werden.
-            for (int i = 0; i < tmpFuerTest.size(); i++) {
-
+            for (int i = 0; i < tmpFuerTest.size() - 1; i++) {
+                if (tmpFuerTest.get(i).equals(tmpFuerTest.get(i + 1))) {
+                    System.out.println("!");// Loeschen!!!!
+                }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln
             // Jetzt haben wir die Koordinaten.

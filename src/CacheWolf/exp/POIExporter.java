@@ -18,7 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 package CacheWolf.exp;
 
 import CacheWolf.MainForm;
@@ -31,6 +31,7 @@ import com.stevesoft.ewe_pat.Regex;
 import ewe.io.*;
 import ewe.io.File;
 import ewe.io.FileBase;
+import ewe.io.InputStream;
 import ewe.io.IOException;
 import ewe.sys.Process;
 import ewe.sys.Time;
@@ -95,22 +96,22 @@ public class POIExporter extends Exporter {
                 Byte type = new Byte(ch.getType());
                 if (ch.isFound()) {
                     tableOfCategory = (Hashtable) tableOfCategories.get(categoryNames[maxIndex + indexOfFound]);
-                    type = new Byte((byte) (indexOfFound));
+                    type = new Byte((indexOfFound));
                 } else if (ch.isOwned()) {
                     tableOfCategory = (Hashtable) tableOfCategories.get(categoryNames[maxIndex + indexOfOwn]);
-                    type = new Byte((byte) (indexOfOwn));
+                    type = new Byte((indexOfOwn));
                 } else if (ch.isArchived()) {
                     tableOfCategory = (Hashtable) tableOfCategories.get(categoryNames[maxIndex + indexOfArchived]);
-                    type = new Byte((byte) (indexOfArchived));
+                    type = new Byte((indexOfArchived));
                 } else if (!ch.isAvailable()) {
                     tableOfCategory = (Hashtable) tableOfCategories.get(categoryNames[maxIndex + indexOfDisabled]);
-                    type = new Byte((byte) (indexOfDisabled));
+                    type = new Byte((indexOfDisabled));
                 } else if (ch.isAvailable()) {
                     tableOfCategory = (Hashtable) tableOfCategories.get(categoryNames[maxIndex + indexOfDisabled]);
                     // available Caches are split by type
                 } else {
                     tableOfCategory = (Hashtable) tableOfCategories.get(categoryNames[maxIndex + indexOfUnknown]);
-                    type = new Byte((byte) (indexOfUnknown));
+                    type = new Byte((indexOfUnknown));
                 }
                 Vector dbOfCacheTypeforCategory = (Vector) tableOfCategory.get(type);
                 if (dbOfCacheTypeforCategory == null) {
@@ -122,10 +123,12 @@ public class POIExporter extends Exporter {
         }
     }
 
+    @Override
     public void doIt() {
         POIExporterScreen gui = new POIExporterScreen(exporterName);
-        if (gui.execute() == FormBase.IDCANCEL)
+        if (gui.execute() == FormBase.IDCANCEL) {
             return;
+        }
         this.onlySpoiler = gui.onlySpoiler();
         this.noPictures = gui.noPictures();
         this.anzLogs = gui.getAnzLogs();
@@ -148,8 +151,9 @@ public class POIExporter extends Exporter {
                         bitmapFileName = FileBase.getProgramDirectory() + "/exporticons/exporticons/GarminPOI.zip";
                         hasBitmaps = new File(bitmapFileName).exists();
                     }
-                    if (hasBitmaps)
+                    if (hasBitmaps) {
                         poiZip = new ZipFile(bitmapFileName);
+                    }
                 } catch (IOException e) {
                     Preferences.itself().log("GPX Export: warning GarminPOI.zip not found", e, true);
                 }
@@ -192,19 +196,25 @@ public class POIExporter extends Exporter {
                                 if (cacheType >= 0) {
                                     name = CacheType.typeImageNameForId(cacheType);
                                 } else {
-                                    if (cacheType == (indexOfFound))
+                                    if (cacheType == (indexOfFound)) {
                                         name = categoryNames[maxIndex + indexOfFound];
-                                    else if (cacheType == (indexOfOwn))
+                                    }
+                                    else if (cacheType == (indexOfOwn)) {
                                         name = categoryNames[maxIndex + indexOfOwn];
-                                    else if (cacheType == (indexOfUnknown))
+                                    }
+                                    else if (cacheType == (indexOfUnknown)) {
                                         name = categoryNames[maxIndex + indexOfUnknown];
-                                    else if (cacheType == (indexOfArchived))
+                                    }
+                                    else if (cacheType == (indexOfArchived)) {
                                         name = categoryNames[maxIndex + indexOfArchived];
-                                    else if (cacheType == (indexOfDisabled))
+                                    }
+                                    else if (cacheType == (indexOfDisabled)) {
                                         name = categoryNames[maxIndex + indexOfDisabled];
+                                    }
                                 }
-                                if (hasBitmaps)
+                                if (hasBitmaps) {
                                     copyPoiIcon(targetDir, name, "", poiZip);
+                                }
                                 this.setOutputFile(targetDir + name + outputFileExtension.substring(1));
                                 export();
                             }
@@ -212,17 +222,19 @@ public class POIExporter extends Exporter {
                     }
                 }
                 doItEnd();
-                if (hasBitmaps)
+                if (hasBitmaps) {
                     try {
                         poiZip.close();
                     } catch (IOException e) {
                     }
+                }
             }
         } else {
             DB = MainForm.profile.cacheDB.getVectorDB();
             askForOutputFile();
-            if (outFile == null)
+            if (outFile == null) {
                 return;
+            }
             super.doIt();
         }
 
@@ -263,6 +275,7 @@ public class POIExporter extends Exporter {
     }
 
     //Overrides: export() in Exporter
+    @Override
     public void export() {
         exportHeader();
         exportBody();
@@ -273,6 +286,7 @@ public class POIExporter extends Exporter {
         return mString.split(STRreplace.replace(STRreplace.replace(elements, "\\r", "\r"), "\\n", "\n"), splitter);
     }
 
+    @Override
     public String header() {
         result.setLength(0);
         Time tim = new Time();
@@ -290,6 +304,7 @@ public class POIExporter extends Exporter {
         return result.toString();
     }
 
+    @Override
     public String record(CacheHolder ch, String lat, String lon) {
         tt.set(ch);
         ht = tt.toHashtable(new Regex("[,.]", "."), null, 0, 20, this.anzLogs, true, null, true, 1, "");
@@ -300,8 +315,9 @@ public class POIExporter extends Exporter {
             return result.toString();
         } else {
             ch.getDetails();
-            if (!ch.detailsLoaded())
+            if (!ch.detailsLoaded()) {
                 return null;
+            }
         }
 
         if (noPictures) {
@@ -316,14 +332,17 @@ public class POIExporter extends Exporter {
                 String url = MainForm.profile.dataDir + filename;
 
                 // POILoader can only work with JPG-Files ?convert to jpg?
-                if (!filename.endsWith(".jpg"))
+                if (!filename.endsWith(".jpg")) {
                     continue;
+                }
                 // Try to export only Spoiler
-                if (onlySpoiler && (comment.toLowerCase().indexOf("oiler") < 1))
+                if (onlySpoiler && (comment.toLowerCase().indexOf("oiler") < 1)) {
                     continue;
+                }
                 // check if the file is not deleted
-                if (!(new File(url)).exists())
+                if (!(new File(url)).exists()) {
                     continue;
+                }
                 if (alreadyDone.indexOf(url) == -1) {
                     alreadyDone = alreadyDone + url;
                     picsCounter++;
@@ -383,16 +402,17 @@ public class POIExporter extends Exporter {
 
     private void appendLastPart() {
         result.append("<sym>Scenic Area</sym>").append(endLine) //
-                .append("<extensions>").append(endLine) //
-                .append("   <gpxx:WaypointExtension xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\">").append(endLine) //
-                .append("      <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>").append(endLine) //
-                .append("   </gpxx:WaypointExtension>").append(endLine) //
-                .append("</extensions>").append(endLine) //
-                .append("</wpt>").append(endLine) //
-                .append(endLine);
+        .append("<extensions>").append(endLine) //
+        .append("   <gpxx:WaypointExtension xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\">").append(endLine) //
+        .append("      <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>").append(endLine) //
+        .append("   </gpxx:WaypointExtension>").append(endLine) //
+        .append("</extensions>").append(endLine) //
+        .append("</wpt>").append(endLine) //
+        .append(endLine);
     }
 
     // Overrides: trailer() in Exporter
+    @Override
     public String trailer() {
         return "</gpx>" + endLine;
     }
@@ -414,13 +434,16 @@ public class POIExporter extends Exporter {
         try {
             icon = poiZip.getEntry(type + ".bmp");
             if (icon == null)
+             {
                 return false; // icon not found in archive
+            }
 
             buff = new byte[icon.getSize()];
             InputStream fis = poiZip.getInputStream(icon);
             FileOutputStream fos = new FileOutputStream(outdir + (FileBase.separator) + prefix + type + ".bmp");
-            while (0 < (len = fis.read(buff)))
+            while (0 < (len = fis.read(buff))) {
                 fos.write(buff, 0, len);
+            }
             fos.flush();
             fos.close();
             fis.close();
@@ -454,8 +477,9 @@ public class POIExporter extends Exporter {
                     Vector attributes = (Vector) obj;
                     int i = 0;
                     for (Iterator ite = attributes.iterator(); ite.hasNext(); ) {
-                        if (i != 0)
+                        if (i != 0) {
                             result.append(",");
+                        }
                         Hashtable attribute = (Hashtable) ite.next();
                         result.append(SafeXML.cleanGPX((String) attribute.get("INFO")));
                         i++;
@@ -466,17 +490,18 @@ public class POIExporter extends Exporter {
                     for (Iterator ite = logs.iterator(); ite.hasNext(); ) {
                         Hashtable log = (Hashtable) ite.next();
                         result.append(SafeXML.cleanGPX((String) log.get("LOGGER"))) //
-                                .append(" ").append(SafeXML.cleanGPX((String) log.get("LOGTYPE"))) //
-                                .append(" on ").append((String) log.get("DATE")) //
-                                .append(": ").append(SafeXML.cleanGPX(removeHtmlTags((String) log.get("MESSAGE")))) //
-                                .append(this.endLine);
+                        .append(" ").append(SafeXML.cleanGPX((String) log.get("LOGTYPE"))) //
+                        .append(" on ").append((String) log.get("DATE")) //
+                        .append(": ").append(SafeXML.cleanGPX(removeHtmlTags((String) log.get("MESSAGE")))) //
+                        .append(this.endLine);
                         i++;
                     }
                 }
             }
         } else if (element.equals("PIC#")) {
-            if (picsCounter > 0)
+            if (picsCounter > 0) {
                 result.append("" + picsCounter);
+            }
         }
     }
 }

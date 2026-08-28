@@ -254,7 +254,7 @@ public class Attribute {
 
     // for GC Constructor Spider
     private void attName2attNo(String attributeName) {
-        String an = attributeName.substring(0, attributeName.length() - 4);
+        String an = attributeName.substring(0, attributeName.length() - 4).toLowerCase();
         for (int i = 0; i < maxAttRef; i++) {
             if (an.startsWith(attRef[i][PIC_NAME] + "-")) {
                 _Id = i;
