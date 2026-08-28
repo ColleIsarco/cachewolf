@@ -38,6 +38,7 @@ import ewe.io.*;
 import ewe.io.BufferedWriter;
 import ewe.io.File;
 import ewe.io.FileBase;
+import ewe.io.FileWriter;
 import ewe.io.PrintWriter;
 import ewe.sys.Convert;
 import ewe.sys.Handle;

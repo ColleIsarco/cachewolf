@@ -94,8 +94,7 @@ public class HttpConnection {
      * If the document you supplied is already URL encoded, set this to true.
      **/
     public boolean documentIsEncoded;
-    // TODO: weg
-    protected TlsSocket           openSocket;
+
     protected SSLSocket           openSocket_new;
     // TODO: weg
     protected TlsSocket connectedSocket;
@@ -847,11 +846,6 @@ public class HttpConnection {
     }
 
     public boolean isOpen() {
-        if (openSocket != null) {
-            return openSocket.socket != null && openSocket.socket.isOpen();
-        }
-        else {
-            return !openSocket_new.isClosed();
-        }
+        return !openSocket_new.isClosed();
     }
 }
