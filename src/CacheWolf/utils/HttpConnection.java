@@ -606,40 +606,6 @@ public class HttpConnection {
         }
     }
 
-    private int readInChunkedHeader_old(InputStream connection, ByteArray buff, CharArray chBuff) throws IOException {
-        if (buff == null){
-            buff = new ByteArray();
-        }
-        buff.clear();
-
-        int count = 0;
-        while (true) {
-            int got = connection.read();
-            if (got == -1){
-                throw new IOException();
-            }
-            if (got == '\n'){
-                break;
-            }
-            buff.append((byte) got);
-            count++;
-            if (count > 1024){
-                break;
-            }
-        }
-
-        chBuff = new AsciiCodec().decodeText(buff.data, 0, buff.length, true, chBuff);
-        String s = new String(chBuff.data, 0, chBuff.length);
-        String length = mString.leftOf(s, ';').trim().toUpperCase();
-        int clen = 0;
-        for (int i = 0; i < length.length(); i++) {
-            char c = length.charAt(i);
-            clen *= 16;
-            clen += c <= '9' ? c - '0' : c - 'A' + 10;
-        }
-        return clen;
-    }
-
     private java.io.InputStream readInChunkedHeader_new(java.io.InputStream connection, ByteArray buff, CharArray chBuff) throws java.io.IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         if (buff == null) {

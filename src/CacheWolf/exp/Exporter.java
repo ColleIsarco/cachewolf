@@ -35,6 +35,7 @@ import ewe.filechooser.FileChooser;
 import ewe.filechooser.FileChooserBase;
 import ewe.io.*;
 import ewe.io.File;
+import ewe.io.JavaUtf8Codec;
 import ewe.io.PrintWriter;
 import ewe.io.TextCodec;
 import ewe.sys.Handle;
