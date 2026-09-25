@@ -426,11 +426,9 @@ public class HttpConnection {
     }
 
     // -- Type von In-/outputstream auf java-ändern
+    // TODO: parameter td entfernen, ist obsolet und immer AsciiCodex
     private int makeRequest_new(java.io.InputStream is, java.io.OutputStream os, TextCodec td) throws java.io.IOException {
         responseCode = -1;
-        if (td == null) {
-            td = new AsciiCodec();
-        }
         PropertyList pl = new PropertyList();
         if (requestFields != null) {
             pl.set(requestFields);
@@ -723,7 +721,6 @@ public class HttpConnection {
             return null;
         }
         else {
-            // return new CWPartialInputStream(connectedSocket.inputStream, MAX_FILESIZE).toInputStream();
             try {
                 return openSocket_new.getInputStream();
             }

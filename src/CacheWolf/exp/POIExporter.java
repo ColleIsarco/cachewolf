@@ -28,7 +28,6 @@ import CacheWolf.database.CacheImages;
 import CacheWolf.database.CacheType;
 import CacheWolf.utils.*;
 import com.stevesoft.ewe_pat.Regex;
-import ewe.io.*;
 import ewe.io.File;
 import ewe.io.FileBase;
 import ewe.io.FileOutputStream;
