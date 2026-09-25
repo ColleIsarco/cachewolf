@@ -1434,6 +1434,7 @@ public class GCImporter {
             for (int i = 0; i < tmpFuerTest.size() - 1; i++) {
                 if (tmpFuerTest.get(i).equals(tmpFuerTest.get(i + 1))) {
                     System.out.println("!");// Loeschen!!!!
+                    tmpFuerTest.remove(i + 1);// i = 0;
                 }
             }
             // Im Scriptknoten den i.ten Eintrag von unten ermitteln

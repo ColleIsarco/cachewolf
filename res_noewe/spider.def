@@ -44,14 +44,14 @@ difficultyRex      = difficulty of (.*?),
 terrainRex         = terrain of (.*?). It
 #<meta name="og:image" content="https://www.geocaching.com/images/facebook/wpttypes/3.png" property="og:image" />
 cacheTypeRex       = facebook/wpttypes/(.*?)\\.png
-#<span id="ctl00_ContentBody_CacheName">EDUARD-MÖRIKE-WEG 5B</span>
+#<span id="ctl00_ContentBody_CacheName">EDUARD-Mï¿½RIKE-WEG 5B</span>
 cacheNameRex       = tBody_CacheName((?s).*?)>((?s).*?)</span>
 #Ein Geocache von <a href="http://www.geocaching.com/profile/?guid=7715b8c5-bbbb-4b57-bf14-251b134758d2&wid=66b27589-480e-4251-86f3-42884af5f6fd&ds=2">Trebbi</a>
 #A cache by <a href="http://www.geocaching.com/profile/?guid=99dee790-35fc-4764-994d-639ab2e7f059&wid=34611971-fe8a-4d0c-82d7-b60e11714eb3&ds=2">tripleclaus</a>
 cacheOwnerRex      = &wid=(?:(?s).*?)>((?s).*?)<
 #<div id="ctl00_ContentBody_mcd2">\nVersteckt\n:\n01 Nov 13\n\n</div>
 #<div id="ctl00_ContentBody_mcd2">\nHidden\n:\n19/Jan/2012\n\n</div>
-#!!! von Sprache abhängig : language dependant | vom Datumsformat abhängig : dateformat dependant
+#!!! von Sprache abhï¿½ngig : language dependant | vom Datumsformat abhï¿½ngig : dateformat dependant
 dateHiddenRex      = (?:Hidden|Event Date)\\s*:\\s*((?s).*?)\\s*<
 #Difficulty:</dt>\n<dd>\n<span id="ctl00_ContentBody_uxLegendScale"
 #not used
@@ -61,16 +61,18 @@ dateHiddenRex      = (?:Hidden|Event Date)\\s*:\\s*((?s).*?)\\s*<
 sizeRex            = alt="Size: ((?s).*?)"
 #<span class="favorite-value">                                0                             </span>
 favoriteValueRex   =<span class="favorite-value">\\s*(.*?)\\s*</span>
-#<span id="uxLatLon">N 48° 33.524 E 009° 18.747</span></strong>
+#<span id="uxLatLon">N 48ï¿½ 33.524 E 009ï¿½ 18.747</span></strong>
 latLonRex          = <span id="uxLatLon">((?s).*?)</span>
-#<span id="ctl00_ContentBody_Location">In Baden-Württemberg, Germany</span><br />
+#<span id="ctl00_ContentBody_Location">In Baden-Wï¿½rttemberg, Germany</span><br />
 cacheLocationRex   = tBody_Location">In (<.*?>)?(.*?)<
 #<span id="ctl00_ContentBody_ShortDescription">
-shortDescRex       = tBody_ShortDescription">((?s).*?)</span>
+#shortDescRex       = tBody_ShortDescription">((?s).*?)</span>
+shortDescRex       =<span id="ctl00_ContentBody_ShortDescription" data-testid="cache-short-description">((?s).*?)</span>
 #<span id="ctl00_ContentBody_LongDescription"><span styl.....
-longDescRex        = tBody_LongDescription">((?s).*?)<strong>\\s+Additional Hints</strong>
+#longDescRex        = tBody_LongDescription">((?s).*?)<strong>\\s+Additional Hints</strong>
+longDescRex        = <span id="ctl00_ContentBody_LongDescription" data-testid="cache-long-description">((?s).*?)<p id="ctl00_ContentBody_hints">
 #Decrypt</a>) </p><div id="div_hint" class="span-8 WrapFix">*******\n</div><div id='dk' style="display: block;" class="span-9 last">
-hintsRex           = <div id="div_hint" class="span-8 WrapFix">\\s*((?s).*?)\\s*</div>
+hintsRex           = <div id="div_hint".*?">\\s*((?s).*?)\\s*</div>
 
 #--------------------------------------
 #Section2a: Logs
@@ -84,7 +86,7 @@ icon_attended      = 10.png
 #--------------------------------------
 #Section2b: Bugs
 #--------------------------------------
-# blockEx extrahiert zunächst den Bugbereich aus der gesamten Seite
+# blockEx extrahiert zunï¿½chst den Bugbereich aus der gesamten Seite
 blockExStart       = ctl00_ContentBody_uxTravelBugList_uxInventoryLabel
 #blockExEnd         = ctl00_ContentBody_uxTravelBugList_uxTrackableItemsLinks
 blockExEnd         = ctl00_ContentBody_uxTravelBugList_uxTrackableItemsHistory
