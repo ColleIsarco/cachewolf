@@ -242,52 +242,6 @@ public class HttpConnection {
      * which in turn sets the "Content-Length" property of the request properties - otherwise
      * if "Content-Length" is not already set it will be set to the length of the byte[] or ByteArray.
      *
-     * @param data the data to post either as a Stream, InputStream, byte[] or ByteArray
-     */
-    // TODO: weg
-    public void setPostData_new(Object data) {
-        if (data instanceof Stream) {
-            bytesToPost = (Stream) data;
-        }
-        else if (data instanceof ByteArray) {
-            originalPostData = data;
-            bytesToPost = new MemoryFile((ByteArray) data);
-            getRequestFields().defaultTo("Content-Length", Convert.toString(((ByteArray) data).length));
-        }
-        else if (data instanceof byte[]) {
-            originalPostData = data;
-            bytesToPost = new MemoryFile(new ByteArray((byte[]) data));
-            getRequestFields().defaultTo("Content-Length", Convert.toString(((byte[]) data).length));
-        }
-        else if (data instanceof String) {
-            String s = (String) data;
-            TextCodec td = textCodec;
-            if (td == null) {
-                td = new AsciiCodec();
-            }
-            try {
-                ByteArray got = td.encodeText(Vm.getStringChars(s), 0, s.length(), true, null);
-                setPostData(got.toBytes());
-            }
-            catch (IOException e) {
-                // Global.getPref().log("Ignored exception", e, true);
-            }
-        }
-        else if (data instanceof InputStream) {
-            bytesToPost = new StreamAdapter((InputStream) data);
-        }
-
-        if (bytesToPost != null && command.equalsIgnoreCase("get")) {
-            command = "POST";
-        }
-    }
-
-    /**
-     * Set the data to post out as either a Stream, InputStream,byte[],ByteArray or String.
-     * If the data is a Stream or InputStream then you must also call setPostDataLength()
-     * which in turn sets the "Content-Length" property of the request properties - otherwise
-     * if "Content-Length" is not already set it will be set to the length of the byte[] or ByteArray.
-     *
      * @param data
      *            the data to post either as a Stream, InputStream, byte[] or ByteArray
      */
