@@ -36,7 +36,6 @@ import ewe.sys.Handle;
 import ewe.sys.TaskObject;
 import ewe.sys.Vm;
 import ewe.util.*;
-import gro.cachewolf.tls.TlsSocket;
 
 /**
  * Use this class to create an HttpConnection with a Web Server and to read in the data for the connection.<p>
@@ -96,8 +95,6 @@ public class HttpConnection {
     public boolean documentIsEncoded;
 
     protected SSLSocket           openSocket_new;
-    // TODO: weg
-    protected TlsSocket connectedSocket;
 
     /**
      * The host to connect to.

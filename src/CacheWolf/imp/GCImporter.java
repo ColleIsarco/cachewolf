@@ -1371,9 +1371,10 @@ public class GCImporter {
             if (data.length() == 0) {
                 return Collections.emptyList();
             }
-            var tbList = new ArrayList<String>();
+            var tbList = new ArrayList<Object>();
             System.out.println(data);
             for (int i = 0; i < data.length(); i++) {
+                tbList.add(data.get(i));
             }
             // Positives result: {"d":"[{\"tbn\":\"VIP2024-Oelegem\",\"tbi\":\"/images/WptTypes/sm/21.gif\",\"tbg\":\"0e0dabee-e57b-47c2-9bd5-f3abeec80c28\"}]"}
         }
