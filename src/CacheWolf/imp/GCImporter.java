@@ -1453,6 +1453,9 @@ public class GCImporter {
                         JSONObject ll = new JSONObject(tmpString);
                         String nameFromNode = ll.getString("n");
                         System.out.println("]]: " + j + ": " + nameFromNode + "/" + tmpFuerTest.get(j - 3));
+                        if (nameFromNode.equals(tmpFuerTest.get(j - 3))) {
+                            System.out.println("Unterschied gefunden");
+                        }
                         var jsonName = ch.getName().replaceAll("\"", "\\\\\""); // in zeile darunter ersetzen und dann aus der Schleife ziehen...
                         if (lines[j].contains('"' + jsonName + '"')) {
                             System.out.println(lines[j]);

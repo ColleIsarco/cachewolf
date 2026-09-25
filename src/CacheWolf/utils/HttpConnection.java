@@ -749,7 +749,7 @@ public class HttpConnection {
 
                         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
-                        makeRequest_new(socket.getInputStream(), socket.getOutputStream(), serverTextDecoder);
+                        makeRequest_new(socket.getInputStream(), socket.getOutputStream(), new AsciiCodec());
 
                         handle.returnValue = socket;
                         handle.setFlags(Handle.Success, 0);
